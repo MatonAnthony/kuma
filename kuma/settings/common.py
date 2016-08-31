@@ -31,7 +31,6 @@ class TupleCsv(Csv):
 
 
 DEBUG = config('DEBUG', default=False, cast=bool)
-TEMPLATE_DEBUG = DEBUG
 
 ROOT = dirname(dirname(dirname(os.path.abspath(__file__))))
 
@@ -480,6 +479,7 @@ INSTALLED_APPS = (
 
     'django.contrib.sitemaps',
     'django.contrib.staticfiles',
+    'soapbox',  # must be before kuma.wiki, or RemovedInDjango19Warning
 
     # MDN
     'kuma.core',
@@ -500,11 +500,9 @@ INSTALLED_APPS = (
     'pipeline',
     'product_details',
     'puente',
-    'smuggler',
     'constance.backends.database',
     'constance',
     'waffle',
-    'soapbox',
     'kuma.authkeys',
     'tidings',
     'djcelery',
@@ -541,7 +539,6 @@ TEMPLATES = [
             'newstyle_gettext': True,
             'context_processors': _CONTEXT_PROCESSORS,
             'undefined': 'jinja2.Undefined',
-            'environment': 'kuma.core.jinja2.KumaEnvironment',
             'extensions': [
                 'jinja2.ext.do',
                 'jinja2.ext.loopcontrols',
@@ -555,7 +552,7 @@ TEMPLATES = [
                 'django_jinja.builtins.extensions.UrlsExtension',
                 'django_jinja.builtins.extensions.StaticFilesExtension',
                 'django_jinja.builtins.extensions.DjangoFiltersExtension',
-                'pipeline.templatetags.ext.PipelineExtension',
+                'pipeline.jinja2.PipelineExtension',
                 'waffle.jinja.WaffleExtension',
             ],
         }
@@ -604,11 +601,6 @@ STATICI18N_DOMAIN = 'javascript'
 
 # Cache non-versioned static files for one week
 WHITENOISE_MAX_AGE = 60 * 60 * 24 * 7
-
-PIPELINE_DISABLE_WRAPPER = True
-
-PIPELINE_CSS_COMPRESSOR = 'kuma.core.pipeline.cleancss.CleanCSSCompressor'
-PIPELINE_JS_COMPRESSOR = 'pipeline.compressors.uglifyjs.UglifyJSCompressor'
 
 PIPELINE_CSS = {
     'mdn': {
@@ -940,6 +932,14 @@ PIPELINE_JS = {
     },
 }
 
+PIPELINE = {
+    'STYLESHEETS': PIPELINE_CSS,
+    'JAVASCRIPT': PIPELINE_JS,
+    'DISABLE_WRAPPER': True,
+    'CSS_COMPRESSOR': 'kuma.core.pipeline.cleancss.CleanCSSCompressor',
+    'JS_COMPRESSOR': 'pipeline.compressors.uglifyjs.UglifyJSCompressor',
+}
+
 #
 # Session cookies
 SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE',
@@ -1101,10 +1101,6 @@ WIKI_DEFAULT_LANGUAGE = LANGUAGE_CODE
 
 TIDINGS_FROM_ADDRESS = 'notifications@developer.mozilla.org'
 TIDINGS_CONFIRM_ANONYMOUS_WATCHES = True
-
-# bit.ly
-BITLY_USERNAME = config('BITLY_USERNAME', default='')
-BITLY_API_KEY = config('BITLY_API_KEY', default='')
 
 CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
 # must be an entry in the CACHES setting!

@@ -5,7 +5,6 @@ from datetime import datetime
 
 import mock
 import pytest
-from BeautifulSoup import BeautifulSoup
 from constance import config
 from django.conf import settings
 from django.contrib.sites.models import Site
@@ -203,22 +202,6 @@ class DocumentTests(UserTestCase, WikiTestCase):
         response = self.client.get(r.document.get_absolute_url())
         eq_(200, response.status_code)
         ok_('<div class="page-toc">' not in response.content)
-
-    @pytest.mark.toc
-    def test_show_toc_hidden_input_for_templates(self):
-        """Toggling show_toc on/off through the toc_depth field should
-        cause table of contents to appear/disappear."""
-        doc_content = """w00t"""
-        doc = document(slug="Template:w00t", save=True)
-        r = revision(document=doc, save=True, content=doc_content,
-                     is_approved=True)
-        response = self.client.get(r.document.get_absolute_url())
-        eq_(200, response.status_code)
-        soup = BeautifulSoup(response.content)
-        hidden_inputs = soup.findAll("input", type="hidden")
-        for input in hidden_inputs:
-            if input['name'] == 'toc_depth':
-                eq_(0, input['value'])
 
 
 class RevisionTests(UserTestCase, WikiTestCase):
@@ -456,7 +439,7 @@ class NewRevisionTests(UserTestCase, WikiTestCase):
             'slug': self.d.slug,
             'toc_depth': 1,
             'based_on': self.d.current_revision.id,
-            'form': 'rev',
+            'form-type': 'rev',
         }
         edit_url = reverse('wiki.edit', args=[self.d.slug])
         response = self.client.post(edit_url, data)
@@ -508,7 +491,7 @@ class NewRevisionTests(UserTestCase, WikiTestCase):
         self.d.save()
         tags = ['tag1', 'tag2', 'tag3']
         data = new_document_data(tags)
-        data['form'] = 'rev'
+        data['form-type'] = 'rev'
         response = self.client.post(reverse('wiki.edit',
                                     args=[self.d.slug]), data)
         eq_(302, response.status_code)
@@ -531,7 +514,7 @@ class NewRevisionTests(UserTestCase, WikiTestCase):
         eq_(tags, result_tags)
         tags = [u'tag1', u'tag4']
         data = new_document_data(tags)
-        data['form'] = 'rev'
+        data['form-type'] = 'rev'
         self.client.post(reverse('wiki.edit',
                                  args=[self.d.slug]),
                          data)
@@ -545,7 +528,7 @@ class NewRevisionTests(UserTestCase, WikiTestCase):
         editing."""
         _test_form_maintains_based_on_rev(
             self.client, self.d, 'wiki.edit',
-            {'summary': 'Windy', 'content': 'gerbils', 'form': 'rev',
+            {'summary': 'Windy', 'content': 'gerbils', 'form-type': 'rev',
              'slug': self.d.slug, 'toc_depth': 1},
             locale='en-US')
 
@@ -572,7 +555,7 @@ class DocumentEditTests(UserTestCase, WikiTestCase):
         data = new_document_data()
         new_title = 'A brand new title'
         data.update(title=new_title)
-        data.update(form='doc')
+        data['form-type'] = 'doc'
         data.update(is_localizable='True')
         response = self.client.post(reverse('wiki.edit', args=[self.d.slug]),
                                     data, follow=True)
@@ -585,7 +568,7 @@ class DocumentEditTests(UserTestCase, WikiTestCase):
         data = new_document_data()
         new_slug = 'Test-Document'
         data.update(slug=new_slug)
-        data.update(form='doc')
+        data['form-type'] = 'doc'
         response = self.client.post(reverse('wiki.edit', args=[self.d.slug]),
                                     data, follow=True)
         eq_(200, response.status_code)
@@ -597,12 +580,28 @@ class DocumentEditTests(UserTestCase, WikiTestCase):
         data = new_document_data()
         new_title = 'TeST DoCuMent'
         data.update(title=new_title)
-        data.update(form='doc')
+        data['form-type'] = 'doc'
         response = self.client.post(reverse('wiki.edit', args=[self.d.slug]),
                                     data, follow=True)
         eq_(200, response.status_code)
         doc = Document.objects.get(pk=self.d.pk)
         eq_(new_title, doc.title)
+
+    @pytest.mark.toc
+    def test_toc_hidden_input_for_templates(self):
+        """The toc_depth field is hidden when editing a template."""
+        doc_content = """w00t"""
+        doc = document(locale='en-US', slug="Template:w00t", save=True)
+        revision(document=doc, save=True, content=doc_content,
+                 is_approved=True)
+        url = reverse('wiki.edit', args=[doc.slug], locale=doc.locale)
+        response = self.client.get(url)
+        eq_(200, response.status_code)
+        parsed = pq(response.content)
+        toc_depth = parsed('input[name=toc_depth]')
+        eq_(1, len(toc_depth))
+        eq_('hidden', toc_depth[0].type)
+        eq_('0', toc_depth[0].value)
 
 
 class DocumentListTests(UserTestCase, WikiTestCase):
@@ -911,7 +910,7 @@ class TranslateTests(UserTestCase, WikiTestCase):
         data = _translation_data()
         new_title = 'Un nuevo titulo'
         data['title'] = new_title
-        data['form'] = 'doc'
+        data['form-type'] = 'doc'
         response = self.client.post(translate_uri, data)
         eq_(302, response.status_code)
         eq_('http://testserver/es/docs/un-test-articulo$edit'

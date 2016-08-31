@@ -3,14 +3,6 @@
 
 -c constraints.txt
 
-# TODO: Remove, use pyquery instead
-BeautifulSoup==3.2.1 \
-    --hash=sha256:6a8cb4401111e011b579c8c52a51cdab970041cc543814bbd9577a4529fe1cdb
-
-# TODO: Remove, unused
-bitly-api==0.3 \
-    --hash=sha256:54d0803082ccf32a90f41e43c6110dc4b868689bac7be95ab8f2e680490990b3
-
 # Sanitize HTML with a whitelist
 bleach==1.4.2 \
     --hash=sha256:58a2c153c0b5450695c34ce2eddc23fb3ee476b31a878e6a5c24c75fd1ed4d89 \
@@ -76,8 +68,8 @@ django-honeypot==0.5.0 \
     --hash=sha256:962304f21055f05c73c41f2506f5a94f5b941e831a203b68e54cb5016bdb8d5e
 
 # Use Jinja2 as the template engine in Django
-django-jinja==1.4.1 \
-    --hash=sha256:6f4c2e8c5ada17039ff1c1e38bc51bea9317af3676e28466148c8df5fc78f132
+django-jinja==2.2.1 \
+    --hash=sha256:04c53ba90cbede97e6543b98291f1eec259e57dfa4e014a5fbf0291afcdae6a9
 
 # Download media from production when developing locally
 django-localdevstorage==0.5 \
@@ -105,9 +97,9 @@ django-picklefield==0.3.2 \
     --hash=sha256:5489fef164de43725242d56e65e016137d3df0d1a00672bda72d807f5b2b0d99
 
 # Asset packaging (CSS, JS concatenation and compression, etc.)
-django-pipeline==1.5.4 \
-    --hash=sha256:c711e88615ef37b2359ce30978eae7c65e54924aeb043229656c5e239065e596 \
-    --hash=sha256:a5a909f403d0ea56f211618949ff4e378f16e5a996bde819bd2b5b0e7a9bb8fe
+django-pipeline==1.6.8 \
+    --hash=sha256:a6a9ce2003ae10e729768b6d79a4b3db330d876b86225eb7743b6f5696bafa59 \
+    --hash=sha256:b7cdc2efe27e478ddd38e878dd7b5e5ac121c2898fd85accf3187e19137fe6b7
 
 # Rate limit access to some views
 django-ratelimit==0.6.0 \
@@ -196,8 +188,9 @@ importlib==1.0.3 \
     --hash=sha256:65f342a604a2e1028707c5e055266ab2431c26e20fe10780b423320870884dac
 
 # Improved template engine
-Jinja2==2.7.3 \
-    --hash=sha256:2e24ac5d004db5714976a04ac0e80c6df6e47e98c354cb2c0d82f8879d4f8fdb
+Jinja2==2.8 \
+    --hash=sha256:1cc03ef32b64be19e0a5b54578dd790906a34943fe9102cfdae0d4495bd536b4 \
+    --hash=sha256:bc1ff2ff88dbfacefde4ddde471d1417d3b304e8df103a7a9437d47269201bf4
 
 # Serialize pickleable objects to JSON, used in feed processing
 jsonpickle==0.9.2 \
