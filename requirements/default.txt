@@ -81,10 +81,6 @@ django-memcached-hashring==0.1.2 \
     --hash=sha256:f71f99d60e704cc239bddbbe336dcdc5bb8a487b65a1b0b6c7ce0f4af5848442 \
     --hash=sha256:14c2dc29bc693feaf114dea8c871f4d25daca72bba8f37b159d552fed4ab6337
 
-# Information about Mozilla products and supported locales
-django-mozilla-product-details==0.7.1 \
-    --hash=sha256:c50bffb9828a9139156904a11c508732d13dbf57ac25625ebc5edaa3ed312840
-
 # Allow Django to use MySQL-specific features
 django-mysql==1.0.4 \
     --hash=sha256:a90eaaff1b9cfca374e565a873ba98b20209753e774ee136c526d1c4dd641561 \
@@ -115,12 +111,6 @@ django-recaptcha==1.0.5 \
 djangorestframework==3.3.2 \
     --hash=sha256:5634b1ff56581bf0fe4075e86227fc9693c1ca031c7213c9ae942c445c24817b \
     --hash=sha256:4962418a57804f8323282728a4f9b9496e78caec1adda352170697752eff01bf
-
-# Bulk download and upload of data with Django admin
-# TODO: remove
-django-smuggler==0.6.1 \
-    --hash=sha256:d062d3e8215b946679cfb893d8e8af7341ce2745ebe85077a49297418025f289 \
-    --hash=sha256:b3719c999a3c121006f5eb1d737be0c90d68a11a243a95f93341b366f049da10
 
 # Add site-wide announcements in the database
 django-soapbox==1.3 \
