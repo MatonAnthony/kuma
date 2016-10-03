@@ -7,34 +7,19 @@ Pick an Environment
 There are two development environments, and you need to install at
 least one of them first.
 
-* The :doc:`Vagrant-managed VM <installation>` is the mature development
-  environment, but we are experimenting with other options. It can be tricky to
-  provision. The "all-in-one" VM style can sometimes be a poor model for the
-  multi-machine production environment. During the transition, some
-  documentation will assume it is the only environment.
-* The :doc:`Docker containerized environment <installation-docker>` is the new
-  development environment. The Docker images are already provisioned, so setup
-  is faster. It is a better model for the production environment, and after the
-  planned rehost will be almost exactly the same. It does not yet have all of
-  the features of the Vagrant environment, and it is currently slower for many
-  development tasks.
+* The :doc:`Docker containerized environment <installation>` is the
+  preferred development environment. The Docker images are already provisioned,
+  so setup is faster. It is a better model for the production environment, and
+  after the planned rehost will be almost exactly the same. It does not yet
+  have all of the features of the Vagrant environment, and it is currently
+  slower for many development tasks.
+* The :doc:`Vagrant-managed VM <installation-vagrant>` is the mature but
+  deprecated development environment. It can be tricky to provision. It is
+  often a poor model for the production environment, and can not be used to
+  test infrastructure changes.
 
-Vagrant and Docker can be used at the same time on the same "host" machine (your
+Docker and Vagrant can be used at the same time on the same "host machine" (your
 laptop or desktop computer).
-
-Basic Vagrant Usage
--------------------
-Edit files as usual on your host machine; the current directory is
-mounted via NFS at ``/home/vagrant/src`` within the VM. Updates should be
-reflected without any action on your part. Useful vagrant sub-commands::
-
-    vagrant ssh     # Connect to the VM via ssh
-    vagrant suspend # Sleep the VM, saving state
-    vagrant halt    # Shutdown the VM
-    vagrant up      # Boot up the VM
-    vagrant destroy # Destroy the VM
-
-Run all commands in this doc on the VM after ``vagrant ssh``.
 
 Basic Docker Usage
 ------------------
@@ -58,8 +43,26 @@ There are ``make`` shortcuts on the host for frequent commands, such as::
 
 Run all commands in this doc in the ``kuma_web_1`` container after ``make bash``
 
+Basic Vagrant Usage
+-------------------
+Edit files as usual on your host machine; the current directory is
+mounted via NFS at ``/home/vagrant/src`` within the VM. Updates should be
+reflected without any action on your part. Useful vagrant sub-commands::
+
+    vagrant ssh     # Connect to the VM via ssh
+    vagrant suspend # Sleep the VM, saving state
+    vagrant halt    # Shutdown the VM
+    vagrant up      # Boot up the VM
+    vagrant destroy # Destroy the VM
+
+Run all commands in this doc on the VM after ``vagrant ssh``.
+
 Running Kuma
 ============
+When the Docker container environment is started (``make up`` or similar), all
+of the services are also started. The development instance is available at
+http://localhost:8000.
+
 The Vagrant environment runs everything in a single VM. It runs MySQL,
 ElasticSearch, Apache, and other "backend" services whenever the VM is running.
 There are additional Kuma-specific services that are configured in
@@ -67,16 +70,13 @@ There are additional Kuma-specific services that are configured in
 
     foreman start
 
-The development instance is then available at https://developer-local.allizom.org.
-
-When the Docker container environment is started (``make up`` or similar), all
-of the services are also started. The development instance is available at
-http://localhost:8000.
+The Vagrant development instance is then available at
+https://developer-local.allizom.org.
 
 Running the Tests
 =================
-A great way to check that everything really is working is to run the test
-suite.
+One way to confirm that everything is working, or to pinpoint what is broken,
+is to run the test suite.
 
 Django tests
 ------------
@@ -130,9 +130,8 @@ Coding Conventions
 ==================
 See CONTRIBUTING.md_ for details of the coding style on Kuma.
 
-If you're expecting ``reverse`` to return locales in the URL
-(``/en-US/docs/Mozilla`` versus ``/docs/Mozilla``), use ``LocalizingClient``
-instead of the default client for the ``TestCase`` class.
+New code is expected to have test coverage.  See the
+:doc:`Test Suite docs <tests>` for tips on writing tests.
 
 .. _CONTRIBUTING.md: https://github.com/mozilla/kuma/blob/master/CONTRIBUTING.md
 
@@ -182,10 +181,58 @@ There are a few ways to change an environment variables:
 
 .. _Environment variables: http://12factor.net/config
 
+.. _advanced_config_docker:
+
+The Docker Environment
+----------------------
+Running docker-compose_ will create and run several containers, and each
+container's environment and settings are configured in ``docker-compose.yml``.
+The settings are "baked" into the containers created by ``docker-compose up``,
+
+To override a container's settings for development, use a local override file.
+For example, the ``web`` service runs in container ``kuma_web_1`` with the
+default command 
+"``gunicorn -w 4 --bind 0.0.0.0:8000 --timeout=120 kuma.wsgi:application``".
+A useful alternative for debugging is to run a single-threaded process that
+loads the Werkzeug debugger on exceptions (see docs for runserver_plus_), and
+that allows for stepping through the code with a debugger.
+To use this alternative, create an override file ``docker-compose.dev.yml``::
+
+    version: "2"
+    services:
+      web:
+        command: ./manage.py runserver_plus 0.0.0.0:8000
+        stdin_open: true
+        tty: true
+
+
+This is similar to "``docker run -it <image> ./manage.py runserver_plus``",
+using all the other configuration items in ``docker-compose.yml``.
+Apply the custom setting with::
+
+    docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+
+You can then add ``pdb`` breakpoints to the code
+(``import pdb; pdb.set_trace``) and connect to the debugger with::
+
+    docker attach kuma_web_1
+
+To always include the override compose file, add it to your ``.env`` file::
+
+    COMPOSE_FILE=docker-compose.yml:docker-compose.dev.yml
+
+A similar method can be used to override environment variables in containers,
+run additional services, or make other changes.  See the docker-compose_
+documentation for more ideas on customizing the Docker environment.
+
+.. _docker-compose: https://docs.docker.com/compose/overview/
+.. _pdb: https://docs.python.org/2/library/pdb.html
+.. _runserver_plus: http://django-extensions.readthedocs.io/en/latest/runserver_plus.html
+
 .. _vagrant-config:
 
-Configuring Vagrant
--------------------
+The Vagrant Environment
+-----------------------
 It is easiest to configure Vagrant with a ``.env`` file, so that overrides are used
 when ``vagrant up`` is called.  A sample ``.env`` could contain::
 
@@ -226,52 +273,8 @@ Configuration variables that are available for Vagrant:
   Whether to use the ``vagrant-cachier`` plugin to cache system packages
   between installs. Default: ``true``
 
-Docker
-~~~~~~
-Running docker-compose_ will create and run several containers, and each
-container's environment and settings are configured in ``docker-compose.yml``.
-The settings are "baked" into the containers created by ``docker-compose up``,
-
-To override a container's settings for development, use a local override file.
-For example, the ``web`` service runs in container ``kuma_web_1`` with the
-default command 
-"``gunicorn -w 4 --bind 0.0.0.0:8000 --timeout=120 kuma.wsgi:application``".
-A useful alternative for debugging is to run a single-threaded process that
-loads the Werkzeug debugger on exceptions (see docs for runserver_plus_), and
-that allows for stepping through the code with a debugger.
-To use this alternative, create an override file ``docker-compose.dev.yml``::
-
-    web:
-        command: ./manage.py runserver_plus 0.0.0.0:8000
-        stdin_open: true
-        tty: true
-
-
-This is similar to "``docker run -it <image> ./manage.py runserver_plus``",
-using all the other configuration items in ``docker-compose.yml``.
-Apply the custom setting with::
-
-    docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
-
-You can then add ``pdb`` breakpoints to the code
-(``import pdb; pdb.set_trace``) and connect to the debugger with::
-
-    docker attach kuma_web_1
-
-To always include the override compose file, add it to your ``.env`` file::
-
-    COMPOSE_FILE=docker-compose.yml:docker-compose.dev.yml
-
-A similar method can be used to override environment variables in containers,
-run additional services, or make other changes.  See the docker-compose_
-documentation for more ideas on customizing the Docker environment.
-
-.. _docker-compose: https://docs.docker.com/compose/overview/
-.. _pdb: https://docs.python.org/2/library/pdb.html
-.. _runserver_plus: http://django-extensions.readthedocs.io/en/latest/runserver_plus.html
-
-Database
-~~~~~~~~
+The Database
+------------
 The database connection is defined by the environment variable
 ``DATABASE_URL``, with these defaults::
 
@@ -293,8 +296,8 @@ To connect to the database specified in ``DATABASE_URL``, use::
 
 .. _dj-database-url: https://github.com/kennethreitz/dj-database-url
 
-Assets
-~~~~~~
+Asset Generation
+----------------
 Kuma will automatically run in debug mode, with the ``DEBUG`` setting
 turned to ``True``. That will make it serve images and have the pages
 formatted with CSS automatically.
@@ -311,10 +314,10 @@ assets locally (*Vagrant only*):
 
 #. Set the environment variables ``DEBUG=false``
 #. Run ``make compilejsi18n collectstatic`` in the VM or container
-#. Restart the web process by retarting ``foreman``
+#. Restart the web process by restarting ``foreman``
 
 Secure Cookies
-~~~~~~~~~~~~~~
+--------------
 To prevent error messages like "``Forbidden (CSRF cookie not set.):``", set the
 environment variable::
 

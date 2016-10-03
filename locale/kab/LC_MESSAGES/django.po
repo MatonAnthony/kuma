@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: MDN 2016.0\n"
 "Report-Msgid-Bugs-To: dev-mdn@lists.mozilla.org\n"
 "POT-Creation-Date: 2016-08-15 10:03-0700\n"
-"PO-Revision-Date: 2016-09-19 20:51+0000\n"
+"PO-Revision-Date: 2016-09-27 14:36+0000\n"
 "Last-Translator: belkacem77 <belkacem77@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: kab\n"
@@ -618,19 +618,21 @@ msgid ""
 "We could not find your subscription. Either it has already been cancelled, or there was a mistake in the unsubscribe link. Please make sure the entire link from the email made it into the browser. "
 "If the last part of the link wraps onto a second line in the email, try copying and pasting the link into the browser."
 msgstr ""
+"Ur nuffi ara talɣut inek n ujerred. Ahat tettwasefsex yakan, neɣ yella wugur akked useɣwen n tuff qa seg ujerred. Wali ma yella tneɣleḍ akken iwata aseɣwen ɣef iminig inek. Ma yella aḥric aneggaru "
+"yedda-d deg izirig nniḍen deg imayl, ɛreḍ ad t-neɣleḍ sakin senteḍ-it ɣef iminig inek."
 
 #: jinja2/tidings/unsubscribe_success.html:7
 msgid "Unsubscribed"
-msgstr ""
+msgstr "Tuffɣa seg ujerred"
 
 #: jinja2/tidings/unsubscribe_success.html:9
 msgid "You have been unsubscribed."
-msgstr ""
+msgstr "Teffɣeḍ seg ujerred."
 
 #: kuma/attachments/admin.py:60
 #, python-format
 msgid "The following attachment files were moved to the trash: %(filenames)s. You may want to review them before their automatic purge after %(days)s days from the file storage."
-msgstr ""
+msgstr "Ifuyla agi i d-yeddan uɣalen ɣer tqecwalt n iḍuman : %(filenames)s. Tzemreḍ ad ten-twaliḍ send ad ttwakksen s wudem awurman seg unagraw inek kra n %(days)s n wussan."
 
 #: kuma/attachments/admin.py:64
 msgid "and"
@@ -639,7 +641,7 @@ msgstr "akked"
 #: kuma/attachments/admin.py:127
 #, python-format
 msgid "The attachment file \"%(filename)s\" was moved to the trash. You may want to review the file before its automatic purge after %(days)s days from the file storage system."
-msgstr ""
+msgstr "Ifuyla agi i d-yeddan uɣalen ɣer tqecwalt n iḍuman \"%(filename)s\". Tzemreḍ ad ten-twaliḍ send ad ttwakksen s wudem awurman seg unagraw inek kra n %(days)s n wussan."
 
 #: kuma/attachments/apps.py:12 kuma/attachments/jinja2/attachments/includes/attachment_list.html:7
 msgid "Attachments"
@@ -651,31 +653,31 @@ msgstr "Isnifal n ifuyla ineggura n MDN"
 
 #: kuma/attachments/feeds.py:10
 msgid "Recent revisions to MDN file attachments"
-msgstr ""
+msgstr "Aɛiwed n tmuɣli n melmi kan n ifuyla yeddan di MDN"
 
 #: kuma/attachments/forms.py:10
 msgid "Files of this type are not permitted."
-msgstr ""
+msgstr "Ifuyla s wanaw agi ur ttwasirgen ara."
 
 #: kuma/attachments/models.py:112
 msgid "The MIME type is used when serving the attachment. Automatically populated by inspecting the file on upload. Please only override if needed."
-msgstr ""
+msgstr "Anaw MIME yettwaseqdac di tuzna n ufaylu yeddan ɛer umsaɣ. Yettwarna s wudem awurman deg useddu n ufaylu. Ma ulac aɣilif, ur s-rennu ara ma yella ur tesrid ara."
 
 #: kuma/attachments/models.py:140
 msgid "attachment revision"
-msgstr ""
+msgstr "aɛiwed n tmuwli deg umedday"
 
 #: kuma/attachments/models.py:141
 msgid "attachment revisions"
-msgstr ""
+msgstr "aɛiwed n tmuwli deg umedday"
 
 #: kuma/attachments/models.py:214
 msgid "The attachment file that was trashed"
-msgstr ""
+msgstr "Afaylu yeddan yuɣal ɣer tqecwalt n idumman"
 
 #: kuma/attachments/models.py:219
 msgid "The date and time the attachment was trashed"
-msgstr ""
+msgstr "Azemz akked wakud anida afaylu yeddan yuɣal ɣer tqecwalt n iḍumman"
 
 #: kuma/attachments/models.py:224
 msgid "The username of the user who trashed the attachment"
@@ -760,7 +762,7 @@ msgstr ""
 
 #: kuma/attachments/jinja2/attachments/includes/attachment_list.html:79
 msgid "Uploaded by"
-msgstr ""
+msgstr "Yessuli-t"
 
 #: kuma/attachments/jinja2/attachments/includes/attachment_list.html:82
 msgid "Linked in article"
@@ -773,7 +775,7 @@ msgstr ""
 #: kuma/attachments/jinja2/attachments/includes/attachment_list.html:97
 #, python-format
 msgid "%(bytes)s bytes"
-msgstr ""
+msgstr "%(bytes)s ibiten"
 
 #: kuma/attachments/jinja2/attachments/includes/attachment_list.html:99 kuma/attachments/jinja2/attachments/includes/attachment_list.html:118
 msgid "n/a"
@@ -793,12 +795,12 @@ msgstr ""
 
 #: kuma/authkeys/jinja2/authkeys/delete.html:7 kuma/authkeys/jinja2/authkeys/history.html:8 kuma/authkeys/jinja2/authkeys/new.html:34
 msgid "Created"
-msgstr ""
+msgstr "Yettwarna"
 
 #: kuma/authkeys/jinja2/authkeys/delete.html:15 kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:106 kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:245
 #: kuma/wiki/jinja2/wiki/confirm_document_delete.html:15 kuma/wiki/jinja2/wiki/confirm_document_delete.html:38
 msgid "Delete"
-msgstr ""
+msgstr "Kkes"
 
 #: kuma/authkeys/jinja2/authkeys/history.html:14
 msgid "This key has not been used yet."
@@ -812,11 +814,11 @@ msgstr ""
 
 #: kuma/authkeys/jinja2/authkeys/list.html:14
 msgid "Create a new key"
-msgstr ""
+msgstr "Rnu tasarutt tamaynut"
 
 #: kuma/authkeys/jinja2/authkeys/list.html:16
 msgid "You have no API keys, yet."
-msgstr ""
+msgstr "Ulac ɣur-k tisura API yakan."
 
 #: kuma/authkeys/jinja2/authkeys/list.html:25
 msgid "View key usage history"
@@ -851,7 +853,7 @@ msgstr ""
 
 #: kuma/authkeys/jinja2/authkeys/new.html:30
 msgid "Key ID"
-msgstr ""
+msgstr "Asulay n tsarutt"
 
 #: kuma/authkeys/jinja2/authkeys/new.html:32
 msgid "Secret"
@@ -1142,7 +1144,7 @@ msgstr ""
 
 #: kuma/dashboards/jinja2/dashboards/includes/revision_dashboard_body.html:91
 msgid "spam"
-msgstr ""
+msgstr "aspam"
 
 #: kuma/dashboards/jinja2/dashboards/includes/revision_dashboard_body.html:103
 msgid "There are no revisions matching this filter set."
@@ -1184,7 +1186,7 @@ msgstr ""
 
 #: kuma/landing/jinja2/landing/homepage.html:32
 msgid "Shared knowledge <span>for the Open Web</span>"
-msgstr ""
+msgstr "Tamusni yettwabḍan <span>di Web yeldin</span>"
 
 #: kuma/landing/jinja2/landing/homepage.html:42 kuma/landing/jinja2/landing/homepage.html:59 kuma/search/jinja2/search/results.html:59
 msgid "Search the docs"
@@ -1192,15 +1194,15 @@ msgstr ""
 
 #: kuma/landing/jinja2/landing/homepage.html:45
 msgid "Show topics"
-msgstr ""
+msgstr "Wali isental"
 
 #: kuma/landing/jinja2/landing/homepage.html:69
 msgid "Web Technologies"
-msgstr ""
+msgstr "Titiknulujiyin Web"
 
 #: kuma/landing/jinja2/landing/homepage.html:72
 msgid "Web<br />Platform"
-msgstr ""
+msgstr "Talɣubliṭ <br /> Web"
 
 #: kuma/landing/jinja2/landing/homepage.html:74
 msgid "Web APIs &amp; DOM"
@@ -1220,7 +1222,7 @@ msgstr "ugar..."
 
 #: kuma/landing/jinja2/landing/homepage.html:82
 msgid "Mozilla<br> Docs"
-msgstr ""
+msgstr "Tasemlit <br> Mozilla"
 
 #: kuma/landing/jinja2/landing/homepage.html:87
 msgid "App Center"
@@ -1228,23 +1230,23 @@ msgstr ""
 
 #: kuma/landing/jinja2/landing/homepage.html:92
 msgid "Developer<br />Tools"
-msgstr ""
+msgstr "Ifecka n <br /> tneflit"
 
 #: kuma/landing/jinja2/landing/homepage.html:94
 msgid "Page Inspector"
-msgstr ""
+msgstr "Amaswaḍ n usebter"
 
 #: kuma/landing/jinja2/landing/homepage.html:95
 msgid "Web Console"
-msgstr ""
+msgstr "Tadiwent web"
 
 #: kuma/landing/jinja2/landing/homepage.html:96
 msgid "JavaScript Debugger"
-msgstr ""
+msgstr "Tamseɣtayt n JavaScript"
 
 #: kuma/landing/jinja2/landing/homepage.html:97
 msgid "Performance Tools"
-msgstr ""
+msgstr "Ifecka n tmellit"
 
 #: kuma/landing/jinja2/landing/homepage.html:102
 msgid "Connect"
@@ -1280,7 +1282,7 @@ msgstr ""
 
 #: kuma/landing/jinja2/landing/homepage.html:135
 msgid "Get Involved"
-msgstr ""
+msgstr "Ttekki"
 
 #: kuma/landing/jinja2/landing/homepage.html:137
 #, python-format
@@ -1288,10 +1290,12 @@ msgid ""
 "<p class=\"numbers\"> <span class=\"row1\">Join <span class=\"number\">%(contributors)s</span> contributors</span> <span class=\"row2\">in <span class=\"number\">%(locales)s</span> languages and "
 "locales</span> <span class=\"row3\">around the world.</span> </p>"
 msgstr ""
+"<p class=\"numbers\"> <span class=\"row1\">Ddu ɣer<span class=\"number\">%(contributors)s</span> imttekkiyen</span> <span class=\"row2\">n<span class=\"number\">%(locales)s</span> tutlayin akked "
+"temnadin</span> <span class=\"row3\"> deg umaḍal imaṛṛa.</span> </p>"
 
 #: kuma/landing/jinja2/landing/homepage.html:144 kuma/landing/jinja2/landing/homepage.html:151
 msgid "Help improve MDN"
-msgstr ""
+msgstr "Mudd afus i tneflit n MDN"
 
 #: kuma/landing/jinja2/landing/homepage.html:155
 msgid "All parts of MDN (docs and the site itself) are created by an open community of developers. Please join us! Pick one of these ways to help:"
