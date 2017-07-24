@@ -66,6 +66,9 @@ def preview(request):
         'content': wiki_content,
         'title': request.POST.get('title', ''),
         'kumascript_errors': kumascript_errors,
+        'macro_sources': (kumascript.macro_sources(force_lowercase_keys=True)
+                          if kumascript_errors else
+                          None),
     }
     return render(request, 'wiki/preview.html', context)
 
@@ -94,7 +97,12 @@ def compare(request, document_slug, document_locale):
     to_id = smart_int(request.GET.get('to'))
 
     revisions = Revision.objects.prefetch_related('document')
-    revision_from = get_object_or_404(revisions, id=from_id, document=doc)
+    # It should also be possible to compare from the parent document revision
+    try:
+        revision_from = revisions.get(id=from_id, document=doc)
+    except Revision.DoesNotExist:
+        revision_from = get_object_or_404(revisions, id=from_id, document=doc.parent)
+
     revision_to = get_object_or_404(revisions, id=to_id, document=doc)
 
     context = {
@@ -122,9 +130,6 @@ def quick_review(request, document_slug, document_locale):
     doc = get_object_or_404(Document,
                             locale=document_locale,
                             slug=document_slug)
-
-    if not doc.allows_revision_by(request.user):
-        raise PermissionDenied
 
     rev_id = request.POST.get('revision_id')
     if not rev_id:

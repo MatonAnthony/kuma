@@ -6,16 +6,9 @@ import bleach
 from constance import config
 from django_mysql.models import QuerySet
 
-from .constants import (ALLOWED_TAGS, ALLOWED_ATTRIBUTES, ALLOWED_STYLES,
-                        TEMPLATE_TITLE_PREFIX)
+from .constants import (ALLOWED_TAGS, ALLOWED_ATTRIBUTES, ALLOWED_PROTOCOLS,
+                        ALLOWED_STYLES)
 from .content import parse as parse_content
-from .queries import TransformQuerySet
-
-
-class TransformManager(models.Manager):
-
-    def get_queryset(self):
-        return TransformQuerySet(self.model)
 
 
 class BaseDocumentManager(models.Manager):
@@ -23,25 +16,20 @@ class BaseDocumentManager(models.Manager):
     def get_queryset(self):
         return QuerySet(self.model)
 
-    def clean_content(self, content_in, use_constance_bleach_whitelists=False):
+    def clean_content(self, content_in):
+        tags = ALLOWED_TAGS
+        attributes = ALLOWED_ATTRIBUTES
+        styles = ALLOWED_STYLES
+        protocols = ALLOWED_PROTOCOLS
         allowed_hosts = config.KUMA_WIKI_IFRAME_ALLOWED_HOSTS
-        blocked_protocols = config.KUMA_WIKI_HREF_BLOCKED_PROTOCOLS
-        out = (parse_content(content_in)
-               .filterIframeHosts(allowed_hosts)
-               .filterAHrefProtocols(blocked_protocols)
-               .serialize())
 
-        if use_constance_bleach_whitelists:
-            tags = config.BLEACH_ALLOWED_TAGS
-            attributes = config.BLEACH_ALLOWED_ATTRIBUTES
-            styles = config.BLEACH_ALLOWED_STYLES
-        else:
-            tags = ALLOWED_TAGS
-            attributes = ALLOWED_ATTRIBUTES
-            styles = ALLOWED_STYLES
-
-        return bleach.clean(out, attributes=attributes, tags=tags,
-                            styles=styles)
+        bleached_content = bleach.clean(content_in, attributes=attributes,
+                                        tags=tags, styles=styles,
+                                        protocols=protocols)
+        filtered_content = (parse_content(bleached_content)
+                            .filterIframeHosts(allowed_hosts)
+                            .serialize())
+        return filtered_content
 
     def get_by_natural_key(self, locale, slug):
         return self.get(locale=locale, slug=slug)
@@ -51,23 +39,9 @@ class BaseDocumentManager(models.Manager):
         return (self.exclude(render_expires__isnull=True)
                     .filter(render_expires__lte=datetime.now()))
 
-    def allows_add_by(self, user, slug):
-        """
-        Determine whether the user can create a document with the given
-        slug. Mainly for enforcing Template: editing permissions
-
-        TODO: Convert to a method that raises exceptions that are handled
-        by an exception middleware.
-        """
-        if (slug.startswith(TEMPLATE_TITLE_PREFIX) and
-                not user.has_perm('wiki.add_template_document')):
-            return False
-        # TODO: Add wiki.add_document check
-        return True
-
     def filter_for_list(self, locale=None, tag=None, tag_name=None,
                         errors=None, noparent=None, toplevel=None):
-        docs = (self.filter(is_template=False, is_redirect=False)
+        docs = (self.filter(is_redirect=False)
                     .exclude(slug__startswith='User:')
                     .exclude(slug__startswith='Talk:')
                     .exclude(slug__startswith='User_talk:')

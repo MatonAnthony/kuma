@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MDN 2016.0\n"
 "Report-Msgid-Bugs-To: dev-mdn@lists.mozilla.org\n"
-"POT-Creation-Date: 2016-08-08 13:21-0700\n"
-"PO-Revision-Date: 2016-07-07 14:16+0000\n"
+"POT-Creation-Date: 2017-06-20 07:47-0700\n"
+"PO-Revision-Date: 2017-03-29 04:41+0000\n"
 "Last-Translator: S M Sarwar Nobin <smsarwar1996@gmail.com>\n"
 "Language-Team: Bengali (Bangladesh) https://pontoon.mozilla.org/bn_BD/\n"
 "Language: bn_BD\n"
@@ -19,73 +19,52 @@ msgstr ""
 msgid "Close submenu"
 msgstr "সাবমেনু বন্ধ করুন"
 
-#: kuma/static/js/components.js:542
+#: kuma/static/js/components.js:543
 msgid "Close notification"
 msgstr "নোটিফিকেশন বন্ধ করুন"
 
-#: kuma/static/js/helpfulness.js:32
-msgid "Did this page help you?"
-msgstr "পাতাটি কি আপনার জন্য সহায়ক ছিল?"
+#: kuma/static/js/dashboard.js:12
+msgid "Revert"
+msgstr "প্রত্যাবর্তন করা"
 
-#: kuma/static/js/helpfulness.js:34
-msgid "Yes"
-msgstr "হ্যাঁ"
+#: kuma/static/js/dashboard.js:13
+msgid "View Page"
+msgstr "পাতা দেখুন"
 
-#: kuma/static/js/helpfulness.js:36
-msgid "No"
-msgstr "না"
+#: kuma/static/js/dashboard.js:14
+msgid "Edit Page"
+msgstr "পাতা সম্পাদনা করুন"
 
-#: kuma/static/js/helpfulness.js:38
-msgid "Never ask me again"
-msgstr "এ বিষয়ে আর কখনও জিজ্ঞাসা করবে না"
+#: kuma/static/js/dashboard.js:15
+msgid "History"
+msgstr "ইতিহাস"
 
-#: kuma/static/js/helpfulness.js:45
-msgid "Thanks for your feedback!"
+#: kuma/static/js/dashboard.js:115
+msgid "Hang on! Updating filters…"
 msgstr ""
 
-#: kuma/static/js/helpfulness.js:54
-msgid "We won't bug you again."
+#: kuma/static/js/dashboard.js:122
+msgid "Updated filters."
 msgstr ""
 
-#: kuma/static/js/helpfulness.js:59
-msgid "Translate it into my language"
-msgstr "আমার ভাষায় অনুবাদ করুন"
+#: kuma/static/js/dashboard.js:139
+msgid "Submitting..."
+msgstr "জমা দেওয়া হচ্ছে..."
 
-#: kuma/static/js/helpfulness.js:60
-msgid "Make explanations clearer"
-msgstr "ব্যাখ্যা আরও স্পষ্ট করুন"
+#: kuma/static/js/dashboard.js:147
+#, python-format
+msgid "Submitted as %(submission_type)s"
+msgstr ""
 
-#: kuma/static/js/helpfulness.js:61
-msgid "Add more details"
-msgstr "আরও বিবরণ যোগ করুন"
+#: kuma/static/js/dashboard.js:148
+#, python-format
+msgid "%(sent_date)s by %(user)s"
+msgstr ""
 
-#: kuma/static/js/helpfulness.js:62
-msgid "Fix incorrect information"
-msgstr "ভুল তথ্য ঠিক করুন"
-
-#: kuma/static/js/helpfulness.js:63
-msgid "Add or improve examples"
-msgstr "উদাহরণ যোগ অথবা উন্নত করুন"
-
-#: kuma/static/js/helpfulness.js:64
-msgid "My search should have led to a different article"
-msgstr "আমার অনুসন্ধান একটি ভিন্ন নিবন্ধে নিয়ে যাওয়া উচিত"
-
-#: kuma/static/js/helpfulness.js:65
-msgid "Something else"
-msgstr "অন্য কিছু"
-
-#: kuma/static/js/helpfulness.js:69
-msgid "Choose one..."
-msgstr "একটি পছন্দ করুন..."
-
-#: kuma/static/js/helpfulness.js:83
-msgid "Uh oh. What would make it better?"
-msgstr "আহ..হা। আরও ভালো করা যায় কিভাবে?"
-
-#: kuma/static/js/helpfulness.js:86
-msgid "Thanks! We'll fix it."
-msgstr "ধন্যবাদ! আমরা এর সমাধান করব।"
+#: kuma/static/js/dashboard.js:158
+#, python-format
+msgid "Error submitting as %(type)s"
+msgstr ""
 
 #: kuma/static/js/moz-jquery-plugins.js:107
 msgid "No selection"
@@ -95,106 +74,97 @@ msgstr "কোন নির্বাচন নেই"
 msgid "Selected: "
 msgstr "নির্বাচিত: "
 
-#: kuma/static/js/users.js:108
+#: kuma/static/js/users.js:107
 msgid "New interest..."
 msgstr "নতুন আগ্রহ..."
 
-#: kuma/static/js/wiki-compat-tables.js:23
-msgid "Open implementation notes"
-msgstr "ইমপ্লিমেন্টেশন নোট খুলুন"
-
-#: kuma/static/js/wiki-compat-tables.js:23
-msgid "Open"
-msgstr "খুলুন"
-
-#: kuma/static/js/wiki-compat-tables.js:25
-msgid "Return to compatibility table."
-msgstr "কম্প্যাটিবিলিটি টেবিলে ফিরে যাও।"
-
-#: kuma/static/js/wiki-compat-tables.js:25
-msgid "Close"
-msgstr "বন্ধ"
-
-#: kuma/static/js/wiki-compat-tables.js:108
-msgid "New compatibility tables are in beta "
-msgstr "নতুন কম্প্যাটিবিলিটি টেবিলগুলো বেটা সংস্করণে আছে "
-
-#: kuma/static/js/wiki-compat-tables.js:112
-msgid "More about the beta."
-msgstr "বেটা সংস্করণ সম্পর্কে আরও জানুন।"
-
-#: kuma/static/js/wiki-compat-tables.js:115
-msgid "Take the survey"
-msgstr "জরিপে অংশ নিন"
-
-#: kuma/static/js/wiki-compat-tables.js:118
-msgid "Report an error."
-msgstr "ত্রুটি রিপোর্ট করুন।"
-
-#: kuma/static/js/wiki-compat-tables.js:124
-msgid "Reported. Thanks!"
-msgstr "রিপোর্ট সম্পন্ন। ধন্যবাদ!"
-
-#: kuma/static/js/wiki-compat-tables.js:128
-msgid "Show old table."
-msgstr "পুরনো টেবিল দেখুন।"
-
-#: kuma/static/js/wiki-edit.js:401
-msgid "Save Draft"
-msgstr ""
-
-#: kuma/static/js/wiki-edit.js:406
-msgid "Enable autosave."
-msgstr ""
-
-#: kuma/static/js/wiki-edit.js:414
+#: kuma/static/js/wiki-edit-draft.js:76
 msgid "an unknown date"
 msgstr "অজানা তারিখ"
 
-#: kuma/static/js/wiki-edit.js:415
-msgid "You have a draft from:"
-msgstr ""
+#: kuma/static/js/wiki-edit-draft.js:77
+#, fuzzy
+msgid "View draft."
+msgstr "পাতা দেখুন"
 
-#: kuma/static/js/wiki-edit.js:416
-msgid "Restore the draft content"
+#: kuma/static/js/wiki-edit-draft.js:78
+#, fuzzy
+msgid "Restore draft."
 msgstr "খসড়া কন্টেন্ট পুনরুদ্ধার করুন"
 
-#: kuma/static/js/wiki-edit.js:417
-msgid "Discard the draft"
+#: kuma/static/js/wiki-edit-draft.js:79
+#, fuzzy
+msgid "Discard draft."
 msgstr "খসড়াটি বাতিল কর"
 
-#: kuma/static/js/wiki-edit.js:442
-msgid "restored"
+#: kuma/static/js/wiki-edit-draft.js:101
+msgid "A newer version of this article has been published since this draft was saved. You can restore the draft to view the content, but you will not be able to submit it for publishing."
 msgstr ""
 
-#: kuma/static/js/wiki-edit.js:571
-msgid "Draft"
+#: kuma/static/js/wiki-edit-draft.js:102 kuma/static/js/wiki-edit-draft.js:117
+msgid "Revision history."
 msgstr ""
 
-#: kuma/static/js/wiki-edit.js:590
-msgid "saved"
-msgstr "সংরক্ষিত"
-
-#: kuma/static/js/wiki-edit.js:609
+#: kuma/static/js/wiki-edit-draft.js:103
 #, fuzzy
-msgid "autosaved"
-msgstr "সংরক্ষিত"
-
-#: kuma/static/js/wiki-edit.js:618
-msgid "published"
+msgid "Published version"
 msgstr "প্রকাশিত"
 
-#: kuma/static/js/wiki-edit.js:622
-#, fuzzy
-msgid "discarded"
-msgstr "খসড়াটি বাতিল কর"
+#: kuma/static/js/wiki-edit-draft.js:116
+msgid "Compare this date to the latest revision date to ensure you're not overwriting later changes."
+msgstr ""
 
-#: kuma/static/js/wiki-edit.js:660
+#: kuma/static/js/wiki-edit-draft.js:126
+#, python-format
+msgid "You have a draft from: %(time)s."
+msgstr ""
+
+#: kuma/static/js/wiki-edit-draft.js:152
+msgid "Viewing old draft. This draft cannot be published."
+msgstr ""
+
+#: kuma/static/js/wiki-edit-draft.js:171
+msgid "Draft restored."
+msgstr ""
+
+#: kuma/static/js/wiki-edit-draft.js:188
+#, fuzzy
+msgid "Draft discarded."
+msgstr "বাতিলকৃত"
+
+#: kuma/static/js/wiki-edit-draft.js:222
+#, fuzzy
+msgid "Draft published:"
+msgstr "প্রকাশিত"
+
+#: kuma/static/js/wiki-edit-draft.js:224
+#, fuzzy
+msgid "Draft discarded:"
+msgstr "বাতিলকৃত"
+
+#: kuma/static/js/wiki-edit-draft.js:226
+#, fuzzy
+msgid "Draft autosaved:"
+msgstr "অটোসেভ"
+
+#: kuma/static/js/wiki-edit-draft.js:407
 msgid "Autosave enabled."
 msgstr ""
 
-#: kuma/static/js/wiki-edit.js:667
-msgid "Autosave disabled."
+#: kuma/static/js/wiki-edit.js:346
+msgid "Publishing changes…"
+msgstr ""
+
+#: kuma/static/js/wiki-edit.js:385
+msgid "Publishing failed. You are not currently signed in. Please use a new tab to sign in and try publishing again."
+msgstr ""
+
+#: kuma/static/js/wiki-edit.js:388
+msgid "Changes saved."
+msgstr ""
+
+#: kuma/static/js/wiki-edit.js:417
+msgid "Publishing failed. Please copy and paste your changes into a safe place and try submitting the form using the \"Publish\" button."
 msgstr ""
 
 #: kuma/static/js/wiki-samples.js:99
@@ -206,19 +176,19 @@ msgstr ""
 msgid "New tag..."
 msgstr "নতুন ট্যাগ..."
 
-#: kuma/static/js/wiki.js:200
+#: kuma/static/js/wiki.js:184
 msgid "How to read CSS syntax."
 msgstr "কিভাবে CSS সিনট্যাক্স পড়তে হয়।"
 
-#: kuma/static/js/wiki.js:570
+#: kuma/static/js/wiki.js:476
 msgid "Search Stack Overflow"
 msgstr ""
 
-#: kuma/static/js/wiki.js:677
+#: kuma/static/js/wiki.js:583
 msgid "Your browser does not support MathML. A CSS fallback has been used instead."
 msgstr ""
 
-#: kuma/static/js/wiki.js:892
+#: kuma/static/js/wiki.js:798
 msgid "Details"
 msgstr "বিস্তারিত"
 
@@ -279,7 +249,7 @@ msgid "What should the sample title be?"
 msgstr ""
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:23
-msgid "HTML Content"
+msgid "HTML"
 msgstr ""
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:24
@@ -287,7 +257,7 @@ msgid "Sample HTML Content"
 msgstr ""
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:27
-msgid "CSS Content"
+msgid "CSS"
 msgstr ""
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:28
@@ -295,14 +265,18 @@ msgid "Sample CSS Content"
 msgstr ""
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:31
-msgid "JavaScript Content"
+msgid "JavaScript"
 msgstr ""
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:32
 msgid "Sample JavaScript Content"
 msgstr ""
 
-#: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:52
+#: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:35
+msgid "Result"
+msgstr "ফলাফল"
+
+#: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:53
 msgid "Insert Code Sample Template"
 msgstr ""
 
@@ -340,4 +314,85 @@ msgstr ""
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-youtube/plugin.js:33
 msgid "Default"
-msgstr ""
+msgstr "স্বাভাবিক"
+
+#~ msgid "Did this page help you?"
+#~ msgstr "পাতাটি কি আপনার জন্য সহায়ক ছিল?"
+
+#~ msgid "Yes"
+#~ msgstr "হ্যাঁ"
+
+#~ msgid "No"
+#~ msgstr "না"
+
+#~ msgid "Never ask me again"
+#~ msgstr "এ বিষয়ে আর কখনও জিজ্ঞাসা করবে না"
+
+#~ msgid "Translate it into my language"
+#~ msgstr "আমার ভাষায় অনুবাদ করুন"
+
+#~ msgid "Make explanations clearer"
+#~ msgstr "ব্যাখ্যা আরও স্পষ্ট করুন"
+
+#~ msgid "Add more details"
+#~ msgstr "আরও বিবরণ যোগ করুন"
+
+#~ msgid "Fix incorrect information"
+#~ msgstr "ভুল তথ্য ঠিক করুন"
+
+#~ msgid "Add or improve examples"
+#~ msgstr "উদাহরণ যোগ অথবা উন্নত করুন"
+
+#~ msgid "My search should have led to a different article"
+#~ msgstr "আমার অনুসন্ধান একটি ভিন্ন নিবন্ধে নিয়ে যাওয়া উচিত"
+
+#~ msgid "Something else"
+#~ msgstr "অন্য কিছু"
+
+#~ msgid "Choose one..."
+#~ msgstr "একটি পছন্দ করুন..."
+
+#~ msgid "Uh oh. What would make it better?"
+#~ msgstr "আহ..হা। আরও ভালো করা যায় কিভাবে?"
+
+#~ msgid "Thanks! We'll fix it."
+#~ msgstr "ধন্যবাদ! আমরা এর সমাধান করব।"
+
+#~ msgid "Draft"
+#~ msgstr "খসড়া"
+
+#~ msgid "saved"
+#~ msgstr "সংরক্ষিত"
+
+#~ msgid "Open implementation notes"
+#~ msgstr "ইমপ্লিমেন্টেশন নোট খুলুন"
+
+#~ msgid "Open"
+#~ msgstr "খুলুন"
+
+#~ msgid "Return to compatibility table."
+#~ msgstr "কম্প্যাটিবিলিটি টেবিলে ফিরে যাও।"
+
+#~ msgid "Close"
+#~ msgstr "বন্ধ"
+
+#~ msgid "New compatibility tables are in beta "
+#~ msgstr "নতুন কম্প্যাটিবিলিটি টেবিলগুলো বেটা সংস্করণে আছে "
+
+#~ msgid "More about the beta."
+#~ msgstr "বেটা সংস্করণ সম্পর্কে আরও জানুন।"
+
+#~ msgid "Take the survey"
+#~ msgstr "জরিপে অংশ নিন"
+
+#~ msgid "Report an error."
+#~ msgstr "ভুলটি রিপোর্ট করুন।"
+
+#~ msgid "Reported. Thanks!"
+#~ msgstr "রিপোর্ট সম্পন্ন। ধন্যবাদ!"
+
+#~ msgid "Show old table."
+#~ msgstr "পুরনো টেবিল দেখুন।"
+
+#~ msgid "HTML Content"
+#~ msgstr "HTML কনটেন্ট"

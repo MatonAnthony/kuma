@@ -5,9 +5,6 @@
     {% if detail_user.fullname %}
         <b class="user-title-fullname">(<span class="fn">{{ detail_user.fullname }}</span>)</b>
     {% endif %}
-    {% if user.is_authenticated() and is_me %}
-        {% include 'socialaccount/snippets/login_service_icon.html' %}
-    {% endif %}
 </h1>
 
 <div class="user-buttons">
@@ -29,7 +26,6 @@
         <div class="submenu-column">
           <div class="title">{{ _('Manage') }}</div>
           <ul>
-            <li><a href="{{ url('socialaccount_connections') }}" class="neutral">{{ _("Account connections") }}</a></li>
             <li><a href="{{ url('authkeys.list') }}" class="neutral">{{ _("API keys") }}</a></li>
             <li><a href="{{ url('account_email') }}" class="neutral">{{ _("Email addresses") }}</a></li>
           </ul>
@@ -107,3 +103,10 @@
 </ul>
 
 <div class="user-since">{% trans date_joined=datetimeformat(detail_user.date_joined, format='date') %}Member since {{ date_joined }}{% endtrans %}</div>
+{% if not is_me and user.has_perm('users.add_userban') and detail_user.active_ban %}
+  <div class="banned">
+    {{ _('banned %(ban_date)s by %(user)s',
+    ban_date=datetimeformat(detail_user.active_ban.date, format='date'),
+    user=user_display(detail_user.active_ban.by)) }}
+  </div>
+{% endif %}

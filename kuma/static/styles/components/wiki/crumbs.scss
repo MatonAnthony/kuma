@@ -1,0 +1,40 @@
+/*
+wiki article cookie crumbs
+********************************************************************** */
+
+.crumbs {
+    margin-bottom: ($grid-spacing / 2);
+
+    @include set-smaller-font-size();
+
+    li {
+        @include bidi-style(margin-right, ($grid-spacing / 2), margin-left, 0);
+        display: none;
+    }
+
+    li:nth-last-child(2) {
+        display: block;
+    }
+
+    a {
+        display: block;
+
+        &:before {
+            @include bidi-style(margin-right, 4px, margin-left, 0, true);
+            @include bidi-style(content, '\f053', content, '\f054');
+            display: inline-block;
+            font-family: FontAwesome;
+            text-decoration: none;
+            color: $grey;
+            @include set-font-size(70%);
+        }
+    }
+
+    @include reverse-link-decoration();
+}
+
+@media print {
+    .crumbs {
+        display: none;
+    }
+}

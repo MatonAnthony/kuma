@@ -3,6 +3,7 @@ import re
 import bleach
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
+from urlparse import urlparse, urlunparse
 
 
 ALLOWED_TAGS = bleach.ALLOWED_TAGS + [
@@ -13,7 +14,7 @@ ALLOWED_TAGS = bleach.ALLOWED_TAGS + [
     'nobr', 'dfn', 'caption', 'var', 's',
     'i', 'img', 'hr',
     'input', 'label', 'select', 'option', 'textarea',
-    # Note: <iframe> is allowed, but src="" is pre-filtered before bleach
+    # Note: <iframe> is allowed, but src="" is filtered after bleach
     'iframe',
     'table', 'tbody', 'thead', 'tfoot', 'tr', 'th', 'td', 'colgroup', 'col',
     'section', 'header', 'footer', 'nav', 'article', 'aside', 'figure',
@@ -193,15 +194,21 @@ ALLOWED_STYLES = [
     'text-decoration-style', '-moz-text-decoration-style', 'text-decoration',
     'direction', 'white-space', 'unicode-bidi', 'word-wrap'
 ]
+ALLOWED_PROTOCOLS = [
+    'http', 'https', 'mailto', 'irc', 'news', 'ftp', 'ssh', 'nntp'
+]
 
 DIFF_WRAP_COLUMN = 65
-TEMPLATE_TITLE_PREFIX = 'Template:'
+EXPERIMENT_TITLE_PREFIX = 'Experiment:'
 DOCUMENTS_PER_PAGE = 100
 KUMASCRIPT_TIMEOUT_ERROR = [
     {"level": "error",
      "message": "Request to Kumascript service timed out",
      "args": ["TimeoutError"]}
 ]
+_ks_urlbits = urlparse(settings.KUMASCRIPT_URL_TEMPLATE)
+KUMASCRIPT_BASE_URL = urlunparse((_ks_urlbits.scheme, _ks_urlbits.netloc,
+                                  '', '', '', ''))
 
 # TODO: Put this under the control of Constance / Waffle?
 # Flags used to signify revisions in need of review
@@ -243,7 +250,7 @@ INVALID_REV_SLUG_CHARS_RE = re.compile(r"""[\s\?\/%%]+""")
 DOCUMENT_PATH_RE = re.compile(r'[^\$]+')
 
 # how a redirect looks as rendered HTML
-REDIRECT_HTML = 'REDIRECT <a class="redirect"'
+REDIRECT_HTML = 'REDIRECT <a '
 REDIRECT_CONTENT = 'REDIRECT <a class="redirect" href="%(href)s">%(title)s</a>'
 
 DOCUMENT_LAST_MODIFIED_CACHE_KEY_TMPL = u'kuma:document-last-modified:%s'

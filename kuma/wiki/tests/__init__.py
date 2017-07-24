@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group, Permission
 from django.utils.text import slugify
 
-from html5lib.filters._base import Filter as html5lib_Filter
+from html5lib.filters.base import Filter as html5lib_Filter
 from waffle.models import Flag
 
 from kuma.core.tests import get_user, KumaTestCase
@@ -60,7 +60,7 @@ def revision(save=False, **kwargs):
         'summary': 'Some summary',
         'content': 'Some content',
         'comment': 'Some comment',
-        'creator': kwargs.get('creator', get_user()),
+        'creator': kwargs.get('creator') or get_user(),
         'document': doc,
         'tags': '"some", "tags"',
         'toc_depth': 1,
@@ -167,48 +167,6 @@ def create_document_editor_user():
         user.save()
 
     return user
-
-
-def create_template_test_users():
-    """Create users for template editing tests."""
-    perms = dict(
-        (x, [Permission.objects.get(codename='%s_template_document' % x)])
-        for x in ('add', 'change',)
-    )
-    perms['all'] = perms['add'] + perms['change']
-
-    groups = {}
-    for x in ('add', 'change', 'all'):
-        group, created = Group.objects.get_or_create(
-            name='templaters_%s' % x)
-        if created:
-            group.permissions = perms[x]
-            group.save()
-        groups[x] = [group]
-    editor_group = create_document_editor_group()
-
-    users = {}
-    User = get_user_model()
-    for x in ('none', 'add', 'change', 'all'):
-        user, created = User.objects.get_or_create(
-            username='user_%s' % x,
-            defaults=dict(email='user_%s@example.com',
-                          is_active=True, is_staff=False, is_superuser=False))
-        if created:
-            user.set_password('testpass')
-            user.groups = groups.get(x, []) + [editor_group]
-            user.save()
-        users[x] = user
-
-    superuser, created = User.objects.get_or_create(
-        username='superuser_1', defaults=dict(
-            email='superuser_1@example.com',
-            is_active=True, is_staff=True, is_superuser=True))
-    if created:
-        superuser.set_password('testpass')
-        superuser.save()
-
-    return (perms, groups, users, superuser)
 
 
 def create_topical_parents_docs():

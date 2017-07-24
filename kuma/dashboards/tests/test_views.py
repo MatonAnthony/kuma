@@ -83,8 +83,8 @@ class RevisionsDashTest(UserTestCase):
         eq_(200, response.status_code)
 
         page = pq(response.content)
-        spam_table_cell = page.find('td.dashboard-spam')
-        eq_(spam_table_cell, [])
+        spam_report_button = page.find('.spam-ham-button')
+        eq_(spam_report_button, [])
 
         flag = Flag.objects.create(name=SPAM_SUBMISSIONS_FLAG)
         flag.users.add(User.objects.get(username='admin'))
@@ -94,9 +94,9 @@ class RevisionsDashTest(UserTestCase):
         eq_(200, response.status_code)
 
         page = pq(response.content)
-        ip_button = page.find('td.dashboard-spam')
+        spam_report_button = page.find('.spam-ham-button')
         # Revisions available, admin has privileges to see this
-        ok_(len(ip_button) > 0)
+        ok_(len(spam_report_button) > 0)
 
     def test_locale_filter(self):
         url = urlparams(reverse('dashboards.revisions', locale='fr'),
@@ -575,3 +575,46 @@ class SpamDashTest(SampleRevisionsMixin, UserTestCase):
         eq_(row_weekly[true_negative_rate], tnr_weekly)
         eq_(row_monthly[true_negative_rate], tnr_monthly)
         eq_(row_quarterly[true_negative_rate], tnr_quarterly)
+
+
+@mock.patch('kuma.dashboards.views.macro_usage')
+def test_macros(mock_usage, client, db):
+    """The normal macro page is a three-column table."""
+    mock_usage.return_value = {
+        'A11yRoleQuicklinks': {
+            'github_subpath': 'A11yRoleQuicklinks.ejs',
+            'count': 100,
+            'en_count': 50,
+        }
+    }
+
+    response = client.get(reverse('dashboards.macros'), follow=True)
+    assert response.status_code == 200
+    assert "Found 1 active macro." in response.content
+    page = pq(response.content)
+    assert len(page("table.macros-table")) == 1
+    assert len(page("th.stat-header")) == 2
+
+
+@mock.patch('kuma.dashboards.views.macro_usage')
+def test_macros_no_counts(mock_usage, client, db):
+    """The macro page is a one-column table when counts are unavailable."""
+    mock_usage.return_value = {
+        'A11yRoleQuicklinks': {
+            'github_subpath': 'A11yRoleQuicklinks.ejs',
+            'count': 0,
+            'en_count': 0,
+        },
+        'CSSRef': {
+            'github_subpath': 'CSSRef.ejs',
+            'count': 0,
+            'en_count': 0,
+        }
+    }
+
+    response = client.get(reverse('dashboards.macros'), follow=True)
+    assert response.status_code == 200
+    assert "Found 2 active macros." in response.content
+    page = pq(response.content)
+    assert len(page("table.macros-table")) == 1
+    assert len(page("th.stat-header")) == 0

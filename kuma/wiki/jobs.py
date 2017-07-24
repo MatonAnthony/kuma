@@ -1,36 +1,45 @@
+import time
+import random
 import collections
 
+from django.conf import settings
 from django.contrib.auth import get_user_model
 
 from kuma.core.jobs import KumaJob, GenerationJob
 from kuma.users.templatetags.jinja_helpers import gravatar_url
 
 
-class DocumentZoneStackJob(KumaJob):
-    lifetime = 60 * 60 * 3
-    refresh_timeout = 60
+class DocumentNearestZoneJob(KumaJob):
+    # Allow up to three minutes to refresh the cache before assuming
+    # the task has failed and allowing another to be enqueued.
+    refresh_timeout = 180
+
+    def expiry(self, *args, **kwargs):
+        # Spread the cache expiration times across a random
+        # number of days from 1 to 10 (in units of seconds).
+        seconds_per_day = 24 * 60 * 60
+        return time.time() + random.randint(1 * seconds_per_day,
+                                            10 * seconds_per_day)
 
     def fetch(self, pk):
         """
-        Assemble the stack of DocumentZones available from this document,
-        moving up the stack of topic parents
+        Find the nearest DocumentZone, if there is one, starting from this
+        document and going upwards via topic parents.
         """
         from .models import Document, DocumentZone
-        document = Document.objects.get(pk=pk)
-        stack = []
-        try:
-            stack.append(DocumentZone.objects.get(document=document))
-        except DocumentZone.DoesNotExist:
-            pass
-        for parent in document.get_topic_parents():
-            try:
-                stack.append(DocumentZone.objects.get(document=parent))
-            except DocumentZone.DoesNotExist:
-                pass
-        return stack
 
-    def empty(self):
-        return []
+        # Using "admin_objects" here to get around the
+        # filter that excludes deleted documents.
+        get_parent_id = (Document.admin_objects
+                                 .values_list('parent_topic', flat=True)
+                                 .get)
+        while pk:
+            try:
+                return DocumentZone.objects.get(document=pk)
+            except DocumentZone.DoesNotExist:
+                pk = get_parent_id(pk=pk)
+
+        return self.empty()
 
 
 class DocumentZoneURLRemapsJob(KumaJob):
@@ -66,6 +75,11 @@ class DocumentContributorsJob(KumaJob):
     version = 2
     # Don't synchronously fetch the contributor bar but schedule a fetch
     fetch_on_miss = False
+
+    def get(self, *args, **kwargs):
+        if settings.MAINTENANCE_MODE:
+            return self.empty()
+        return super(DocumentContributorsJob, self).get(*args, **kwargs)
 
     def fetch(self, pk):
         from .models import Document

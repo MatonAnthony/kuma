@@ -1,7 +1,7 @@
 {% extends "wiki/base.html" %}
 {% set title = _('Revision %(id)s | %(title)s', id=revision.id, title=document.title) %}
 {% block title %}{{ page_title(title) }}{% endblock %}
-{% set meta = [('robots', 'noindex, nofollow')] %}
+{% block robots_value %}noindex, nofollow{% endblock %}
 {% set classes = 'document' %}
 
 {% block content %}
@@ -56,24 +56,20 @@
       {% include "wiki/includes/document_tag.html" %}
     </div>
 
-    {% if not document.is_template %}
-      <details open="open">
-        <summary><h2>{{ _('Revision Content') }}</h2></summary>
-        <article id="wikiArticle" class="text-content">
-          {{ revision.content_cleaned|safe }}
-        </article>
-      </details>
-    {% endif %}
+    <details open="open">
+      <summary><h2>{{ _('Revision Content') }}</h2></summary>
+      <article id="wikiArticle" class="text-content">
+        {{ revision.content_cleaned|safe }}
+      </article>
+    </details>
 
-    <details {% if document.is_template %}open="open"{% endif %}>
+    <details>
       <summary><h2>{{ _('Revision Source') }}</h2></summary>
       <div id="doc-source">
         <pre class="brush:js">{{ revision.content }}</pre>
       </div>
     </details>
 
-    {% if document.allows_revision_by(request.user) %}
-    <a href="{{ url('wiki.revert_document', document.slug, revision.id) }}" class="button" rel="nofollow, noindex">{{ _('Revert to this revision') }}</a>
-    {% endif %}
+    <a href="{{ url('wiki.revert_document', document.slug, revision.id) }}" class="button revert-revision" rel="nofollow, noindex">{{ _('Revert to this revision') }}</a>
   </article>
 {% endblock %}

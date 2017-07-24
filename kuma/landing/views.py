@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.views import static
 
 from kuma.core.sections import SECTION_USAGE
@@ -7,6 +7,15 @@ from kuma.core.cache import memcache
 from kuma.feeder.models import Bundle
 from kuma.search.models import Filter, FilterGroup
 from kuma.search.serializers import GroupWithFiltersSerializer
+
+
+def contribute_json(request):
+    return static.serve(request, 'contribute.json',
+                        document_root=settings.ROOT)
+
+
+def fellowship(request):
+    return render(request, 'landing/fellowship.html')
 
 
 def home(request):
@@ -33,9 +42,11 @@ def home(request):
     return render(request, 'landing/homepage.html', context)
 
 
-def contribute_json(request):
-    return static.serve(request, 'contribute.json',
-                        document_root=settings.ROOT)
+def maintenance_mode(request):
+    if settings.MAINTENANCE_MODE:
+        return render(request, 'landing/maintenance-mode.html')
+    else:
+        return redirect('home')
 
 
 def promote_buttons(request):
@@ -43,5 +54,14 @@ def promote_buttons(request):
     return render(request, 'landing/promote_buttons.html')
 
 
-def fellowship(request):
-    return render(request, 'landing/fellowship.html')
+def robots_txt(request):
+    """
+    Serve robots.txt that allows or forbids robots.
+
+    TODO: After AWS move, try different strategy (WhiteNoise, template)
+    """
+    if settings.ALLOW_ROBOTS:
+        robots = 'robots.txt'
+    else:
+        robots = 'robots-go-away.txt'
+    return static.serve(request, robots, document_root=settings.MEDIA_ROOT)

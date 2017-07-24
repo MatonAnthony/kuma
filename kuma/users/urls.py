@@ -5,7 +5,8 @@ from django.conf.urls import include, url
 from allauth.account import views as account_views
 from allauth.socialaccount import providers, views as socialaccount_views
 
-from kuma.core.decorators import never_cache
+from kuma.core.decorators import redirect_in_maintenance_mode
+
 from . import views
 
 
@@ -19,9 +20,6 @@ account_patterns = [
     url(r'^signup/?$',
         views.signup,
         name='socialaccount_signup'),
-    url(r'^connections/?$',
-        never_cache(socialaccount_views.connections),
-        name='socialaccount_connections'),
     url(r'^inactive/?$',
         account_views.account_inactive,
         name='account_inactive'),
@@ -32,7 +30,7 @@ account_patterns = [
         account_views.email_verification_sent,
         name='account_email_verification_sent'),
     url(r'^email/confirm/(?P<key>\w+)/?$',
-        account_views.confirm_email,
+        redirect_in_maintenance_mode(account_views.confirm_email),
         name='account_confirm_email'),
     # Auth keys
     url(r'^keys', include('kuma.authkeys.urls')),
@@ -41,13 +39,13 @@ account_patterns = [
 
 users_patterns = [
     url(r'^signup/?$',
-        account_views.signup,
+        redirect_in_maintenance_mode(account_views.signup),
         name='account_signup'),
     url(r'^signin/?$',
-        account_views.login,
+        redirect_in_maintenance_mode(account_views.login),
         name='account_login'),
     url(r'^signout/?$',
-        account_views.logout,
+        redirect_in_maintenance_mode(account_views.logout),
         name='account_logout'),
     url(r'^account/', include(account_patterns)),
     url(r'^ban/(?P<username>[^/]+)$',
@@ -59,6 +57,19 @@ users_patterns = [
     url(r'^ban_user_and_cleanup_summary/(?P<username>[^/]+)$',
         views.ban_user_and_cleanup_summary,
         name='users.ban_user_and_cleanup_summary'),
+    url(r'^account/recover/send',
+        views.send_recovery_email,
+        name='users.send_recovery_email'),
+    url(r'^account/recover/sent',
+        views.recovery_email_sent,
+        name='users.recovery_email_sent'),
+    url(r'^account/recover/done',
+        views.recover_done,
+        name='users.recover_done'),
+    url(r'^account/recover/(?P<uidb64>[0-9A-Za-z_\-]+)/'
+        r'(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})$',
+        views.recover,
+        name='users.recover'),
 ]
 
 
@@ -79,6 +90,9 @@ urlpatterns = [
     url(r'^profiles/(?P<username>[^/]+)/edit$',
         views.user_edit,
         name='users.user_edit'),
+    url(r'^profiles/(?P<username>[^/]+)/delete$',
+        views.user_delete,
+        name='users.user_delete'),
     url(r'^profile/?$',
         views.my_detail_page,
         name='users.my_detail_page'),

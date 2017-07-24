@@ -2,15 +2,11 @@
 {% from "includes/error_list.html" import errorlist %}
 {% from 'wiki/includes/page_buttons.html' import page_buttons %}
 
-{% if document.is_template %}
-  {% set title = _('%(title)s | Edit Template', title=document.title) %}
-{% else %}
-  {% set title = _('%(title)s | Edit Article', title=document.title) %}
-{% endif %}
-{% block title %}{{ page_title(title) }}{% endblock %}
+{% block title %}{{ page_title(_('%(title)s | Edit Article', title=document.title)) }}{% endblock %}
+{% block robots_value %}noindex, nofollow{% endblock %}
 
 {% set classes = 'edit' %}
-{% block bodyclass %}edit{% if document.is_template %} is-template{% endif %}{% endblock %}
+{% block bodyclass %}edit{% endblock %}
 
 {% block site_css %}
     {{ super() }}
@@ -40,8 +36,12 @@
               <div>
                   <h3>{{ _('Your Changes') }}</h3>
                   <p>
-                  {% trans id=original_revision.id, user_profile_url=original_revision.creator.get_absolute_url(), user=original_revision.creator, date=datetimeformat(original_revision.created, format='longdatetime') %}
-                    Revision {{ id }} by <a href="{{ user_profile_url }}">{{ user }}</a> on {{ date }}
+                  {% trans id=original_revision.id,
+                           user_profile_url=original_revision.creator.get_absolute_url(),
+                           rel='' if original_revision.creator.is_active else 'rel="nofollow"',
+                           user=original_revision.creator,
+                           date=datetimeformat(original_revision.created, format='longdatetime') %}
+                     Revision {{ id }} by <a href="{{ user_profile_url }}" {{ rel }}>{{ user }}</a> on {{ date }}
                   {% endtrans %}
                   </p>
               </div>
@@ -52,8 +52,12 @@
                     </a>
                 </h3>
                 <p>
-                {% trans id=current_revision.id, user_profile_url=current_revision.creator.get_absolute_url(), user=current_revision.creator, date=datetimeformat(current_revision.created, format='longdatetime') %}
-                  Revision {{ id }} by <a href="{{ user_profile_url }}">{{ user }}</a> on {{ date }}
+                {% trans id=current_revision.id,
+                         user_profile_url=current_revision.creator.get_absolute_url(),
+                         user=current_revision.creator,
+                         rel='' if current_revision.creator.is_active else 'rel="nofollow"',
+                         date=datetimeformat(current_revision.created, format='longdatetime') %}
+                   Revision {{ id }} by <a href="{{ user_profile_url }}" {{ rel }}>{{ user }}</a> on {{ date }}
                 {% endtrans %}
                 </p>
               </div>
@@ -116,11 +120,7 @@
                     <label for="id_title">{{ _('Title:') }}</label>
                     {{ revision_form.title | safe }}
                 </li>
-                {% if document.is_template %}
-                  <input type="hidden" name="toc_depth" value="0" />
-                {% else %}
-                  {% include 'wiki/includes/document_toc_field.html' %}
-                {% endif %}
+                {% include 'wiki/includes/document_toc_field.html' %}
                 <li class="clear">
                   <fieldset class="duration-container">
                     <legend>{{ _('Rendering max age:') }}</legend>
@@ -160,7 +160,7 @@
           <section class="first-contrib-welcome">
             <h2>{{ _('Thank you for taking the time to improve MDN!') }}</h2>
             <p>
-              {% trans url=wiki_url('Project:MDN/Contributing/Editor_guide/') %}
+              {% trans url=wiki_url('MDN/Contribute/Editor') %}
                 It looks like this is your first contribution to MDN. You can find answers to common editing questions within our <a target="_blank" href="{{ url }}">Editor Guide</a>.
               {% endtrans %}
             </p>
@@ -172,25 +172,18 @@
         {% if revision_form %}
             {% include 'wiki/includes/guide_links.html' %}
 
-            {% if document.is_template %}
-              {{ revision_form.content | safe }}
-              <div id="editor-wrapper" class="editor-wrapper">
-                <div id="ace_content" class="editor-container"></div>
-              </div>
-            {% else %}
-              <div id="editor-wrapper" class="editor-wrapper">
-                <div class="ckeditor-container editor-container">{{ revision_form.content | safe }}</div>
-              </div>
-            {% endif %}
+            <div id="editor-wrapper" class="editor-wrapper">
+              <div class="ckeditor-container editor-container">{{ revision_form.content | safe }}</div>
+            </div>
 
             <input type="hidden" name="form-type" value="rev" />
             {{ revision_form.hidden_fields()|join|safe }}
 
             {% set tags = document.tags.all().order_by('name') %}
             <section id="page-tags" class="page-tags wiki-block">
-              <h3><i aria-hidden="true" class="icon-tags"></i>{{ _('Tags') }} <a href="{{ wiki_url('Project:MDN/Contributing/Editor_guide/Editing#The_tags_box') }}"><i aria-hidden="true" title="{{ _('Learn how to tag an article') }}" class="icon-question-sign editor-help-icon"></i></a></h3>
+              <h3><i aria-hidden="true" class="icon-tags"></i>{{ _('Tags') }} <a href="{{ wiki_url('MDN/Contribute/Editor/Basics#The_tags_box') }}"><i aria-hidden="true" title="{{ _('Learn how to tag an article') }}" class="icon-question-sign editor-help-icon"></i></a></h3>
               <p>
-              {% trans url=wiki_url('Project:MDN/Contributing/Tagging_standards') %}
+              {% trans url=wiki_url('MDN/Contribute/Howto/Tag') %}
                 Categorize the article. It will make the article findable under the right filters in the search engine. <a target="_blank" href="{{ url }}">Read the Tagging Guide</a>.
               {% endtrans %}
               </p>
@@ -226,33 +219,29 @@
     {% javascript 'framebuster' %}
     {% include 'wiki/includes/tag_suggestions.html' %}
 
-    {% if document.is_template %}
-      {% include 'wiki/includes/ace_scripts.html' %}
-    {% else %}
-      {% include 'wiki/includes/ckeditor_scripts.html' %}
-      <script type="text/javascript">
-        if(window.waffle.flag_is_active('section_edit')) CKEDITOR.on('instanceReady', function(evt) {
-            var hash = window.location.hash.replace('#', '');
-            if(!hash) return;
+    {% include 'wiki/includes/ckeditor_scripts.html' %}
+    <script type="text/javascript">
+    if(window.waffle.flag_is_active('section_edit')) CKEDITOR.on('instanceReady', function(evt) {
+        var hash = window.location.hash.replace('#', '');
+        if(!hash) return;
 
-            var element = evt.editor.document.getById(hash);
-            var range;
+        var element = evt.editor.document.getById(hash);
+        var range;
 
-            if(element) {
-                element.scrollIntoView();
+        if(element) {
+            element.scrollIntoView();
 
-                // Thank you S/O
-                // http://stackoverflow.com/questions/16835365/set-cursor-to-specific-position-in-ckeditor
-                range = evt.editor.createRange();
-                range.setStart(element, 0);
-                range.setEnd(element, 0);
-                evt.editor.getSelection().selectRanges([range]);
-            }
+            // Thank you S/O
+            // http://stackoverflow.com/questions/16835365/set-cursor-to-specific-position-in-ckeditor
+            range = evt.editor.createRange();
+            range.setStart(element, 0);
+            range.setEnd(element, 0);
+            evt.editor.getSelection().selectRanges([range]);
+        }
 
-            return false;
-        });
-      </script>
-    {% endif %}
+        return false;
+    });
+    </script>
     {% javascript 'wiki-edit' %}
 
 {% endblock %}

@@ -1,0 +1,22 @@
+@import 'includes-blue/vars';
+@import 'includes-blue/mixins';
+
+/*
+Archive zone
+********************************************************************** */
+
+
+/*
+imports
+====================================================================== */
+@import 'zones-blue/base';
+@import 'zones-blue/components/archive';
+
+
+/*
+header modifications
+====================================================================== */
+
+.zone-image {
+    background-image: url($path-to-images + 'zones/Nuvola_apps_important.png');
+}

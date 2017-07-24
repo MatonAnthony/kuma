@@ -13,19 +13,21 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 
 from kuma.core.exceptions import ProgrammingError
-from kuma.core.tests import KumaTestCase, eq_, get_user, ok_
+from kuma.core.urlresolvers import reverse
+from kuma.core.tests import eq_, get_user, ok_
 from kuma.attachments.models import Attachment, AttachmentRevision
 from kuma.users.tests import UserTestCase
 
-from . import (create_document_tree, create_template_test_users,
+from . import (create_document_tree,
                create_topical_parents_docs, document, normalize_html,
                revision)
 from .. import tasks
-from ..constants import REDIRECT_CONTENT, TEMPLATE_TITLE_PREFIX
+from ..constants import EXPERIMENT_TITLE_PREFIX, REDIRECT_CONTENT
 from ..events import EditDocumentInTreeEvent
 from ..exceptions import (DocumentRenderedContentNotAvailable,
                           DocumentRenderingInProgress, PageMoveError)
-from ..models import Document, Revision, RevisionIP, TaggedDocument
+from ..models import (Document, DocumentTag, Revision, RevisionIP,
+                      TaggedDocument)
 from ..templatetags.jinja_helpers import absolutify
 from ..utils import tidy_content
 from ..signals import render_done
@@ -110,22 +112,17 @@ class DocumentTests(UserTestCase):
         assert de_data['title'] == de_doc.title
         assert de_data['uuid'] == str(de_doc.uuid)
 
-    def test_document_is_template(self):
-        """is_template stays in sync with the title"""
-        d = document(title='test')
+    def test_document_is_experiment(self):
+        d = document(title='test', save=True)
+        assert not d.is_experiment
+
+        d.slug = EXPERIMENT_TITLE_PREFIX + "test"
         d.save()
+        assert d.is_experiment
 
-        assert not d.is_template
-
-        d.slug = '%stest' % TEMPLATE_TITLE_PREFIX
+        d.slug = 'back-to-document'
         d.save()
-
-        assert d.is_template
-
-        d.slug = 'Back-to-document'
-        d.save()
-
-        assert not d.is_template
+        assert not d.is_experiment
 
     def test_error_on_delete(self):
         """Ensure error-on-delete is only thrown when waffle switch active"""
@@ -258,55 +255,63 @@ class DocumentTests(UserTestCase):
         doc = document()
         eq_(doc.get_full_url(), absolutify(doc.get_absolute_url()))
 
+    def test_from_url(self):
+        created_doc = document(save=True)
+        doc_url = created_doc.get_absolute_url()
 
-class PermissionTests(KumaTestCase):
+        get_doc = Document.from_url(doc_url)
+        assert get_doc.id == created_doc.id
 
-    def setUp(self):
-        """Set up the permissions, groups, and users needed for the tests"""
-        super(PermissionTests, self).setUp()
-        (self.perms, self.groups, self.users, self.superuser) = (
-            create_template_test_users())
+    def test_from_url_with_default_locale_slug(self):
+        """It should be possible to get the localized document
+           even though the url of default locale document is passed"""
 
-    def test_template_permissions(self):
-        msg = ('should not', 'should')
+        en_doc = document(save=True, locale=settings.WIKI_DEFAULT_LANGUAGE)
+        bn_doc = document(parent=en_doc, locale='bn-BD', save=True)
 
-        for is_add in (True, False):
+        # Generate a url with `bn-BD` locale, but default locale document slug
+        url = reverse('wiki.document', locale=bn_doc.locale, args=[en_doc.slug])
 
-            slug_trials = (
-                ('test_for_%s', (
-                    (True, self.superuser),
-                    (True, self.users['none']),
-                    (True, self.users['all']),
-                    (True, self.users['add']),
-                    (True, self.users['change']),
-                )),
-                ('Template:test_for_%s', (
-                    (True, self.superuser),
-                    (False, self.users['none']),
-                    (True, self.users['all']),
-                    (is_add, self.users['add']),
-                    (not is_add, self.users['change']),
-                ))
-            )
+        get_doc = Document.from_url(url)
+        assert get_doc.id == bn_doc.id
 
-            for slug_tmpl, trials in slug_trials:
-                for expected, trial_user in trials:
-                    slug = slug_tmpl % trial_user.username
-                    if is_add:
-                        eq_(expected,
-                            Document.objects.allows_add_by(trial_user, slug),
-                            'User %s %s able to create %s' % (
-                                trial_user, msg[expected], slug))
-                    else:
-                        doc = document(slug=slug, title=slug)
-                        eq_(expected,
-                            doc.allows_revision_by(trial_user),
-                            'User %s %s able to revise %s' % (
-                                trial_user, msg[expected], slug))
-                        eq_(expected,
-                            doc.allows_editing_by(trial_user),
-                            'User %s %s able to edit %s' % (
-                                trial_user, msg[expected], slug))
+        # passing wrong default locale document slug should return None
+        # Generate a url with bad default locale document slug
+        url = reverse('wiki.document', locale=bn_doc.locale, args=[en_doc.slug + 'bad_slug'])
+        get_doc = Document.from_url(url)
+        assert get_doc is None
+
+    def test_from_url_with_wrong_url(self):
+        """If wrong url is passed to the ``from_url``, It should return None"""
+        rev = revision(save=True)
+        # Generate a url of revision
+        url = rev.get_absolute_url()
+
+        # Passing url of revision should return None as its not documen
+        get_doc = Document.from_url(url)
+        assert get_doc is None
+
+    def test_from_url_with_full_url(self):
+        """If url with host is passed, the from_url should return None"""
+        doc = document(save=True)
+        full_url = doc.get_full_url()
+
+        # Passing the full_url to get_doc
+        get_doc = Document.from_url(full_url)
+
+        assert get_doc is None
+
+    def test_get_redirect_document(self):
+        rev = revision(save=True)
+        doc = rev.document
+        doc_first_slug = doc.slug
+
+        # Move the document to new slug
+        doc._move_tree(new_slug="moved_doc")
+
+        old_slug_document = Document.objects.get(slug=doc_first_slug)
+
+        assert old_slug_document.get_redirect_document().id == doc.id
 
 
 class UserDocumentTests(UserTestCase):
@@ -470,10 +475,10 @@ class UserDocumentTests(UserTestCase):
         assert 2 == len(grandchild_doc.parent_trees_watched_by(testuser2))
 
 
+@pytest.mark.tags
 class TaggedDocumentTests(UserTestCase):
     """Tests for tags in Documents and Revisions"""
 
-    @pytest.mark.tags
     def test_revision_tags(self):
         """Change tags on Document by creating Revisions"""
         rev = revision(is_approved=True, save=True, content='Sample document')
@@ -494,6 +499,23 @@ class TaggedDocumentTests(UserTestCase):
 
         eq_(0, Document.objects.filter(tags__name='foo').count())
         eq_(1, Document.objects.filter(tags__name='alpha').count())
+
+    def test_duplicate_tags_with_creation(self):
+        rev = revision(
+            is_approved=True, save=True, content='Sample document',
+            tags="test Test")
+        assert rev.document.tags.count() == 1
+        tag = rev.document.tags.get()
+        assert tag.name in ('test', 'Test')
+
+    def test_duplicate_tags_with_existing(self):
+        dt = DocumentTag.objects.create(name='Test')
+        rev = revision(
+            is_approved=True, save=True, content='Sample document',
+            tags="test Test")
+        assert rev.document.tags.count() == 1
+        tag = rev.document.tags.get()
+        assert tag == dt
 
 
 class RevisionTests(UserTestCase):
@@ -570,19 +592,24 @@ class RevisionTests(UserTestCase):
     def test_previous(self):
         """Revision.previous should return this revision's document's
         most recent approved revision."""
-        rev = revision(is_approved=True, save=True)
-        eq_(None, rev.previous)
-        # wait a second so next revision is a different datetime
-        time.sleep(1)
+        rev = revision(is_approved=True, created=datetime(2017, 4, 15, 9, 23),
+                       save=True)
         next_rev = revision(document=rev.document, content="Updated",
-                            is_approved=True)
-        next_rev.save()
-        eq_(rev, next_rev.previous)
-        time.sleep(1)
+                            is_approved=True,
+                            created=datetime(2017, 4, 15, 9, 24), save=True)
         last_rev = revision(document=rev.document, content="Finally",
-                            is_approved=True)
-        last_rev.save()
-        eq_(next_rev, last_rev.previous)
+                            is_approved=True,
+                            created=datetime(2017, 4, 15, 9, 25), save=True)
+        trans = Document.objects.create(parent=rev.document, locale='fr',
+                                        title='In French')
+        trans_rev = revision(document=trans, is_approved=True,
+                             based_on=last_rev,
+                             created=datetime(2017, 4, 15, 9, 56), save=True)
+
+        assert rev.previous is None
+        assert next_rev.previous == rev
+        assert last_rev.previous == next_rev
+        assert trans_rev.previous == last_rev
 
     @pytest.mark.toc
     def test_show_toc(self):
@@ -1766,3 +1793,59 @@ class AttachmentTests(UserTestCase):
         eq_(attachments.count(), 2)
         eq_(attachments[0].file, attachment)
         eq_(attachments[1].file, attachment2)
+
+
+def test_nearest_zone(doc_hierarchy_with_zones, cleared_cacheback_cache):
+    """
+    Test the nearest zone property of English and non-English documents.
+    """
+    top_doc = doc_hierarchy_with_zones.top
+    top_zone = top_doc.zone
+
+    fr_top_doc = top_doc.translations.get(locale='fr')
+    de_top_doc = top_doc.translations.get(locale='de')
+
+    assert fr_top_doc.parent == top_doc
+    assert de_top_doc.parent == top_doc
+    assert top_doc.nearest_zone == top_zone
+    # The French translation of the top doc doesn't have its own locale-
+    # specific nearest zone, so it'll return the nearest zone of its parent.
+    assert fr_top_doc.nearest_zone == top_doc.nearest_zone
+    # The German translation of the top doc does have its own
+    # locale-specific nearest zone.
+    assert de_top_doc.nearest_zone == de_top_doc.zone
+
+
+def test_nearest_zone_when_no_parent(doc_hierarchy_with_zones,
+                                     cleared_cacheback_cache):
+    """
+    Silly end-case test of the nearest-zone property of a non-English document
+    without a parent.
+    """
+    top_doc = doc_hierarchy_with_zones.top
+    fr_top_doc = top_doc.translations.get(locale='fr')
+    fr_top_doc.parent = None
+    fr_top_doc.save()
+
+    assert not fr_top_doc.nearest_zone
+
+
+@pytest.mark.parametrize('doc_name,expected_result', [
+    ('top', True),
+    ('bottom', False),
+    ('de', True),
+    ('fr', True),
+    ('root', False),
+])
+def test_is_zone_root(doc_hierarchy_with_zones, root_doc,
+                      cleared_cacheback_cache, doc_name, expected_result):
+    """
+    Test is_zone_root.
+    """
+    if doc_name == 'root':
+        doc = root_doc
+    elif doc_name in ('de', 'fr'):
+        doc = doc_hierarchy_with_zones.top.translations.get(locale=doc_name)
+    else:
+        doc = getattr(doc_hierarchy_with_zones, doc_name)
+    assert doc.is_zone_root is expected_result

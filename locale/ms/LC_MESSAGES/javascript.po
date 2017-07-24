@@ -1,11 +1,11 @@
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: MDN 2016.0\n"
 "Report-Msgid-Bugs-To: dev-mdn@lists.mozilla.org\n"
-"POT-Creation-Date: 2016-08-08 13:21-0700\n"
-"PO-Revision-Date: 2016-09-28 14:29+0000\n"
-"Last-Translator: manxmensch <manxmensch@gmail.com>\n"
+"POT-Creation-Date: 2017-06-20 07:47-0700\n"
+"PO-Revision-Date: 2017-06-08 09:53+0000\n"
+"Last-Translator: Norman Haikal <normanh876@gmail.com>\n"
 "Language-Team: Malay https://pontoon.mozilla.org/ms/\n"
 "Language: ms\n"
 "MIME-Version: 1.0\n"
@@ -18,73 +18,52 @@ msgstr ""
 msgid "Close submenu"
 msgstr "Tutup submenu"
 
-#: kuma/static/js/components.js:542
+#: kuma/static/js/components.js:543
 msgid "Close notification"
 msgstr "Tutup notifikasi"
 
-#: kuma/static/js/helpfulness.js:32
-msgid "Did this page help you?"
-msgstr "Adakah kandungan halaman ini membantu anda?"
+#: kuma/static/js/dashboard.js:12
+msgid "Revert"
+msgstr "Kembali semula"
 
-#: kuma/static/js/helpfulness.js:34
-msgid "Yes"
-msgstr "Ya"
+#: kuma/static/js/dashboard.js:13
+msgid "View Page"
+msgstr "Papar Halaman"
 
-#: kuma/static/js/helpfulness.js:36
-msgid "No"
-msgstr "Tidak"
+#: kuma/static/js/dashboard.js:14
+msgid "Edit Page"
+msgstr "Edit Halaman"
 
-#: kuma/static/js/helpfulness.js:38
-msgid "Never ask me again"
-msgstr "Jangan sesekali tanya saya lagi"
+#: kuma/static/js/dashboard.js:15
+msgid "History"
+msgstr "Sejarah"
 
-#: kuma/static/js/helpfulness.js:45
-msgid "Thanks for your feedback!"
-msgstr "Terima kasih atas maklum balas anda!"
+#: kuma/static/js/dashboard.js:115
+msgid "Hang on! Updating filters…"
+msgstr "Tunggu! Mengemaskini penapis…"
 
-#: kuma/static/js/helpfulness.js:54
-msgid "We won't bug you again."
-msgstr "Kami tidak akan ganggu anda lagi."
+#: kuma/static/js/dashboard.js:122
+msgid "Updated filters."
+msgstr "Penapis dikemaskini."
 
-#: kuma/static/js/helpfulness.js:59
-msgid "Translate it into my language"
-msgstr "Terjemah ke bahasa saya"
+#: kuma/static/js/dashboard.js:139
+msgid "Submitting..."
+msgstr "Menghantar..."
 
-#: kuma/static/js/helpfulness.js:60
-msgid "Make explanations clearer"
-msgstr "Penerangan lebih jelas"
+#: kuma/static/js/dashboard.js:147
+#, python-format
+msgid "Submitted as %(submission_type)s"
+msgstr "Dihantar sebagai %(submission_type)s"
 
-#: kuma/static/js/helpfulness.js:61
-msgid "Add more details"
-msgstr "Tambah butiran lanjut"
+#: kuma/static/js/dashboard.js:148
+#, python-format
+msgid "%(sent_date)s by %(user)s"
+msgstr "%(sent_date)s oleh %(user)s"
 
-#: kuma/static/js/helpfulness.js:62
-msgid "Fix incorrect information"
-msgstr "Betulkan maklumat salah"
-
-#: kuma/static/js/helpfulness.js:63
-msgid "Add or improve examples"
-msgstr "Tambah atau perbaiki sampel"
-
-#: kuma/static/js/helpfulness.js:64
-msgid "My search should have led to a different article"
-msgstr "Carian saya sepatutnya diarah ke artikel lain"
-
-#: kuma/static/js/helpfulness.js:65
-msgid "Something else"
-msgstr "Sesuatu yang lain"
-
-#: kuma/static/js/helpfulness.js:69
-msgid "Choose one..."
-msgstr "Pilih satu..."
-
-#: kuma/static/js/helpfulness.js:83
-msgid "Uh oh. What would make it better?"
-msgstr "Oh. Apa yang membuatkannya lebih bagus?"
-
-#: kuma/static/js/helpfulness.js:86
-msgid "Thanks! We'll fix it."
-msgstr "Terima kasih! Kami akan baikinya."
+#: kuma/static/js/dashboard.js:158
+#, python-format
+msgid "Error submitting as %(type)s"
+msgstr "Ralat menghantar sebagai %(type)s"
 
 #: kuma/static/js/moz-jquery-plugins.js:107
 msgid "No selection"
@@ -94,105 +73,90 @@ msgstr "Tiada pemilihan"
 msgid "Selected: "
 msgstr "Dipilih: "
 
-#: kuma/static/js/users.js:108
+#: kuma/static/js/users.js:107
 msgid "New interest..."
 msgstr "Minat baru..."
 
-#: kuma/static/js/wiki-compat-tables.js:23
-msgid "Open implementation notes"
-msgstr "Buka nota implementasi"
-
-#: kuma/static/js/wiki-compat-tables.js:23
-msgid "Open"
-msgstr "Buka"
-
-#: kuma/static/js/wiki-compat-tables.js:25
-msgid "Return to compatibility table."
-msgstr "Kembali ke jadual keserasian."
-
-#: kuma/static/js/wiki-compat-tables.js:25
-msgid "Close"
-msgstr "Tutup"
-
-#: kuma/static/js/wiki-compat-tables.js:108
-msgid "New compatibility tables are in beta "
-msgstr "Jadual keserasian baru masih beta "
-
-#: kuma/static/js/wiki-compat-tables.js:112
-msgid "More about the beta."
-msgstr "Selanjutnya perihal beta."
-
-#: kuma/static/js/wiki-compat-tables.js:115
-msgid "Take the survey"
-msgstr "Sertai kaji selidik"
-
-#: kuma/static/js/wiki-compat-tables.js:118
-msgid "Report an error."
-msgstr "Laporkan ralat."
-
-#: kuma/static/js/wiki-compat-tables.js:124
-msgid "Reported. Thanks!"
-msgstr "Dilaporkan. Terima kasih!"
-
-#: kuma/static/js/wiki-compat-tables.js:128
-msgid "Show old table."
-msgstr "Papar jadual lama."
-
-#: kuma/static/js/wiki-edit.js:401
-msgid "Save Draft"
-msgstr "Simpan Draf"
-
-#: kuma/static/js/wiki-edit.js:406
-msgid "Enable autosave."
-msgstr "Dayakan autosimpan."
-
-#: kuma/static/js/wiki-edit.js:414
+#: kuma/static/js/wiki-edit-draft.js:76
 msgid "an unknown date"
 msgstr "tarikh yang tidak diketahui"
 
-#: kuma/static/js/wiki-edit.js:415
-msgid "You have a draft from:"
-msgstr "Anda ada draf dari:"
+#: kuma/static/js/wiki-edit-draft.js:77
+msgid "View draft."
+msgstr "Papar draf."
 
-#: kuma/static/js/wiki-edit.js:416
-msgid "Restore the draft content"
-msgstr "Kembalikan semula kandungan draf"
+#: kuma/static/js/wiki-edit-draft.js:78
+msgid "Restore draft."
+msgstr "Kembalikan semula draf."
 
-#: kuma/static/js/wiki-edit.js:417
-msgid "Discard the draft"
-msgstr "Buang draf"
+#: kuma/static/js/wiki-edit-draft.js:79
+msgid "Discard draft."
+msgstr "Buang draf."
 
-#: kuma/static/js/wiki-edit.js:442
-msgid "restored"
-msgstr "dikembalikan semula"
+#: kuma/static/js/wiki-edit-draft.js:101
+msgid "A newer version of this article has been published since this draft was saved. You can restore the draft to view the content, but you will not be able to submit it for publishing."
+msgstr "Versi baru artikel ini telah diterbitkan sejak draf ini disimpan. Anda boleh mengembalikan semula draf untuk melihat kandungannya, tetapi anda tidak boleh menghantarnya untuk penerbitan."
 
-#: kuma/static/js/wiki-edit.js:571
-msgid "Draft"
-msgstr "Draf"
+#: kuma/static/js/wiki-edit-draft.js:102 kuma/static/js/wiki-edit-draft.js:117
+msgid "Revision history."
+msgstr "Sejarah semakan."
 
-#: kuma/static/js/wiki-edit.js:590
-msgid "saved"
-msgstr "disimpan"
+#: kuma/static/js/wiki-edit-draft.js:103
+msgid "Published version"
+msgstr "Versi diterbitkan"
 
-#: kuma/static/js/wiki-edit.js:609
-msgid "autosaved"
-msgstr "autosimpan"
+#: kuma/static/js/wiki-edit-draft.js:116
+msgid "Compare this date to the latest revision date to ensure you're not overwriting later changes."
+msgstr "Bandingkan tarikh ini dengan tarikh semakan terakhir bagi memastikan anda tidak membuat perubahan pada yang terkemudian."
 
-#: kuma/static/js/wiki-edit.js:618
-msgid "published"
-msgstr "diterbitkan"
+#: kuma/static/js/wiki-edit-draft.js:126
+#, python-format
+msgid "You have a draft from: %(time)s."
+msgstr "Anda ada draf dari: %(time)s."
 
-#: kuma/static/js/wiki-edit.js:622
-msgid "discarded"
-msgstr "dibuang"
+#: kuma/static/js/wiki-edit-draft.js:152
+msgid "Viewing old draft. This draft cannot be published."
+msgstr "Memaparkan draf yang lama. Draf ini tidak boleh diterbitkan."
 
-#: kuma/static/js/wiki-edit.js:660
+#: kuma/static/js/wiki-edit-draft.js:171
+msgid "Draft restored."
+msgstr "Draf dikembalikan semula."
+
+#: kuma/static/js/wiki-edit-draft.js:188
+msgid "Draft discarded."
+msgstr "Draf dibuang."
+
+#: kuma/static/js/wiki-edit-draft.js:222
+msgid "Draft published:"
+msgstr "Draf diterbitkan:"
+
+#: kuma/static/js/wiki-edit-draft.js:224
+msgid "Draft discarded:"
+msgstr "Draf dibuang:"
+
+#: kuma/static/js/wiki-edit-draft.js:226
+msgid "Draft autosaved:"
+msgstr "Draf autosimpan:"
+
+#: kuma/static/js/wiki-edit-draft.js:407
 msgid "Autosave enabled."
 msgstr "Autosimpan didayakan."
 
-#: kuma/static/js/wiki-edit.js:667
-msgid "Autosave disabled."
-msgstr "Autosimpan dinyahdayakan."
+#: kuma/static/js/wiki-edit.js:346
+msgid "Publishing changes…"
+msgstr "Perubahan penerbitan…"
+
+#: kuma/static/js/wiki-edit.js:385
+msgid "Publishing failed. You are not currently signed in. Please use a new tab to sign in and try publishing again."
+msgstr "Gagal diterbitkan. Anda tidak menglog masuk. Sila gunakan tab baru untuk mendaftar masuk dan cuba terbitkan sekali lagi."
+
+#: kuma/static/js/wiki-edit.js:388
+msgid "Changes saved."
+msgstr "Perubahan disimpan."
+
+#: kuma/static/js/wiki-edit.js:417
+msgid "Publishing failed. Please copy and paste your changes into a safe place and try submitting the form using the \"Publish\" button."
+msgstr "Gagal diterbitkan. Sila salin dan tampal perubahan ke tempat yang selamat dan cuba hantar borang menggunakan butang \"Terbit\"."
 
 #: kuma/static/js/wiki-samples.js:99
 #, python-format
@@ -203,19 +167,19 @@ msgstr "Buka di %(site)s"
 msgid "New tag..."
 msgstr "Tag baru..."
 
-#: kuma/static/js/wiki.js:200
+#: kuma/static/js/wiki.js:184
 msgid "How to read CSS syntax."
 msgstr "Cara membaca sintaks CSS."
 
-#: kuma/static/js/wiki.js:570
+#: kuma/static/js/wiki.js:476
 msgid "Search Stack Overflow"
 msgstr "Cari Limpahan Tindanan"
 
-#: kuma/static/js/wiki.js:677
+#: kuma/static/js/wiki.js:583
 msgid "Your browser does not support MathML. A CSS fallback has been used instead."
 msgstr "Pelayar anda tidak menyokong MathML. Sebaliknya, menggunakan gantian CSS."
 
-#: kuma/static/js/wiki.js:892
+#: kuma/static/js/wiki.js:798
 msgid "Details"
 msgstr "Butiran"
 
@@ -276,30 +240,34 @@ msgid "What should the sample title be?"
 msgstr "Apa tajuk sampel?"
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:23
-msgid "HTML Content"
-msgstr "Kandungan HTML"
+msgid "HTML"
+msgstr "HTML"
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:24
 msgid "Sample HTML Content"
 msgstr "Kandungan HTML Sampel"
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:27
-msgid "CSS Content"
-msgstr "Kandungan CSS"
+msgid "CSS"
+msgstr "CSS"
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:28
 msgid "Sample CSS Content"
 msgstr "Kandungan CSS Sampel"
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:31
-msgid "JavaScript Content"
-msgstr "Kandungan JavaScript"
+msgid "JavaScript"
+msgstr "JavaScript"
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:32
 msgid "Sample JavaScript Content"
 msgstr "Kandungan JavaScript Sampel"
 
-#: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:52
+#: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:35
+msgid "Result"
+msgstr "Hasil"
+
+#: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:53
 msgid "Insert Code Sample Template"
 msgstr "Masukkan Templat Sampel Kod"
 
@@ -338,3 +306,102 @@ msgstr "URL yang anda masukkan tidak sah"
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-youtube/plugin.js:33
 msgid "Default"
 msgstr "Piawai"
+
+#~ msgid "Did this page help you?"
+#~ msgstr "Adakah kandungan halaman ini membantu anda?"
+
+#~ msgid "Yes"
+#~ msgstr "Ya"
+
+#~ msgid "No"
+#~ msgstr "Tidak"
+
+#~ msgid "Never ask me again"
+#~ msgstr "Jangan sesekali tanya saya lagi"
+
+#~ msgid "Thanks for your feedback!"
+#~ msgstr "Terima kasih atas maklum balas anda!"
+
+#~ msgid "We won't bug you again."
+#~ msgstr "Kami tidak akan ganggu anda lagi."
+
+#~ msgid "Translate it into my language"
+#~ msgstr "Terjemah ke bahasa saya"
+
+#~ msgid "Make explanations clearer"
+#~ msgstr "Penerangan lebih jelas"
+
+#~ msgid "Add more details"
+#~ msgstr "Tambah butiran lanjut"
+
+#~ msgid "Fix incorrect information"
+#~ msgstr "Betulkan maklumat salah"
+
+#~ msgid "Add or improve examples"
+#~ msgstr "Tambah atau perbaiki sampel"
+
+#~ msgid "My search should have led to a different article"
+#~ msgstr "Carian saya sepatutnya diarah ke artikel lain"
+
+#~ msgid "Something else"
+#~ msgstr "Sesuatu yang lain"
+
+#~ msgid "Choose one..."
+#~ msgstr "Pilih satu..."
+
+#~ msgid "Uh oh. What would make it better?"
+#~ msgstr "Oh. Apa yang membuatkannya lebih bagus?"
+
+#~ msgid "Thanks! We'll fix it."
+#~ msgstr "Terima kasih! Kami akan baikinya."
+
+#~ msgid "Save Draft"
+#~ msgstr "Simpan Draf"
+
+#~ msgid "Enable autosave."
+#~ msgstr "Dayakan autosimpan."
+
+#~ msgid "Draft"
+#~ msgstr "Draf"
+
+#~ msgid "saved"
+#~ msgstr "disimpan"
+
+#~ msgid "Autosave disabled."
+#~ msgstr "Autosimpan dinyahdayakan."
+
+#~ msgid "Open implementation notes"
+#~ msgstr "Buka nota implementasi"
+
+#~ msgid "Open"
+#~ msgstr "Buka"
+
+#~ msgid "Return to compatibility table."
+#~ msgstr "Kembali ke jadual keserasian."
+
+#~ msgid "Close"
+#~ msgstr "Tutup"
+
+#~ msgid "New compatibility tables are in beta "
+#~ msgstr "Jadual keserasian baru masih beta "
+
+#~ msgid "More about the beta."
+#~ msgstr "Selanjutnya perihal beta."
+
+#~ msgid "Take the survey"
+#~ msgstr "Sertai kaji selidik"
+
+#~ msgid "Report an error."
+#~ msgstr "Laporkan ralat."
+
+#~ msgid "Reported. Thanks!"
+#~ msgstr "Dilaporkan. Terima kasih!"
+
+#~ msgid "Show old table."
+#~ msgstr "Papar jadual lama."
+
+#~ msgid "HTML Content"
+#~ msgstr "Kandungan HTML"
+
+#~ msgid "CSS Content"
+#~ msgstr "Kandungan CSS"

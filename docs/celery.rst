@@ -1,10 +1,10 @@
-=============================
-Celery and Asynchronous Tasks
-=============================
+======================
+Celery and async tasks
+======================
 Kuma uses Celery_ to enable asynchronous task processing for long-running jobs
 and to speed up the request-response cycle.
 
-When is Celery Appropriate
+When is Celery appropriate
 ==========================
 You can use Celery to do any processing that doesn't need to happen in the
 current request-response cycle.  Ask yourself the question: "Is the user going
@@ -44,7 +44,7 @@ In general, it is better to get an algorithm right in the request loop, and
 only move it to an asynchronous task when it is identified as a performance
 issue.
 
-Celery Services
+Celery services
 ===============
 A working Celery installation requires several services.
 
@@ -55,8 +55,6 @@ processes share a code base, so that Django models, functions, and settings are
 available to async tasks, and web code can easily schedule async tasks.
 
 In Docker, the worker process runs in the ``worker`` service / container.
-
-In Vagrant, the worker process is started with the ``foreman`` command.
 
 Broker
 ------
@@ -70,7 +68,7 @@ production-ready alternatives:
 * RabbitMQ_ is an AMQP_ message broker written in Erlang_. The Celery team has
   recommended it for a long time, and the docs describe it as
   "feature-complete, stable, durable and easy to install". It is used in the
-  Vagrant and production environments.
+  production environment.
 
 .. _AMQP: https://en.wikipedia.org/wiki/Advanced_Message_Queuing_Protocol
 .. _Celery: http://celeryproject.org/
@@ -81,7 +79,7 @@ production-ready alternatives:
 .. _message broker: http://docs.celeryproject.org/en/latest/getting-started/first-steps-with-celery.html#choosing-a-broker
 .. _stable broker: http://docs.celeryproject.org/en/latest/getting-started/brokers/index.html
 
-Result Store
+Result store
 ------------
 When a task completes, it returns processed data and task states to a
 `results store`_. Kuma doesn't use returned data, but it does use returned task
@@ -95,15 +93,15 @@ in `bug 1268257`_.
 .. _django-celery: https://github.com/celery/django-celery
 .. _results store: http://docs.celeryproject.org/en/latest/getting-started/first-steps-with-celery.html#keeping-results
 
-Periodic Tasks Scheduler
+Periodic tasks scheduler
 ------------------------
 Periodic tasks are scheduled with `celery beat`_, which adds tasks to the task
 queue when they become due.  It should only be run once in a deployment, or
 tasks may be scheduled multiple times.
 
-It is run in the Docker and Vagrant environments by running the single celery
-worker process with ``--beat``.  In production, there are several task workers,
-and the ``celery beat`` process is run directly on just one worker.
+In Docker, it runs in the ``worker`` container by starting the celery process
+with ``--beat``.  In production, there are several task workers, and the
+``celery beat`` process is run directly on just one worker.
 
 The schedules themselves are configured using the deprecated `django-celery`_
 database backend.  The work to replace this is tracked in `bug 1268256`_.
@@ -123,8 +121,7 @@ It is not part of the default Docker services, but can be started inside the
 
     ./manage.py celerycam --freq=2.0
 
-In the Vagrant environment, ``celerycam`` is started with other Kuma services
-with ``foreman``.
+In production, ``celerycam`` is run directly on one worker.
 
 For more options, see the `Monitoring and Management Guide`_ in the Celery
 documentation.
@@ -133,16 +130,16 @@ documentation.
 .. _Flower: http://flower.readthedocs.io/en/latest/
 .. _Monitoring and Management Guide: http://docs.celeryproject.org/en/latest/userguide/monitoring.htm
 
-Configuring and Running Celery
+Configuring and running Celery
 ==============================
 We set some reasonable defaults for Celery in ``kuma/settings/common.py``. These can be
 overridden by the environment variables, including:
 
 - CELERY_ALWAYS_EAGER_
 
-  Default: ``false`` (Docker), ``true`` (Vagrant, tests).
+  Default: ``False`` (Docker), ``True`` (tests).
 
-  When ``true``, tasks are executed immediately, instead of being scheduled and
+  When ``True``, tasks are executed immediately, instead of being scheduled and
   executed by a worker, skipping the broker, results store, etc. In theory,
   tasks should act the same whether executed eagerly or normally. In practice,
   there are some tasks that fail or have different results in the two modes,

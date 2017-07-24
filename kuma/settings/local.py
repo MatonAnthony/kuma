@@ -1,7 +1,7 @@
 import logging
 from .common import *  # noqa
 
-# Settings for Vagrant Development
+# Settings for Docker Development
 # TODO: Use environment to override, not settings picker
 
 DEFAULT_FILE_STORAGE = 'kuma.core.storage.KumaHttpStorage'
@@ -9,7 +9,7 @@ LOCALDEVSTORAGE_HTTP_FALLBACK_DOMAIN = PRODUCTION_URL + '/media/'
 
 ATTACHMENT_HOST = 'mdn-local.mozillademos.org'
 
-INTERNAL_IPS = ('127.0.0.1', '192.168.10.1')
+INTERNAL_IPS = ('127.0.0.1', '192.168.10.1', '172.18.0.1')
 
 # Default DEBUG to True, and recompute derived settings
 DEBUG = config('DEBUG', default=True, cast=bool)
@@ -22,11 +22,9 @@ PIPELINE['PIPELINE_COLLECTOR_ENABLED'] = config('PIPELINE_COLLECTOR_ENABLED',
 TEMPLATES[1]['OPTIONS']['debug'] = DEBUG
 
 LOG_LEVEL = logging.ERROR
-PROTOCOL = 'https://'
-DOMAIN = 'developer-local.allizom.org'
-SITE_URL = PROTOCOL + DOMAIN
-
-SOCIALACCOUNT_PROVIDERS['persona']['AUDIENCE'] = SITE_URL
+PROTOCOL = config('PROTOCOL', default='https://')
+DOMAIN = config('DOMAIN', default='developer-local.allizom.org')
+SITE_URL = config('SITE_URL', default=PROTOCOL + DOMAIN)
 
 # Elasticsearch related settings.
 ES_DEFAULT_NUM_REPLICAS = 0

@@ -32,21 +32,21 @@ from kuma.spam.models import AkismetSubmission, SpamAttempt
 
 from . import kumascript
 from .constants import (DEKI_FILE_URL, DOCUMENT_LAST_MODIFIED_CACHE_KEY_TMPL,
-                        KUMA_FILE_URL, REDIRECT_CONTENT, REDIRECT_HTML,
-                        TEMPLATE_TITLE_PREFIX)
+                        EXPERIMENT_TITLE_PREFIX, KUMA_FILE_URL,
+                        REDIRECT_CONTENT, REDIRECT_HTML)
 from .content import parse as parse_content
 from .content import (Extractor, H2TOCFilter, H3TOCFilter, SectionTOCFilter,
                       get_content_sections, get_seo_description)
 from .exceptions import (DocumentRenderedContentNotAvailable,
                          DocumentRenderingInProgress, PageMoveError,
-                         SlugCollision, UniqueCollision)
-from .jobs import DocumentContributorsJob, DocumentZoneStackJob
+                         SlugCollision, UniqueCollision, NotDocumentView)
+from .jobs import DocumentContributorsJob, DocumentNearestZoneJob
 from .managers import (DeletedDocumentManager, DocumentAdminManager,
                        DocumentManager, RevisionIPManager,
-                       TaggedDocumentManager, TransformManager)
+                       TaggedDocumentManager)
 from .signals import render_done
 from .templatetags.jinja_helpers import absolutify
-from .utils import tidy_content
+from .utils import tidy_content, get_doc_components_from_url
 
 
 def cache_with_field(field_name):
@@ -215,7 +215,9 @@ class Document(NotificationsMixin, models.Model):
     # completion and such.)
     tags = TaggableManager(through=TaggedDocument)
 
-    # Is this document a template or not?
+    # DEPRECATED: Is this document a template or not?
+    # Droping or altering this column will require a table rebuild, so it
+    # should be done in a maintenance window.
     is_template = models.BooleanField(default=False, editable=False,
                                       db_index=True)
 
@@ -325,8 +327,6 @@ class Document(NotificationsMixin, models.Model):
         )
         permissions = (
             ('view_document', 'Can view document'),
-            ('add_template_document', 'Can add Template:* document'),
-            ('change_template_document', 'Can change Template:* document'),
             ('move_tree', 'Can move a tree of documents'),
             ('purge_document', 'Can permanently delete document'),
             ('restore_document', 'Can restore deleted document'),
@@ -379,6 +379,44 @@ class Document(NotificationsMixin, models.Model):
     def get_summary_text(self, *args, **kwargs):
         return self.get_summary(strip_markup=True)
 
+    @classmethod
+    def from_url(cls, url, id_only=True):
+        """
+        Return the approved Document the URL represents, None if there isn't one.
+
+        Taken from:
+        https://github.com/mozilla/kitsune/blob/dd944c9ebb126cc1e660fba569cd68a6c7e88430/kitsune/wiki/models.py#L388
+
+        Return None if the URL is a 404, the URL doesn't point to the right
+        view, or the indicated document doesn't exist.
+        To fetch all values of the returned Document not only ID,
+        set `id_only` to True.
+        """
+
+        try:
+            components = get_doc_components_from_url(url)
+        except NotDocumentView:
+            return None
+        if not components:
+            return None
+        locale, path, slug = components
+
+        doc = cls.objects
+        if id_only:
+            doc = doc.only('id')
+        try:
+            doc = doc.get(locale=locale, slug=slug)
+        except cls.DoesNotExist:
+            try:
+                # Check if the slug belongs to any default language document
+                doc = doc.get(locale=settings.WIKI_DEFAULT_LANGUAGE, slug=slug)
+                translation = doc.translated_to(locale)
+                if translation:
+                    return translation
+            except cls.DoesNotExist:
+                return None
+        return doc
+
     def regenerate_cache_with_fields(self):
         """Regenerate fresh content for all the cached fields"""
         # TODO: Maybe @cache_with_field can build a registry over which this
@@ -392,16 +430,14 @@ class Document(NotificationsMixin, models.Model):
 
     def get_zone_subnav_html(self):
         """
-        Search from self up through DocumentZone stack, returning the first
-        zone nav HTML found.
+        Search this document and, if nothing is found, the document directly
+        associated with its nearest zone, returning the first zone nav HTML
+        found.
         """
         src = self.get_zone_subnav_local_html()
-        if src:
-            return src
-        for zone in DocumentZoneStackJob().get(self.pk):
-            src = zone.document.get_zone_subnav_local_html()
-            if src:
-                return src
+        if (not src) and self.nearest_zone:
+            src = self.nearest_zone.document.get_zone_subnav_local_html()
+        return src
 
     def get_section_content(self, section_id, ignore_heading=True):
         """
@@ -513,9 +549,12 @@ class Document(NotificationsMixin, models.Model):
         Attempt to schedule rendering. Honor the deferred_rendering field to
         decide between an immediate or a queued render.
         """
+        if settings.MAINTENANCE_MODE:
+            return
+
         # Avoid scheduling a rendering if already scheduled or in progress.
         if self.is_rendering_scheduled or self.is_rendering_in_progress:
-            return False
+            return
 
         # Note when the rendering was scheduled. Kind of a hack, doing a quick
         # update and setting the local property rather than doing a save()
@@ -537,6 +576,9 @@ class Document(NotificationsMixin, models.Model):
         """
         Render content using kumascript and any other services necessary.
         """
+        if settings.MAINTENANCE_MODE:
+            return
+
         if not base_url:
             base_url = settings.SITE_URL
 
@@ -702,7 +744,8 @@ class Document(NotificationsMixin, models.Model):
         if (not self._json_data) or (not stale and doc_lmod > json_lmod):
             self._json_data = self.build_json_data()
             self.json = json.dumps(self._json_data)
-            Document.objects.filter(pk=self.pk).update(json=self.json)
+            if not settings.MAINTENANCE_MODE:
+                Document.objects.filter(pk=self.pk).update(json=self.json)
 
         return self._json_data
 
@@ -907,8 +950,6 @@ class Document(NotificationsMixin, models.Model):
         return modified_epoch
 
     def save(self, *args, **kwargs):
-
-        self.is_template = self.slug.startswith(TEMPLATE_TITLE_PREFIX)
         self.is_redirect = bool(self.get_redirect_url())
 
         try:
@@ -1351,6 +1392,14 @@ Full traceback:
                 elif len(url) == 1 and url[0] == '/':
                     return url
 
+    def get_redirect_document(self, id_only=True):
+        """If I am a redirect to a Document, return that Document.
+        Otherwise, return None.
+        """
+        url = self.get_redirect_url()
+        if url:
+            return self.from_url(url, id_only=id_only)
+
     def get_topic_parents(self):
         """Build a list of parent topics from self to root"""
         curr, parents = self, []
@@ -1358,18 +1407,6 @@ Full traceback:
             curr = curr.parent_topic
             parents.append(curr)
         return parents
-
-    def allows_revision_by(self, user):
-        """
-        Return whether `user` is allowed to create new revisions of me.
-
-        The motivation behind this method is that templates and other types of
-        docs may have different permissions.
-        """
-        if (self.slug.startswith(TEMPLATE_TITLE_PREFIX) and
-                not user.has_perm('wiki.change_template_document')):
-            return False
-        return True
 
     def allows_editing_by(self, user):
         """
@@ -1379,9 +1416,6 @@ Full traceback:
         all the Document fields are still editable. Once there is an approved
         Revision, the Document fields can only be edited by privileged users.
         """
-        if (self.slug.startswith(TEMPLATE_TITLE_PREFIX) and
-                not user.has_perm('wiki.change_template_document')):
-            return False
         return (not self.current_revision or
                 user.has_perm('wiki.change_document'))
 
@@ -1486,11 +1520,31 @@ Full traceback:
         return DocumentContributorsJob().get(self.pk)
 
     @cached_property
-    def zone_stack(self):
-        return DocumentZoneStackJob().get(self.pk)
+    def nearest_zone(self):
+        """
+        The nearest zone for this document, starting from this document and
+        moving upwards via "parent_topic". For a non-default-language document
+        that does not have its own nearest zone, returns the nearest zone of
+        its parent (the document it was translated from).
+        """
+        job = DocumentNearestZoneJob()
+        result = job.get(self.pk)
+        if ((not result) and self.parent and
+                (self.locale != settings.WIKI_DEFAULT_LANGUAGE)):
+            return job.get(self.parent.pk)
+        return result
+
+    @cached_property
+    def is_zone_root(self):
+        zone = self.nearest_zone
+        return bool(zone) and (zone.document in (self, self.parent))
 
     def get_full_url(self):
         return absolutify(self.get_absolute_url())
+
+    @property
+    def is_experiment(self):
+        return self.slug.startswith(EXPERIMENT_TITLE_PREFIX)
 
 
 class DocumentDeletionLog(models.Model):
@@ -1526,7 +1580,10 @@ class DocumentZone(models.Model):
     attributes inherited by the topic hierarchy beneath it.
     """
     document = models.OneToOneField(Document, related_name='zone')
-    styles = models.TextField(null=True, blank=True)
+    css_slug = models.CharField(
+        max_length=100, blank=True,
+        help_text='name of an alternative pipeline CSS group for documents '
+                  'under this zone (note that "zone-" will be prepended)')
     url_root = models.CharField(
         max_length=255, null=True, blank=True, db_index=True,
         help_text="alternative URL path root for documents under this zone")
@@ -1634,8 +1691,6 @@ class Revision(models.Model):
 
     is_mindtouch_migration = models.BooleanField(default=False, db_index=True,
                                                  help_text="Did this revision come from MindTouch?")
-
-    objects = TransformManager()
 
     def get_absolute_url(self):
         """Build the absolute URL to this revision"""
@@ -1761,13 +1816,13 @@ class Revision(models.Model):
             tidied_content = self.tidied_content
         else:
             if allow_none:
-                if self.pk:
+                if self.pk and not settings.MAINTENANCE_MODE:
                     from .tasks import tidy_revision_content
                     tidy_revision_content.delay(self.pk, refresh=False)
                 tidied_content = None
             else:
                 tidied_content, errors = tidy_content(self.content)
-                if self.pk:
+                if self.pk and not settings.MAINTENANCE_MODE:
                     Revision.objects.filter(pk=self.pk).update(
                         tidied_content=tidied_content)
         self.tidied_content = tidied_content or ''
@@ -1775,10 +1830,7 @@ class Revision(models.Model):
 
     @property
     def content_cleaned(self):
-        if self.document.is_template:
-            return self.content
-        else:
-            return Document.objects.clean_content(self.content)
+        return Document.objects.clean_content(self.content)
 
     @cached_property
     def previous(self):
@@ -1794,7 +1846,7 @@ class Revision(models.Model):
                 created__lt=self.created,
             ).order_by('-created')[0]
         except IndexError:
-            return None
+            return self.based_on
 
     @cached_property
     def needs_editorial_review(self):

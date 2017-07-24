@@ -1,5 +1,5 @@
 from django.conf.urls import include, url
-from django.views.generic import TemplateView
+from django.views.generic import RedirectView
 
 from kuma.attachments.feeds import AttachmentsFeed
 from kuma.attachments.views import edit_attachment
@@ -101,17 +101,11 @@ urlpatterns = [
     url(r'^/preview-wiki-content$',
         views.revision.preview,
         name='wiki.preview'),
-    url(r'^/move-requested$',
-        TemplateView.as_view(template_name='wiki/move_requested.html'),
-        name='wiki.move_requested'),
     url(r'^/get-documents$',
         views.misc.autosuggest_documents,
         name='wiki.autosuggest_documents'),
 
     # Special pages
-    url(r'^/templates$',
-        views.list.templates,
-        name='wiki.list_templates'),
     url(r'^/tags$',
         views.list.tags,
         name='wiki.list_tags'),
@@ -145,6 +139,12 @@ urlpatterns = [
     url(r'^/localization-tag/?',
         views.list.with_localization_tag,
         name='wiki.list_with_localization_tags'),
+
+    # Legacy KumaScript macro list, when they were stored in Kuma database
+    url(r'^/templates$',
+        RedirectView.as_view(
+            pattern_name='dashboards.macros',
+            permanent=True)),
 
     # Akismet Revision
     url(r'^/submit_akismet_spam$',

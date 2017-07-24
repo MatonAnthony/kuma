@@ -1,141 +1,253 @@
-from datetime import timedelta
+from datetime import datetime
 
-from kuma.core.tests import eq_, ok_
-from kuma.users.tests import UserTestCase, user
+import mock
+import pytest
 
-from . import revision
-from ..jobs import DocumentZoneStackJob, DocumentContributorsJob
-from ..models import Document, DocumentZone
-
-
-class DocumentZoneTests(UserTestCase):
-    """Tests for content zones in topic hierarchies"""
-
-    def test_find_roots(self):
-        """Ensure sub pages can find the content zone root"""
-        root_rev = revision(title='ZoneRoot', slug='ZoneRoot',
-                            content='This is the Zone Root',
-                            is_approved=True, save=True)
-        root_doc = root_rev.document
-
-        middle_rev = revision(title='Zonemiddle', slug='Zonemiddle',
-                              content='This is the Zone middle',
-                              is_approved=True, save=True)
-        middle_doc = middle_rev.document
-        middle_doc.parent_topic = root_doc
-        middle_doc.save()
-
-        sub_rev = revision(title='SubPage', slug='SubPage',
-                           content='This is a subpage',
-                           is_approved=True, save=True)
-        sub_doc = sub_rev.document
-        sub_doc.parent_topic = middle_doc
-        sub_doc.save()
-
-        sub_sub_rev = revision(title='SubSubPage', slug='SubSubPage',
-                               content='This is a subsubpage',
-                               is_approved=True, save=True)
-        sub_sub_doc = sub_sub_rev.document
-        sub_sub_doc.parent_topic = sub_doc
-        sub_sub_doc.save()
-
-        other_rev = revision(title='otherPage', slug='otherPage',
-                             content='This is an otherpage',
-                             is_approved=True, save=True)
-        other_doc = other_rev.document
-
-        root_zone = DocumentZone(document=root_doc)
-        root_zone.save()
-
-        middle_zone = DocumentZone(document=middle_doc)
-        middle_zone.save()
-
-        eq_(self.get_zone_stack(root_doc)[0], root_zone)
-        eq_(self.get_zone_stack(middle_doc)[0], middle_zone)
-        eq_(self.get_zone_stack(sub_doc)[0], middle_zone)
-        eq_(0, len(self.get_zone_stack(other_doc)))
-
-        zone_stack = self.get_zone_stack(sub_sub_doc)
-        eq_(zone_stack[0], middle_zone)
-        eq_(zone_stack[1], root_zone)
-
-    def get_zone_stack(self, doc):
-        return DocumentZoneStackJob().get(doc.pk)
+from ..models import Revision
+from ..jobs import DocumentNearestZoneJob, DocumentContributorsJob
 
 
-class DocumentContributorsTests(UserTestCase):
+def test_document_zone_unicode(doc_hierarchy_with_zones):
+    top_doc = doc_hierarchy_with_zones.top
+    assert unicode(top_doc.zone) == u'DocumentZone {} ({})'.format(
+        top_doc.get_absolute_url(), top_doc.title)
 
-    def test_contributors(self):
-        contrib = user(save=True)
-        rev = revision(creator=contrib, save=True)
-        job = DocumentContributorsJob()
-        # setting this to true to be able to test this
-        job.fetch_on_miss = True
-        eq_(contrib.pk, job.get(rev.document.pk)[0]['id'])
 
-    def test_contributors_ordering(self):
-        contrib_1 = user(save=True)
-        contrib_2 = user(save=True)
-        contrib_3 = user(save=True)
-        rev_1 = revision(creator=contrib_1, save=True)
-        rev_2 = revision(creator=contrib_2,
-                         document=rev_1.document,
-                         # live in the future to make sure we handle the lack
-                         # of microseconds support in Django 1.7 nicely
-                         created=rev_1.created + timedelta(seconds=1),
-                         save=True)
-        ok_(rev_1.created < rev_2.created)
-        job = DocumentContributorsJob()
-        job_user_pks = [contributor['id']
-                        for contributor in job.fetch(rev_1.document.pk)]
-        # the user with the more recent revision first
-        recent_contributors_pks = [contrib_2.pk, contrib_1.pk]
-        eq_(job_user_pks, recent_contributors_pks)
+def test_nearest_zone_expiry():
+    """
+    Ensure that the expiry is not constant.
+    """
+    job = DocumentNearestZoneJob()
+    with mock.patch('time.time', return_value=0):
+        assert len(set(job.expiry() for _ in range(0, 1000))) > 1
 
-        # a third revision should now show up again and
-        # the job's cache is invalidated
-        rev_3 = revision(creator=contrib_3,
-                         document=rev_1.document,
-                         created=rev_2.created + timedelta(seconds=1),
-                         save=True)
-        ok_(rev_2.created < rev_3.created)
-        job_user_pks = [contributor['id']
-                        for contributor in job.fetch(rev_1.document.pk)]
-        # The new revision shows up
-        eq_(job_user_pks, [contrib_3.pk] + recent_contributors_pks)
 
-    def test_contributors_inactive_or_banned(self):
-        contrib_1 = user(save=True)
-        contrib_2 = user(is_active=False, save=True)
-        contrib_3 = user(save=True)
-        contrib_3_ban = contrib_3.bans.create(by=contrib_1, reason='because reasons')
-        revision_2 = revision(creator=contrib_1, save=True)
+@pytest.mark.parametrize('doc_name,expected_zone_name', [
+    ('top', 'top'),
+    ('middle_top', 'middle_top'),
+    ('middle_bottom', 'middle_top'),
+    ('bottom', 'middle_top'),
+    ('root', None),
+])
+def test_nearest_zone(doc_hierarchy_with_zones, root_doc,
+                      cleared_cacheback_cache, doc_name, expected_zone_name):
+    """
+    Test the nearest zone job.
+    """
+    doc = (root_doc
+           if doc_name == 'root' else
+           getattr(doc_hierarchy_with_zones, doc_name))
+    zone = (None
+            if expected_zone_name is None else
+            getattr(doc_hierarchy_with_zones, expected_zone_name).zone)
+    assert DocumentNearestZoneJob().get(doc.pk) == zone
 
-        revision(creator=contrib_2, document=revision_2.document, save=True)
-        revision(creator=contrib_3, document=revision_2.document, save=True)
 
-        job = DocumentContributorsJob()
-        # setting this to true to be able to test this
-        job.fetch_on_miss = True
+def test_nearest_zone_when_deleted_parent_topic(doc_hierarchy_with_zones,
+                                                cleared_cacheback_cache):
+    """
+    Make sure we handle the case where we try to get the nearest
+    zone for a document whose parent-topic has been deleted.
+    """
+    bottom_doc = doc_hierarchy_with_zones.bottom
+    middle_top_zone = doc_hierarchy_with_zones.middle_top.zone
+    # Delete the parent-topic of the bottom doc.
+    doc_hierarchy_with_zones.middle_bottom.delete()
+    # We should still successfully get the nearest zone for the bottom doc.
+    assert DocumentNearestZoneJob().get(bottom_doc.pk) == middle_top_zone
 
-        contributors = job.get(revision_2.document.pk)
-        contrib_ids = [contrib['id'] for contrib in contributors]
-        self.assertIn(contrib_1.id, contrib_ids)
-        self.assertNotIn(contrib_2.id, contrib_ids)
-        self.assertNotIn(contrib_3.id, contrib_ids)
 
-        # delete the ban again
-        contrib_3_ban.delete()
-        # reloading the document from db to prevent cache
-        doc = Document.objects.get(pk=revision_2.document.pk)
-        # user not in contributors because job invalidation hasn't happened
-        contrib_ids = [contrib['id']
-                       for contrib in job.get(revision_2.document.pk)]
-        self.assertNotIn(contrib_3.id, contrib_ids)
+def test_nearest_zone_cache_invalidation_on_save_shallow(doc_hierarchy_with_zones,
+                                                         cleared_cacheback_cache):
+    job = DocumentNearestZoneJob()
 
-        # trigger the invalidation manually by saving the document
-        doc.save()
-        doc = Document.objects.get(pk=revision_2.document.pk)
-        contrib_ids = [contrib['id']
-                       for contrib in job.get(revision_2.document.pk)]
-        self.assertIn(contrib_3.id, contrib_ids)
+    top_doc = doc_hierarchy_with_zones.top
+    middle_top_doc = doc_hierarchy_with_zones.middle_top
+    middle_bottom_doc = doc_hierarchy_with_zones.middle_bottom
+    bottom_doc = doc_hierarchy_with_zones.bottom
+
+    top_zone = top_doc.zone
+    middle_top_zone = middle_top_doc.zone
+
+    # Load the cache for each of the docs.
+    assert job.get(top_doc.pk) == top_zone
+    assert job.get(middle_top_doc.pk) == middle_top_zone
+    assert job.get(middle_bottom_doc.pk) == middle_top_zone
+    assert job.get(bottom_doc.pk) == middle_top_zone
+
+    # Change and save a field (other than the document id) on the top zone.
+    assert top_zone.css_slug == 'lindsey'
+    with mock.patch('kuma.wiki.jobs.DocumentNearestZoneJob.refresh',
+                    wraps=job.refresh) as mock_refresh:
+        top_zone.css_slug = 'christine'
+        top_zone.save()
+
+    # Only the cache for the top doc should have been invalidated.
+    assert job.get(top_doc.pk).css_slug == 'christine'
+    mock_refresh.assert_called_once_with(top_doc.pk)
+
+
+def test_nearest_zone_cache_invalidation_on_save_deep(doc_hierarchy_with_zones,
+                                                      cleared_cacheback_cache):
+    job = DocumentNearestZoneJob()
+
+    top_doc = doc_hierarchy_with_zones.top
+    middle_top_doc = doc_hierarchy_with_zones.middle_top
+    middle_bottom_doc = doc_hierarchy_with_zones.middle_bottom
+    bottom_doc = doc_hierarchy_with_zones.bottom
+
+    top_zone = top_doc.zone
+    middle_top_zone = middle_top_doc.zone
+
+    # Load the cache for each of the docs.
+    assert job.get(top_doc.pk) == top_zone
+    assert job.get(middle_top_doc.pk) == middle_top_zone
+    assert job.get(middle_bottom_doc.pk) == middle_top_zone
+    assert job.get(bottom_doc.pk) == middle_top_zone
+
+    # Change and save a field (other than the document id) on a zone,
+    # but this time the invalidation process should descend to the bottom.
+    assert middle_top_zone.css_slug == 'bobby'
+    with mock.patch('kuma.wiki.jobs.DocumentNearestZoneJob.refresh',
+                    wraps=job.refresh) as mock_refresh:
+        middle_top_zone.css_slug = 'henry'
+        middle_top_zone.save()
+
+    # The cache for the middle-top doc and its descendants should have been
+    # invalidated.
+    assert job.get(middle_top_doc.pk).css_slug == 'henry'
+    assert job.get(middle_bottom_doc.pk).css_slug == 'henry'
+    assert job.get(bottom_doc.pk).css_slug == 'henry'
+
+    assert mock_refresh.call_count == 3
+    mock_refresh.assert_has_calls([
+        mock.call(middle_top_doc.pk),
+        mock.call(middle_bottom_doc.pk),
+        mock.call(bottom_doc.pk)
+    ], any_order=True)
+
+
+def test_nearest_zone_cache_invalidation_on_save_doc_id(doc_hierarchy_with_zones,
+                                                        cleared_cacheback_cache):
+    job = DocumentNearestZoneJob()
+
+    top_doc = doc_hierarchy_with_zones.top
+    middle_top_doc = doc_hierarchy_with_zones.middle_top
+    middle_bottom_doc = doc_hierarchy_with_zones.middle_bottom
+    bottom_doc = doc_hierarchy_with_zones.bottom
+
+    top_zone = top_doc.zone
+    middle_top_zone = middle_top_doc.zone
+
+    # Load the cache for each of the docs.
+    assert job.get(top_doc.pk) == top_zone
+    assert job.get(middle_top_doc.pk) == middle_top_zone
+    assert job.get(middle_bottom_doc.pk) == middle_top_zone
+    assert job.get(bottom_doc.pk) == middle_top_zone
+
+    # Change and save the document id field on a zone.
+    assert middle_top_zone.document == middle_top_doc
+    with mock.patch('kuma.wiki.jobs.DocumentNearestZoneJob.refresh',
+                    wraps=job.refresh) as mock_refresh:
+        middle_top_zone.document = bottom_doc
+        middle_top_zone.save()
+
+    # The cache for the middle-top doc and its descendants should have been
+    # invalidated.
+    assert job.get(middle_top_doc.pk) == top_zone
+    assert job.get(middle_bottom_doc.pk) == top_zone
+    assert job.get(bottom_doc.pk) == middle_top_zone
+
+    assert mock_refresh.call_count == 3
+    mock_refresh.assert_has_calls([
+        mock.call(middle_top_doc.pk),
+        mock.call(middle_bottom_doc.pk),
+        mock.call(bottom_doc.pk)
+    ], any_order=True)
+
+
+def test_nearest_zone_cache_invalidation_on_zone_delete(doc_hierarchy_with_zones,
+                                                        cleared_cacheback_cache):
+    job = DocumentNearestZoneJob()
+
+    top_doc = doc_hierarchy_with_zones.top
+    middle_top_doc = doc_hierarchy_with_zones.middle_top
+    middle_bottom_doc = doc_hierarchy_with_zones.middle_bottom
+    bottom_doc = doc_hierarchy_with_zones.bottom
+
+    top_zone = top_doc.zone
+    middle_top_zone = middle_top_doc.zone
+
+    # Load the cache for each of the docs.
+    assert job.get(top_doc.pk) == top_zone
+    assert job.get(middle_top_doc.pk) == middle_top_zone
+    assert job.get(middle_bottom_doc.pk) == middle_top_zone
+    assert job.get(bottom_doc.pk) == middle_top_zone
+
+    # Delete a zone.
+    with mock.patch('kuma.wiki.jobs.DocumentNearestZoneJob.refresh',
+                    wraps=job.refresh) as mock_refresh:
+        middle_top_zone.delete()
+
+    # The cache for the top doc and its descendants should have been invalidated.
+    assert job.get(top_doc.pk) == top_zone
+    assert job.get(middle_top_doc.pk) == top_zone
+    assert job.get(middle_bottom_doc.pk) == top_zone
+    assert job.get(bottom_doc.pk) == top_zone
+
+    assert mock_refresh.call_count == 3
+    mock_refresh.assert_has_calls([
+        mock.call(middle_top_doc.pk),
+        mock.call(middle_bottom_doc.pk),
+        mock.call(bottom_doc.pk),
+    ], any_order=True)
+
+
+@pytest.mark.parametrize("mode", ["maintenance-mode", "normal-mode"])
+def test_contributors(db, cleared_cacheback_cache, settings, wiki_user_3,
+                      root_doc_with_mixed_contributors, mode):
+    """
+    Tests basic operation, ordering, caching, and handling of banned and
+    inactive contributors.
+    """
+    settings.MAINTENANCE_MODE = (mode == "maintenance-mode")
+
+    fixture = root_doc_with_mixed_contributors
+    root_doc = fixture.doc
+
+    job = DocumentContributorsJob()
+    # Set this to true so we bypass the Celery task queue.
+    job.fetch_on_miss = True
+    contributors = job.get(root_doc.pk)
+
+    if settings.MAINTENANCE_MODE:
+        assert not contributors
+        return
+
+    valid_contrib_ids = [user.pk for user in fixture.contributors.valid]
+    # Banned and inactive contributors should not be included.
+    assert [c['id'] for c in contributors] == valid_contrib_ids
+
+    banned_user = fixture.contributors.banned.user
+
+    # Delete the ban.
+    fixture.contributors.banned.ban.delete()
+
+    # The freshly un-banned user is now among the contributors because the
+    # cache has been invalidated.
+    assert banned_user.pk in set(c['id'] for c in job.get(root_doc.pk))
+
+    # Another revision should invalidate the job's cache.
+    root_doc.current_revision = Revision.objects.create(
+        document=root_doc,
+        creator=wiki_user_3,
+        content='<p>The root document re-envisioned.</p>',
+        comment='Done with the previous version.',
+        created=datetime(2017, 4, 24, 12, 35)
+    )
+    root_doc.save()
+
+    # The new contributor shows up and is first, followed
+    # by the freshly un-banned user, and then the rest.
+    assert ([c['id'] for c in job.get(root_doc.pk)] ==
+            ([wiki_user_3.pk, banned_user.pk] + valid_contrib_ids))

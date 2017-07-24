@@ -1,0 +1,45 @@
+@import 'includes-blue/vars';
+@import 'includes-blue/mixins';
+
+/*
+Profile shared
+====================================================================== */
+@import 'components-blue/users/vars';
+@import 'components-blue/users/user-title';
+
+
+/*
+Profile view
+====================================================================== */
+@import 'components-blue/activity';
+@import 'components-blue/banned';
+@import 'components-blue/users/docs-activity';
+@import 'components-blue/users/user-links';
+@import 'components-blue/users/user-head';
+@import 'components-blue/users/user-section';
+@import 'components-blue/users/user-tags';
+
+
+/*
+Profile edit
+====================================================================== */
+@import 'components-blue/tagit';
+@import 'components-blue/users/user-edit';
+
+
+/*
+API keys page
+====================================================================== */
+@import 'components-blue/option-list';
+
+/*
+ * Users app CSS
+ */
+
+#browser_register {
+    form {
+        button {
+            margin: 5px 0;
+        }
+    }
+}

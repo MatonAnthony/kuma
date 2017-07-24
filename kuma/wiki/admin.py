@@ -32,6 +32,8 @@ from .models import (Document, DocumentDeletionLog, DocumentSpamAttempt,
 def repair_breadcrumbs(self, request, queryset):
     for doc in queryset:
         doc.repair_breadcrumbs()
+
+
 repair_breadcrumbs.short_description = "Repair translation breadcrumbs"
 
 
@@ -39,6 +41,8 @@ def purge_documents(self, request, queryset):
     redirect_url = '/admin/wiki/document/purge/?ids=%s'
     selected = request.POST.getlist(admin.ACTION_CHECKBOX_NAME)
     return HttpResponseRedirect(redirect_url % ','.join(selected))
+
+
 purge_documents.short_description = "Permanently purge deleted documents"
 
 
@@ -68,6 +72,8 @@ def purge_view(request):
 def restore_documents(self, request, queryset):
     for doc in queryset:
         doc.restore()
+
+
 restore_documents.short_description = "Restore deleted documents"
 
 
@@ -75,6 +81,8 @@ def enable_deferred_rendering_for_documents(self, request, queryset):
     queryset.update(defer_rendering=True)
     self.message_user(request, 'Enabled deferred rendering for %s Documents' %
                                queryset.count())
+
+
 enable_deferred_rendering_for_documents.short_description = (
     "Enable deferred rendering for selected documents")
 
@@ -83,6 +91,8 @@ def disable_deferred_rendering_for_documents(self, request, queryset):
     queryset.update(defer_rendering=False)
     self.message_user(request, 'Disabled deferred rendering for %s Documents' %
                                queryset.count())
+
+
 disable_deferred_rendering_for_documents.short_description = (
     "Disable deferred rendering for selected documents")
 
@@ -97,6 +107,8 @@ def force_render_documents(self, request, queryset):
             bad_count += 1
     self.message_user(request, "Rendered %s documents, failed on %s "
                                "documents." % (count, bad_count))
+
+
 force_render_documents.short_description = (
     "Perform rendering for selected documents")
 
@@ -113,6 +125,7 @@ def resave_current_revision(self, request, queryset):
                                "documents had no current revision." %
                                (count, bad_count))
 
+
 resave_current_revision.short_description = (
     "Re-save current revision for selected documents")
 
@@ -127,6 +140,7 @@ def related_revisions_link(obj):
     what = (count == 1) and 'revision' or 'revisions'
     return '<a href="%s">%s&nbsp;%s</a>' % (link, count, what)
 
+
 related_revisions_link.allow_tags = True
 related_revisions_link.short_description = "All Revisions"
 
@@ -139,6 +153,7 @@ def current_revision_link(obj):
     rev_url = reverse('admin:wiki_revision_change', args=[rev.id])
     return '<a href="%s">Current&nbsp;Revision&nbsp;(#%s)</a>' % (rev_url, rev.id)
 
+
 current_revision_link.allow_tags = True
 current_revision_link.short_description = "Current Revision"
 
@@ -149,6 +164,7 @@ def parent_document_link(obj):
         return ''
     url = reverse('admin:wiki_document_change', args=[obj.parent.id])
     return '<a href="%s">Translated&nbsp;from&nbsp;(#%s)</a>' % (url, obj.parent.id)
+
 
 parent_document_link.allow_tags = True
 parent_document_link.short_description = "Translation Parent"
@@ -161,6 +177,7 @@ def topic_parent_document_link(obj):
     url = reverse('admin:wiki_document_change',
                   args=[obj.parent_topic.id])
     return '<a href="%s">Topic&nbsp;Parent&nbsp;(#%s)</a>' % (url, obj.parent_topic.id)
+
 
 topic_parent_document_link.allow_tags = True
 topic_parent_document_link.short_description = "Parent Document"
@@ -177,6 +194,7 @@ def topic_children_documents_link(obj):
     )
     what = (count == 1) and 'child' or 'children'
     return '<a href="%s">%s&nbsp;%s</a>' % (link, count, what)
+
 
 topic_children_documents_link.allow_tags = True
 topic_children_documents_link.short_description = "Child Documents"
@@ -196,6 +214,7 @@ def topic_sibling_documents_link(obj):
     what = (count == 1) and 'sibling' or 'siblings'
     return '<a href="%s">%s&nbsp;%s</a>' % (link, count, what)
 
+
 topic_sibling_documents_link.allow_tags = True
 topic_sibling_documents_link.short_description = "Sibling Documents"
 
@@ -206,6 +225,7 @@ def document_link(obj):
     return ('<a target="_blank" href="%s">'
             '<img src="%simg/icons/link_external.png"> View</a>' %
             (link, settings.STATIC_URL))
+
 
 document_link.allow_tags = True
 document_link.short_description = "Public"
@@ -226,6 +246,7 @@ def document_nav_links(obj):
         topic_children_documents_link,
     ))
 
+
 document_nav_links.allow_tags = True
 document_nav_links.short_description = "Hierarchy"
 
@@ -236,6 +257,7 @@ def revision_links(obj):
         current_revision_link,
         related_revisions_link,
     ))
+
 
 revision_links.allow_tags = True
 revision_links.short_description = "Revisions"
@@ -251,6 +273,7 @@ def rendering_info(obj):
         ('%s (scheduled)', obj.render_scheduled_at),
     ) if y)
 
+
 rendering_info.allow_tags = True
 rendering_info.short_description = 'Rendering'
 rendering_info.admin_order_field = 'last_rendered_at'
@@ -260,12 +283,26 @@ SUBMISSION_NOT_AVAILABLE = mark_safe(
 
 
 def akismet_data_as_dl(akismet_data):
+    """Format Akismet data as a definition list."""
+    favorites = (
+        'comment_content',
+        'permalink',
+        'comment_author',
+        'comment_author_email')
+
+    def moderator_sort(key):
+        """Sort data by 1) favorites, 2) data values, 3) headers"""
+        try:
+            fav_order = favorites.index(key)
+        except ValueError:
+            fav_order = len(favorites)
+        is_data = key and key[0] in ascii_lowercase
+        return (fav_order, not is_data, key)
+
     if not akismet_data:
         return SUBMISSION_NOT_AVAILABLE
     data = json.loads(akismet_data)
-    raw_keys = [key for key in sorted(data.keys()) if key]
-    keys = ([key for key in raw_keys if key[0] in ascii_lowercase] +
-            [key for key in raw_keys if key[0] not in ascii_lowercase])
+    keys = sorted(data.keys(), key=moderator_sort)
     out = format_html(u'<dl>\n  {}\n</dl>',
                       format_html_join(u'\n  ', u'<dt>{}</dt><dd>{}</dd>',
                                        ((key, data[key]) for key in keys)))
@@ -311,8 +348,7 @@ class DocumentAdmin(DisabledDeletionMixin, admin.ModelAdmin):
                     document_nav_links,
                     revision_links,)
     list_display_links = ('id', 'slug',)
-    list_filter = ('defer_rendering', 'is_template', 'is_localizable',
-                   'locale', 'deleted')
+    list_filter = ('defer_rendering', 'is_localizable', 'locale', 'deleted')
     raw_id_fields = ('parent', 'parent_topic',)
     readonly_fields = ('id', 'current_revision')
     search_fields = ('title', 'slug', 'html', 'current_revision__tags')

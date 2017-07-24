@@ -1,0 +1,21 @@
+@import 'includes-blue/vars';
+@import 'includes-blue/mixins';
+
+/*
+Learning Area Zone
+********************************************************************** */
+
+
+/*
+imports
+====================================================================== */
+@import 'zones-blue/base';
+
+
+/*
+header modifications
+====================================================================== */
+
+.zone-image {
+    background-image: url($path-to-images + 'zones/learning-logo-small.png');
+}

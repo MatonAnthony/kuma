@@ -1,43 +1,91 @@
-!/static/fonts/.htaccess
-!build/assets/css/README.md
-*.pyc
-*.pyo
-*.sw?
-*devmo*.sql*
-.DS_Store
-.awsconfig
-.cache
+# Modeled after https://github.com/github/gitignore/blob/master/Python.gitignore
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# Distribution / packaging
+build/
+
+# Installer logs
+pip-log.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox
 .coverage
-.env
+.coverage.*
+.cache
 .noseids
 .noserc
-.tox
-.vagrant
-/bower_components
-/static/*/*
-build.py
-build/assets/css/*
-build/locale/
-celeryev.pid
+nosetests.xml
 coverage.xml
+
+# Translations
+*.mo
+
+# Sphinx documentation
 docs/_build/
-htmlcov/
+
+# pyenv
+.python-version
+
+# Celery
+celerybeat-schedule
+celeryev.pid
+
+# .dotenv
+.env
+
+# Virtualenv
+.venv
+venv/
+ENV/
+
+# Swapfiles
+*.sw?
+
+# macOS finder files
+.DS_Store
+
+# Kuma-specfic
+*devmo*.sql*
+bower_components
+build.py
+developer.mozilla.org.tar.gz
+docker-compose.dev.yml
+docker-compose.locust.yml
 humans.txt
 james.ini
-kuma.box
 kuma/static/js/libs/ckeditor/source/ckbuilder
-kumascript.log
-kumascript_settings_local.json
-locale/**/*.mo
-logs/
+mdn_sample_db.sql
+mdn_sample_db.sql.gz
+mdntests/
 media/attachments
 media/sitemap*
 media/uploads
+media/revision.txt
+media/kumascript-revision.txt
 node_modules/
-nosetests.xml
-pip-log.txt
+/static/
 tmp
-uploads/
+
+# SCL3-specific files
+# TODO: Remove when AWS move is complete
+kumascript_settings_local.json
+kumascript_settings_local.json*
+!kumascript_settings_local.json-dist
+settings_local.py
+settings_local.py*
 webroot/.htaccess
-wheelhouse
+
+# Selenium
+geckodriver.log
+
+# Legacy
+.awsconfig
+logs/
 xfers/*
+wheelhouse
+uploads/
+kumascript.log

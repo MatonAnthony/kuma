@@ -3,9 +3,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MDN 2016.0\n"
 "Report-Msgid-Bugs-To: dev-mdn@lists.mozilla.org\n"
-"POT-Creation-Date: 2016-08-08 13:21-0700\n"
-"PO-Revision-Date: 2016-07-17 09:09+0000\n"
-"Last-Translator: Tomáš Zelina <zelitomas@gmail.com>\n"
+"POT-Creation-Date: 2017-06-20 07:47-0700\n"
+"PO-Revision-Date: 2017-06-07 18:52+0000\n"
+"Last-Translator: Michal Stanke <mstanke@mozilla.cz>\n"
 "Language-Team: Czech https://pontoon.mozilla.org/cs/\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
@@ -18,73 +18,52 @@ msgstr ""
 msgid "Close submenu"
 msgstr "Zavřít podmenu"
 
-#: kuma/static/js/components.js:542
+#: kuma/static/js/components.js:543
 msgid "Close notification"
 msgstr "Zavřít oznámení"
 
-#: kuma/static/js/helpfulness.js:32
-msgid "Did this page help you?"
-msgstr "Byla tato stránka užitečná?"
+#: kuma/static/js/dashboard.js:12
+msgid "Revert"
+msgstr "Vrátit zpět"
 
-#: kuma/static/js/helpfulness.js:34
-msgid "Yes"
-msgstr "Ano"
+#: kuma/static/js/dashboard.js:13
+msgid "View Page"
+msgstr "Zobrazit stránku"
 
-#: kuma/static/js/helpfulness.js:36
-msgid "No"
-msgstr "Ne"
+#: kuma/static/js/dashboard.js:14
+msgid "Edit Page"
+msgstr "Upravit stránku"
 
-#: kuma/static/js/helpfulness.js:38
-msgid "Never ask me again"
-msgstr "Znovu se neptat"
+#: kuma/static/js/dashboard.js:15
+msgid "History"
+msgstr "Historie"
 
-#: kuma/static/js/helpfulness.js:45
-msgid "Thanks for your feedback!"
-msgstr "Děkujeme za vaši zpětnou vazbu!"
+#: kuma/static/js/dashboard.js:115
+msgid "Hang on! Updating filters…"
+msgstr "Čekejte! Filtry se aktualizují…"
 
-#: kuma/static/js/helpfulness.js:54
-msgid "We won't bug you again."
-msgstr "Už vás nebudeme obtěžovat."
+#: kuma/static/js/dashboard.js:122
+msgid "Updated filters."
+msgstr "Filtry aktualizovány."
 
-#: kuma/static/js/helpfulness.js:59
-msgid "Translate it into my language"
-msgstr "Přeložte stránku do mého jazyka"
+#: kuma/static/js/dashboard.js:139
+msgid "Submitting..."
+msgstr "Odesílání..."
 
-#: kuma/static/js/helpfulness.js:60
-msgid "Make explanations clearer"
-msgstr "Udělat vysvětlení jasnější"
+#: kuma/static/js/dashboard.js:147
+#, python-format
+msgid "Submitted as %(submission_type)s"
+msgstr "Odesláno jako %(submission_type)s"
 
-#: kuma/static/js/helpfulness.js:61
-msgid "Add more details"
-msgstr "Přidejte více detailů"
+#: kuma/static/js/dashboard.js:148
+#, python-format
+msgid "%(sent_date)s by %(user)s"
+msgstr "%(sent_date)s uživatelem %(user)s"
 
-#: kuma/static/js/helpfulness.js:62
-msgid "Fix incorrect information"
-msgstr "Opravte nesprávné informace"
-
-#: kuma/static/js/helpfulness.js:63
-msgid "Add or improve examples"
-msgstr "Přidejte nebo vylepšete příklady"
-
-#: kuma/static/js/helpfulness.js:64
-msgid "My search should have led to a different article"
-msgstr "Mé vyhledání by mělo vést na jiný článek"
-
-#: kuma/static/js/helpfulness.js:65
-msgid "Something else"
-msgstr "Něco jiného"
-
-#: kuma/static/js/helpfulness.js:69
-msgid "Choose one..."
-msgstr "Vyberte jednu z možností..."
-
-#: kuma/static/js/helpfulness.js:83
-msgid "Uh oh. What would make it better?"
-msgstr "To nás mrzí. Co můžeme udělat, abychom to napravili?"
-
-#: kuma/static/js/helpfulness.js:86
-msgid "Thanks! We'll fix it."
-msgstr "Děkujeme! Zkusíme to opravit."
+#: kuma/static/js/dashboard.js:158
+#, python-format
+msgid "Error submitting as %(type)s"
+msgstr "Chyba odesílání jako %(type)s"
 
 #: kuma/static/js/moz-jquery-plugins.js:107
 msgid "No selection"
@@ -94,105 +73,90 @@ msgstr "Nic nevybráno"
 msgid "Selected: "
 msgstr "Vybráno: "
 
-#: kuma/static/js/users.js:108
+#: kuma/static/js/users.js:107
 msgid "New interest..."
 msgstr "Nový zájem..."
 
-#: kuma/static/js/wiki-compat-tables.js:23
-msgid "Open implementation notes"
-msgstr "Otevřít implementační poznámky"
-
-#: kuma/static/js/wiki-compat-tables.js:23
-msgid "Open"
-msgstr "Otevřít"
-
-#: kuma/static/js/wiki-compat-tables.js:25
-msgid "Return to compatibility table."
-msgstr "Zpět na tabulku kompatibility."
-
-#: kuma/static/js/wiki-compat-tables.js:25
-msgid "Close"
-msgstr "Zavřít"
-
-#: kuma/static/js/wiki-compat-tables.js:108
-msgid "New compatibility tables are in beta "
-msgstr "Nové tabulky kompatibility jsou aktuálně v betě "
-
-#: kuma/static/js/wiki-compat-tables.js:112
-msgid "More about the beta."
-msgstr "Více o této betě."
-
-#: kuma/static/js/wiki-compat-tables.js:115
-msgid "Take the survey"
-msgstr "Zúčastnit se průzkumu"
-
-#: kuma/static/js/wiki-compat-tables.js:118
-msgid "Report an error."
-msgstr "Nahlásit chybu."
-
-#: kuma/static/js/wiki-compat-tables.js:124
-msgid "Reported. Thanks!"
-msgstr "Nahlášeno. Děkujeme!"
-
-#: kuma/static/js/wiki-compat-tables.js:128
-msgid "Show old table."
-msgstr "Zobrazit starou tabulku."
-
-#: kuma/static/js/wiki-edit.js:401
-msgid "Save Draft"
-msgstr "Uložit koncept"
-
-#: kuma/static/js/wiki-edit.js:406
-msgid "Enable autosave."
-msgstr "Povolit automatické ukládání."
-
-#: kuma/static/js/wiki-edit.js:414
+#: kuma/static/js/wiki-edit-draft.js:76
 msgid "an unknown date"
 msgstr "neznámý datum"
 
-#: kuma/static/js/wiki-edit.js:415
-msgid "You have a draft from:"
-msgstr "Máte koncept od:"
+#: kuma/static/js/wiki-edit-draft.js:77
+msgid "View draft."
+msgstr "Zobrazit koncept."
 
-#: kuma/static/js/wiki-edit.js:416
-msgid "Restore the draft content"
-msgstr "Obnovit obsah konceptu"
+#: kuma/static/js/wiki-edit-draft.js:78
+msgid "Restore draft."
+msgstr "Obnovit koncept."
 
-#: kuma/static/js/wiki-edit.js:417
-msgid "Discard the draft"
-msgstr "Zahodit koncept"
+#: kuma/static/js/wiki-edit-draft.js:79
+msgid "Discard draft."
+msgstr "Zahodit koncept."
 
-#: kuma/static/js/wiki-edit.js:442
-msgid "restored"
-msgstr "obnoveno"
+#: kuma/static/js/wiki-edit-draft.js:101
+msgid "A newer version of this article has been published since this draft was saved. You can restore the draft to view the content, but you will not be able to submit it for publishing."
+msgstr "Od uložení tohoto konceptu byl publikována novější verze tohoto článku. Koncept můžete obnovit a prohlédnout si jeho obsah, ale již nebude možné ho odeslat k publikování."
 
-#: kuma/static/js/wiki-edit.js:571
-msgid "Draft"
-msgstr "Koncept"
+#: kuma/static/js/wiki-edit-draft.js:102 kuma/static/js/wiki-edit-draft.js:117
+msgid "Revision history."
+msgstr "Historie revizí."
 
-#: kuma/static/js/wiki-edit.js:590
-msgid "saved"
-msgstr "uloženo"
+#: kuma/static/js/wiki-edit-draft.js:103
+msgid "Published version"
+msgstr "Publikovaná verze"
 
-#: kuma/static/js/wiki-edit.js:609
-msgid "autosaved"
-msgstr "automaticky uloženo"
+#: kuma/static/js/wiki-edit-draft.js:116
+msgid "Compare this date to the latest revision date to ensure you're not overwriting later changes."
+msgstr "Porovnejte toto datum s datem nejnovější revize a ujistěte se, že nepřipíšete žádné pozdější změny."
 
-#: kuma/static/js/wiki-edit.js:618
-msgid "published"
-msgstr "publikováno"
+#: kuma/static/js/wiki-edit-draft.js:126
+#, python-format
+msgid "You have a draft from: %(time)s."
+msgstr "Máte koncept ze dne %(time)s."
 
-#: kuma/static/js/wiki-edit.js:622
-msgid "discarded"
-msgstr "zahozeno"
+#: kuma/static/js/wiki-edit-draft.js:152
+msgid "Viewing old draft. This draft cannot be published."
+msgstr "Právě je zobrazen starší koncept, který nemůže být publikován."
 
-#: kuma/static/js/wiki-edit.js:660
+#: kuma/static/js/wiki-edit-draft.js:171
+msgid "Draft restored."
+msgstr "Koncept obnoven."
+
+#: kuma/static/js/wiki-edit-draft.js:188
+msgid "Draft discarded."
+msgstr "Koncept zahozen."
+
+#: kuma/static/js/wiki-edit-draft.js:222
+msgid "Draft published:"
+msgstr "Koncept publikován:"
+
+#: kuma/static/js/wiki-edit-draft.js:224
+msgid "Draft discarded:"
+msgstr "Koncept zahozen:"
+
+#: kuma/static/js/wiki-edit-draft.js:226
+msgid "Draft autosaved:"
+msgstr "Automaticky uložený koncept:"
+
+#: kuma/static/js/wiki-edit-draft.js:407
 msgid "Autosave enabled."
 msgstr "Automatické ukládání povoleno."
 
-#: kuma/static/js/wiki-edit.js:667
-msgid "Autosave disabled."
-msgstr "Automatické ukládání zakázáno."
+#: kuma/static/js/wiki-edit.js:346
+msgid "Publishing changes…"
+msgstr "Publikování změn…"
+
+#: kuma/static/js/wiki-edit.js:385
+msgid "Publishing failed. You are not currently signed in. Please use a new tab to sign in and try publishing again."
+msgstr "Publikování selhalo. Momentálně nejste přihlášeni. Použijte prosím nový panel pro přihlášení a zkuste publikaci znovu."
+
+#: kuma/static/js/wiki-edit.js:388
+msgid "Changes saved."
+msgstr "Změny uloženy."
+
+#: kuma/static/js/wiki-edit.js:417
+msgid "Publishing failed. Please copy and paste your changes into a safe place and try submitting the form using the \"Publish\" button."
+msgstr "Publikování selhalo. Prosím zkopírujte si vaše úpravy na bezpečné místo a zkuste odeslat formulář pomocí tlačítka \"Odeslat\"."
 
 #: kuma/static/js/wiki-samples.js:99
 #, python-format
@@ -203,19 +167,19 @@ msgstr "Otevřít na %(site)s"
 msgid "New tag..."
 msgstr "Nový štítek..."
 
-#: kuma/static/js/wiki.js:200
+#: kuma/static/js/wiki.js:184
 msgid "How to read CSS syntax."
 msgstr "Jak číst CSS syntaxi."
 
-#: kuma/static/js/wiki.js:570
+#: kuma/static/js/wiki.js:476
 msgid "Search Stack Overflow"
 msgstr "Prohledat Stack Overflow"
 
-#: kuma/static/js/wiki.js:677
+#: kuma/static/js/wiki.js:583
 msgid "Your browser does not support MathML. A CSS fallback has been used instead."
 msgstr "Váš prohlížeč nepodporuje MathML, proto byl namísto něj použit CSS fallback."
 
-#: kuma/static/js/wiki.js:892
+#: kuma/static/js/wiki.js:798
 msgid "Details"
 msgstr "Detaily"
 
@@ -276,30 +240,34 @@ msgid "What should the sample title be?"
 msgstr "Jaký má být ukázkový nadpis?"
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:23
-msgid "HTML Content"
-msgstr "HTML obsah"
+msgid "HTML"
+msgstr "HTML"
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:24
 msgid "Sample HTML Content"
 msgstr "Ukázkový HTML obsah"
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:27
-msgid "CSS Content"
-msgstr "CSS obsah"
+msgid "CSS"
+msgstr "CSS"
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:28
 msgid "Sample CSS Content"
 msgstr "Ukázkový CSS obsah"
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:31
-msgid "JavaScript Content"
-msgstr "JavaScriptový obsah"
+msgid "JavaScript"
+msgstr "JavaScript"
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:32
 msgid "Sample JavaScript Content"
 msgstr "Ukázkový JavaScriptový obsah"
 
-#: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:52
+#: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:35
+msgid "Result"
+msgstr "Výsledek"
+
+#: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:53
 msgid "Insert Code Sample Template"
 msgstr "Vložit šablonu ukázkového kódu"
 
@@ -338,6 +306,105 @@ msgstr "Zadaná URL není validní"
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-youtube/plugin.js:33
 msgid "Default"
 msgstr "Výchozí"
+
+#~ msgid "Did this page help you?"
+#~ msgstr "Byla tato stránka užitečná?"
+
+#~ msgid "Yes"
+#~ msgstr "Ano"
+
+#~ msgid "No"
+#~ msgstr "Ne"
+
+#~ msgid "Never ask me again"
+#~ msgstr "Znovu se neptat"
+
+#~ msgid "Thanks for your feedback!"
+#~ msgstr "Děkujeme za vaši zpětnou vazbu!"
+
+#~ msgid "We won't bug you again."
+#~ msgstr "Už vás nebudeme obtěžovat."
+
+#~ msgid "Translate it into my language"
+#~ msgstr "Přeložte stránku do mého jazyka"
+
+#~ msgid "Make explanations clearer"
+#~ msgstr "Udělat vysvětlení jasnější"
+
+#~ msgid "Add more details"
+#~ msgstr "Přidejte více detailů"
+
+#~ msgid "Fix incorrect information"
+#~ msgstr "Opravte nesprávné informace"
+
+#~ msgid "Add or improve examples"
+#~ msgstr "Přidejte nebo vylepšete příklady"
+
+#~ msgid "My search should have led to a different article"
+#~ msgstr "Mé vyhledání by mělo vést na jiný článek"
+
+#~ msgid "Something else"
+#~ msgstr "Něco jiného"
+
+#~ msgid "Choose one..."
+#~ msgstr "Vyberte jednu z možností..."
+
+#~ msgid "Uh oh. What would make it better?"
+#~ msgstr "To nás mrzí. Co můžeme udělat, abychom to napravili?"
+
+#~ msgid "Thanks! We'll fix it."
+#~ msgstr "Děkujeme! Zkusíme to opravit."
+
+#~ msgid "Save Draft"
+#~ msgstr "Uložit koncept"
+
+#~ msgid "Enable autosave."
+#~ msgstr "Povolit automatické ukládání."
+
+#~ msgid "Draft"
+#~ msgstr "Koncept"
+
+#~ msgid "saved"
+#~ msgstr "uloženo"
+
+#~ msgid "Autosave disabled."
+#~ msgstr "Automatické ukládání zakázáno."
+
+#~ msgid "Open implementation notes"
+#~ msgstr "Otevřít implementační poznámky"
+
+#~ msgid "Open"
+#~ msgstr "Otevřít"
+
+#~ msgid "Return to compatibility table."
+#~ msgstr "Zpět na tabulku kompatibility."
+
+#~ msgid "Close"
+#~ msgstr "Zavřít"
+
+#~ msgid "New compatibility tables are in beta "
+#~ msgstr "Nové tabulky kompatibility jsou aktuálně v betě "
+
+#~ msgid "More about the beta."
+#~ msgstr "Více o této betě."
+
+#~ msgid "Take the survey"
+#~ msgstr "Zúčastnit se průzkumu"
+
+#~ msgid "Report an error."
+#~ msgstr "Nahlásit chybu."
+
+#~ msgid "Reported. Thanks!"
+#~ msgstr "Nahlášeno. Děkujeme!"
+
+#~ msgid "Show old table."
+#~ msgstr "Zobrazit starou tabulku."
+
+#~ msgid "HTML Content"
+#~ msgstr "HTML obsah"
+
+#~ msgid "CSS Content"
+#~ msgstr "CSS obsah"
 
 #~ msgid "Demo Studio"
 #~ msgstr "Demo Studio"

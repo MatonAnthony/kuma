@@ -1,177 +1,239 @@
-Client-side Testing with Intern
-===============================
-From 2014 to 2016, we used Intern_ for client-side testing. It uses Selenium
-WebDriver API which lets us write automated testing via JavaScript. Intern is
-an open source project created and maintained by SitePen_.
+===================
+Client-side testing
+===================
 
-In 2016, we started to convert our client-side tests to Python, to standardize
-on common Mozilla QA processes, and as part of an effort to add client-side
-tests to the development pipline.  The Intern tests described here are no
-longer run for development and deployment, and have not been updated for the
-Docker development environment.
+Kuma has a suite of functional tests using `Selenium`_ and `pytest`_. This allows us
+to emulate users interacting with a real browser. All these test suites live in
+the /tests/ directory.
 
-.. _SitePen: http://sitepen.com
-.. _Intern: https://theintern.github.io/
+The tests directory comprises of:
 
-Installing Dependencies
------------------------
+* ``/functional`` contains pytest tests.
+* ``/pages`` contains Python `PyPOM`_ page objects.
+* ``/utils`` contains helper functions.
+* ``/redirects`` contains HTTP redirection tests.
 
-1. Go to the ``tests/ui/`` directory::
+.. _`Selenium`: http://docs.seleniumhq.org/
+.. _`pytest`: http://pytest.org/latest/
+.. _`PyPOM`: https://pypom.readthedocs.io/en/latest/
 
-    cd tests/ui
+Setting up test virtual environment
+===================================
 
-2. Use ``npm`` to install Intern::
+#. In the terminal go to the directory where you have downloaded kuma.
 
-    npm install intern@^3.0
+#. Create a virtual environment for the tests to run in (the example uses the
+   name mdntests)::
 
-.. warning:: Do *not* install Intern globally -- path issues may occur.
+   $ virtualenv mdntests
 
-Running Tests
--------------
+#. Activate the virtual environment::
 
-On your machine
-~~~~~~~~~~~~~~~
+   $ source mdntests/bin/activate
 
-1. Install `JDK <http://www.oracle.com/technetwork/java/javase/downloads/index.html>`_
+#. Make sure the version of pip in the virtual environment is high enough to support hashes::
 
-2. Download the most current `release of Selenium <http://selenium-release.storage.googleapis.com/index.html>`_ standalone server. (It's the ``.jar`` file.)
+   $ pip install "pip>=8"
 
-.. note:: Firefox should work out of the box. You need to install `Chrome <https://sites.google.com/a/chromium.org/chromedriver/>`_ and `Safari <https://code.google.com/p/selenium/wiki/SafariDriver>`_ drivers yourself.
+#. Install the requirements the tests need to run::
 
-3. From the command line, start WebDriver::
+   $ pip install -r requirements/test.txt
 
-    # Substitute your WebDriver version in the `#` chars
-    java -jar /path/to/selenium-server-standalone-#.#.#.jar
+You may want to add your virtual environment folder to your local .gitignore
+file.
 
-4. Go to the ``tests/ui/`` directory::
+Running the tests
+=================
 
-    cd tests/ui
+Before running the tests you will need to download the driver for the browser
+you want to test in. Drivers are listed and linked to in the `pytest-selenium`_
+documentation.
 
-5. Run intern with the ``intern-local`` config file (omit the ``.js``)::
+The minimum amount of information necessary to run the tests against the staging
+server is the directory the tests are in, which driver to use, and the
+subset of tests to run (by specifying a marker or marker expression like
+``-m "not login"``, for more information see `Markers`_). Currently, all of the
+tests except the tests marked "login" should run successfully against the staging
+server.
 
-    ./node_modules/.bin/intern-runner config=intern-local b=firefox
+In the virtual environment run::
 
-The above tries to run the entire suite of tests. You can change the behavior with `command line arguments`_. E.g., ::
+   $ py.test -m "not login" tests/functional/ --driver Chrome --driver-path /path/to/chromedriver
 
-    node_modules/.bin/intern-runner config=intern-local b=firefox,chrome t=auth,homepage d=developer-local.allizom.org u=someone@somewhere.com p=8675309 wd='Web' destructive=true
+You will be prompted "Do you want the application 'python' to accept incoming
+network connections?" The tests seem to run fine no matter how you answer.
 
-The user credentials must be Persona-only (not GMail or Mozilla LDAP lookups).  User credentials are the only required custom command line arguments.
+This basic command can be modified to use different browsers, to run the tests
+against a local environment, or to run tests concurrently.
 
-Safari requires some special configuration to ensure tests run correctly:
+.. _`pytest-selenium`: http://pytest-selenium.readthedocs.io/en/latest/user_guide.html#specifying-a-browser
 
-1.  Open your Safari browser's preferences dialog and disable the popup blocker
+Only running tests in one file
+------------------------------
 
-2.  You must download and manually install the `Safari Selenium Extension <https://github.com/SeleniumHQ/selenium/blob/master/javascript/safari-driver/prebuilt/SafariDriver.safariextz>`_.  Once downloaded, drag the extension into the Safari extensions list within the Preferences dialog.
+Add the name of the file to the test location::
 
-On a Cloud Provider
-~~~~~~~~~~~~~~~~~~~
+   $ py.test -m "not login" tests/functional/test_search.py --driver Chrome --driver-path /path/to/chromedriver
 
-We have tested running the Intern test suite with BrowserStack and SauceLabs.
-We have better luck with BrowserStack, and it's the provider MDN staff devs
-use.
+Run the tests against a different url
+-------------------------------------
 
-1. Sign up for either `BrowserStack <http://www.browserstack.com/>`_ or `SauceLabs <https://saucelabs.com/>`_.
+By default the tests will run against the staging server. If you'd like to run
+the tests against a different URL (e.g., your local environment) pass the
+desired URL to the command with ``--base-url``::
 
-2. Go to the ``tests/ui/`` directory::
+   $ py.test -m "not login" tests/functional/ --base-url http://localhost:8000 --driver Chrome --driver-path /path/to/chromedriver
 
-    cd tests/ui
-
-3. Set the `appropriate environment variables
-   <https://theintern.github.io/intern/#hosted-selenium>`_ with your provider credentials.
-   E.g., ::
-
-    export BROWSERSTACK_USERNAME='fakeuser'
-    export BROWSERSTACK_ACCESS_KEY='fakeaccesskey'
-
-3. Run intern with the appropriate config file (omitting the ``.js``). E.g., ::
-
-    ./node_modules/.bin/intern-runner config=intern-browserstack
-
-.. _command line arguments:
-
-Command-Line Arguments
-~~~~~~~~~~~~~~~~~~~~~~
-
-* ``b`` - browsers to run (e.g., ``b=chrome,firefox``)
-* ``t`` - test suites to run (e.g., ``t=wiki,homepage``)
-* ``d`` - domain to run against (e.g., ``d=developer.allizom.org``)
-* ``u`` - username for Persona (e.g., ``u=testuser@example.com``)
-* ``p`` - password for Persona (e.g., ``p=testpass``)
-* ``wd`` - slug of existing article to test (e.g., ``wd=My_Test_Doc``)
-* ``destructive=true`` - create real docs (do not run this on production)
-
-Adding a Test Suite
--------------------
-
-To add a test suite, place your JavaScript file within the `tests/ui/tests` directory. Use the following as a template for your test suite code::
-
-    define([
-        'intern!object',
-        'intern/chai!assert',
-        'base/_config'
-    ], function(registerSuite, assert, config) {
-
-        registerSuite({
-
-            // Unique, short name for test suite
-            name: '',
-
-            // Anything to run before each test (setup)
-            before: function() {
-
-            },
-
-            // Text decribing what the test is testing
-            '': function() {
-
-            }
-        });
-
-    });
-
-
-To run your new tests with, add the new suite path to the `tests/ui/_tests.js` file.
-
-Identifying Test Failures
+Run the tests in parallel
 -------------------------
 
-Tests are run for each browser cited in the config's `environments` setting. A sample output with error may look like::
+By default the tests will run one after the other but you can run several at
+the same time by specifying a value for ``-n``::
 
-    $ ./node_modules/.bin/intern-runner config=intern-local
+   $ py.test -m "not login" tests/functional/ -n auto --driver Chrome --driver-path /path/to/chromedriver
 
-    Listening on 0.0.0.0:9000
-    Starting tunnel...
-    Initialised firefox 31.0 on MAC
-    Test main - home - Ensure homepage is displaying search form and accepts text FAILED on firefox 31.0 on MAC:
-    AssertionError: fake test failure: expected false to be truthy
-      at new CompatCommand  <node_modules/intern/runner.js:208:14>
-      at CompatCommand.Command.then  <node_modules/intern/node_modules/leadfoot/Command.js:525:10>
-      at Test.registerSuite.Ensure homepage is displaying search form and accepts text [as test]  <tests/homepage.js:18:26>
-      at Test.run  <node_modules/intern/lib/Test.js:169:19>
-      at <node_modules/intern/lib/Suite.js:237:13>
-      at signalListener  <node_modules/intern/node_modules/dojo/Deferred.js:37:21>
-      at Promise.then.promise.then  <node_modules/intern/node_modules/dojo/Deferred.js:258:5>
-      at runTest  <node_modules/intern/lib/Suite.js:236:46>
-      at <node_modules/intern/lib/Suite.js:249:7>
-      at process._tickCallback  <node.js:419:13>
+Run the tests against a server configured in maintenance mode
+-------------------------------------------------------------
 
-    =============================== Coverage summary ===============================
-    Statements   : 100% ( 1/1 )
-    Branches     : 100% ( 0/0 )
-    Functions    : 100% ( 0/0 )
-    Lines        : 100% ( 1/1 )
-    ================================================================================
-    firefox 31.0 on MAC: 1/5 tests failed
+By default the tests will run against a server assumed to be configured
+normally. If you'd like to run them against a server configured in
+maintenance mode, simply add ``--maintenance-mode`` to the ``py.test`` command
+line. For example, if you've configured your local environment to run in
+maintenance mode::
 
-    ----------------------|-----------|-----------|-----------|-----------|
-    File                  |   % Stmts |% Branches |   % Funcs |   % Lines |
-    ----------------------|-----------|-----------|-----------|-----------|
-       ui/                |       100 |       100 |       100 |       100 |
-          intern-local.js |       100 |       100 |       100 |       100 |
-    ----------------------|-----------|-----------|-----------|-----------|
-    All files             |       100 |       100 |       100 |       100 |
-    ----------------------|-----------|-----------|-----------|-----------|
+   $ py.test --maintenance-mode -m "not search" tests/functional/ --base-url http://localhost:8000 --driver Chrome --driver-path /path/to/chromedriver
 
-    TOTAL: tested 1 platforms, 1/5 tests failed
+Note that the tests marked "search" were excluded assuming you've loaded the
+sample database. If you've loaded a full copy of the production database, you
+can drop the ``-m "not search"``.
 
-At present time, `SitePen is looking to pretty up the console output <https://github.com/theintern/intern/issues/258>`_.
+The ``--maintenance-mode`` command-line switch does two things. It will skip
+any tests that don't make sense in maintenance mode (e.g., making sure the
+signin link works), and include the tests that only make sense in maintenance
+mode (e.g., making sure that endpoints related to editing redirect to the
+maintenance-mode page).
+
+Run tests on SauceLabs
+----------------------
+
+Running the tests on SauceLabs will allow you to test browsers not on your host
+machine.
+
+#. `Signup for an account`_.
+
+#. Log in and obtain your Remote Access Key from user settings.
+
+#. Run a test specifying ``SauceLabs`` as your driver, and pass your credentials
+   and the browser to test::
+
+   $ SAUCELABS_USERNAME=thedude SAUCELABS_API_KEY=123456789 py.test -m "not login" tests/functional/ --driver SauceLabs --capability browsername MicrosoftEdge
+
+Alternatively you can save your credentials `in a configuration file`_ so you
+don't have to type them each time.
+
+.. _`Signup for an account`: https://saucelabs.com/opensauce/
+.. _`in a configuration file`: http://pytest-selenium.readthedocs.io/en/latest/user_guide.html#sauce-labs
+
+Run tests on MDN's Continuous Integration (CI) infrastructure
+-------------------------------------------------------------
+
+If you have commit rights on the `mozilla/kuma GitHub repository`_
+you can run the UI tests using the `MDN CI Infrastructure`_. Just force push
+to `mozilla/kuma@stage-integration-tests`_ to run the tests
+against https://developer.allizom.org.
+
+You can check the status, progress, and logs of the
+test runs at `MDN's Jenkins-based multi-branch pipeline`_.
+
+.. _`mozilla/kuma GitHub repository`: https://github.com/mozilla/kuma
+.. _`mozilla/kuma@stage-integration-tests`: https://github.com/mozilla/kuma/tree/stage-integration-tests
+.. _`MDN's Jenkins-based multi-branch pipeline`: https://ci.us-west.moz.works/blue/organizations/jenkins/mdn_multibranch_pipeline/branches/
+
+MDN CI Infrastructure
+=====================
+
+The MDN CI infrastructure is a Jenkins-based, multi-branch pipeline. The
+pipelines for all branches are defined by the `Jenkinsfile`_ and the files
+under the `Jenkinsfiles directory`_. The basic idea is that every branch may
+have its own custom pipeline steps and configuration.
+
+Jenkins will auto-discover the steps and configuration by checking within the
+`Jenkinsfiles directory`_ for a Groovy (``.groovy``) and/or YAML (``.yml``)
+file with the same name as the branch. For example, the
+"stage-integration-tests" branch has a
+`Jenkinsfiles/stage-integration-tests.yml`_ file which will be
+loaded as configuration and used to determine what to do next (load and
+run the Groovy script specified by its ``pipeline.script`` setting -
+`Jenkinsfiles/integration-tests.groovy`_ - and the script, in turn, will use
+the dictionary of values provided by the ``job`` setting defined within the
+configuration).
+
+Note that the YAML files for the integration-test branches provide settings
+for configuring things like the version of Selenium to use, the number of
+Selenium nodes to spin-up, the Dockerfile to use to build the container,
+the URL to test against, and which subset of integration tests to run
+(via a pytest marker expression, see `Markers`_).
+
+The integration-test Groovy files use a number of global Jenkins functions
+that were developed to make the building, running and pushing of
+Docker containers seamless (as well as other cool stuff, see
+`mozmar/jenkins-pipeline`_). They allow us to better handle situations that
+have been painful in the past, like the stopping of background Docker
+containers.
+
+The "prod-integration-tests" branch also has its own
+`Jenkinsfiles/prod-integration-tests.yml`_ file. It's identical to the YAML
+file for the "stage-integration-tests" branch except that it specifies that
+the tests should be run against the production server rather than the staging
+server (via its ``job.base_url`` setting).
+
+Similarly, the "master" branch has it's own pipeline, but instead of being
+configured by a YAML file, the entire pipeline is defined within its
+`Jenkinsfiles/master.groovy`_ file.
+
+The pipeline for any other branch which does not provide its own Groovy and/or
+YAML file will follow that defined by the `Jenkinsfiles/default.groovy`_ file.
+
+You can check the status, progress, and logs of any pipeline runs via
+`MDN's Jenkins-based multi-branch pipeline`_.
+
+.. _`mozmar/jenkins-pipeline`: https://github.com/mozmar/jenkins-pipeline
+.. _`Jenkinsfile`: https://github.com/mozilla/kuma/blob/master/Jenkinsfile
+.. _`Jenkinsfiles directory`: https://github.com/mozilla/kuma/tree/master/Jenkinsfiles
+.. _`Jenkinsfiles/master.groovy`: https://github.com/mozilla/kuma/blob/master/Jenkinsfiles/master.groovy
+.. _`Jenkinsfiles/default.groovy`: https://github.com/mozilla/kuma/blob/master/Jenkinsfiles/default.groovy
+.. _`Jenkinsfiles/integration-tests.groovy`: https://github.com/mozilla/kuma/blob/master/Jenkinsfiles/integration-tests.groovy
+.. _`Jenkinsfiles/prod-integration-tests.yml` : https://github.com/mozilla/kuma/blob/master/Jenkinsfiles/prod-integration-tests.yml
+.. _`Jenkinsfiles/stage-integration-tests.yml` : https://github.com/mozilla/kuma/blob/master/Jenkinsfiles/stage-integration-tests.yml
+
+Markers
+=======
+
+* ``nondestructive``
+
+  Tests are considered destructive unless otherwise indicated. Tests that
+  create, modify, or delete data are considered destructive and should not be
+  run in production.
+
+* ``smoke``
+
+  These tests should be the critical baseline functional tests.
+
+* ``nodata``
+
+  New instances of kuma have empty databases so only a subset of tests can be
+  run against them. These tests are marked with ``nodata``.
+
+* ``login``
+
+  These tests require the testing accounts to exist on the target site. For
+  security reasons these accounts will not be on production. Exclude these tests
+  with ``-m "not login"``
+
+Guidelines for writing tests
+============================
+
+See `Bedrock`_ and the `Web QA Style Guide`_.
+
+.. _`Bedrock`: http://bedrock.readthedocs.io/en/latest/testing.html#guidelines-for-writing-functional-tests
+.. _`Web QA Style Guide`: https://wiki.mozilla.org/QA/Execution/Web_Testing/Docs/Automation/StyleGuide

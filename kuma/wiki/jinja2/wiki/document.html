@@ -15,19 +15,14 @@
 {% set doc_abs_url = document.get_absolute_url() %}
 {% set canonical = request.build_absolute_uri(doc_abs_url) %}
 
-{% if document.is_template %}
-  {% set macro_name = document.slug|replace('Template:','', 1) %}
-  {% set template_search_link = url('search', locale=document.locale)|urlparams(locale='*', kumascript_macros=macro_name, topic='none') %}
-{% endif %}
-
 {% set current_revision = document.current_revision %}
-{% if (is_logged_in and current_revision and document.allows_revision_by(user)) and (current_revision.needs_technical_review or current_revision.needs_editorial_review) %}
+{% if (is_logged_in and current_revision) and (current_revision.needs_technical_review or current_revision.needs_editorial_review) %}
   {% set approvals_html = get_approvals_html(document, request.user) %}
 {% endif %}
 
-{% set zone_stack = document.zone_stack %}
-{% set is_zone = zone_stack|length %}
-{% set is_zone_root = is_zone and zone_stack[0].document == document %}
+{% set nearest_zone = document.nearest_zone %}
+{% set is_zone = nearest_zone %}
+{% set is_zone_root = document.is_zone_root %}
 {% set other_translations = document.other_translations %}
 
 {% set show_left = zone_subnav_html or quick_links_html or approvals_html %}
@@ -44,6 +39,14 @@
   {% set content_class = 'column-main' %}
 {% endif %}
 
+{% block robots_value %}
+  {%- if document.is_experiment -%}
+    noindex, nofollow
+  {%- else -%}
+    {{ super() }}
+  {%- endif -%}
+{% endblock %}
+
 {% block bodyclass %}document {% if is_zone %}zone{% endif %} {% if is_zone_root %}zone-landing{% endif %}{% endblock %}
 {% block body_attributes %}data-slug="{{ document.slug }}" contextmenu="edit-history-menu" data-search-url="{{ search_url }}"{% endblock body_attributes %}
 
@@ -51,10 +54,12 @@
 
 {% block site_css %}
     {{ super() }}
-    {% if zone_stack %}
-      {% for zone in zone_stack|reverse() %}
-        <link rel="stylesheet" type="text/css" href="{{ url('wiki.styles', zone.document.slug) }}">
-      {% endfor %}
+    {% if nearest_zone %}
+      {% if nearest_zone.css_slug %}
+        {% stylesheet 'zone-' + nearest_zone.css_slug %}
+      {% else %}
+        {% stylesheet 'zones' %}
+      {% endif %}
     {% endif %}
 {% endblock %}
 
@@ -78,16 +83,6 @@
   <meta name="description" content="{{ seo_summary }}">
   <meta name="twitter:description" content="{{ seo_summary }}">
   {% endif %}
-
-  {#  if this document was saved, we need to clear out the cached draft in wiki.js, need to get the value from the request if it exists #}
-  <script type="text/javascript">
-    {% if request.GET.document_saved %}
-      var document_saved = 1;
-    {% else %}
-      var document_saved = 0;
-    {% endif %}
-  </script>
-
 {% endblock %}
 
 {% block lang_switcher %}
@@ -151,7 +146,7 @@
       {% else %}
         <div class="zone-article-header" id="document-main"><div class="center">
           <!-- zone title -->
-          <div class="zone-title"><a href="{{ zone_stack[0].document.get_absolute_url() }}">{{ zone_stack[0].document.title }}</a></div>
+          <div class="zone-title"><a href="{{ nearest_zone.document.get_absolute_url() }}">{{ nearest_zone.document.title }}</a></div>
           <!-- zone image -->
           <div class="zone-image"></div>
         </div></div>
@@ -172,21 +167,7 @@
 
       <!-- heading -->
       <div id="wiki-document-head" class="document-head">
-          <span class="from-search-previous-box">
-            <a class="button from-search-previous only-icon disabled" title="{{ _('Previous Search Result') }}" data-empty-title="{{ _('No Previous Search Result') }}"><i aria-hidden="true" class="icon-chevron-left"></i></a>
-          </span>
-          <span class="from-search-navigate-wrap">
-            <a href="#" class="from-search-navigate"><span class="from-search-navigate-up"><i aria-hidden="true" class="icon-double-angle-up"></i></span><span class="from-search-navigate-down"><i aria-hidden="true" class="icon-double-angle-down"></i></span></a>
-          </span>
-          <div class="from-search-toc submenu">
-            <span class="title">{{ _('Your Search Results') }}</span>
-            <ol></ol>
-          </div>
-          <span class="from-search-next-box">
-            <a class="button from-search-next only-icon disabled" title="{{ _('Next Search Result') }}" data-empty-title="{{ _('No Previous Search Result') }}"><i aria-hidden="true" class="icon-chevron-right"></i></a>
-          </span>
-
-        {% if has_contributors %}
+        {% if has_contributors and not waffle.flag('redesign')%}
         <div class="contributor-avatars" data-all-text="{{ _('see all contributors') }}" data-alternate-message="{{ _('hide contributors') }}" {% if contributors_count > contributors_limit %}data-has-hidden="1"{% endif %}>
             <ul>
             {% for contributor in contributors %}
@@ -199,7 +180,7 @@
         </div>
         {% endif %}
 
-        <h1>{{ document.title }}</h1>
+        <h1 class="{% if document.title|length > 12 %}small-mobile-overflow{% endif %}{% if document.title|length > 19 %} mobile-overflow{% endif %}{% if document.title|length > 31 %} tablet-overflow{% endif %}{% if document.title|length > 42 %} small-desktop-overflow{% endif %}{% if document.title|length > 37 %} large-desktop-overflow{% endif %}">{{ document.title }}</h1>
 
       </div>
       {% endif %}
@@ -216,7 +197,7 @@
               {% if toc_html %}
               <!-- table of contents -->
               <div id="toc" class="toc toggleable">
-                <a href="#toc" class="title toggler" data-open-icon="icon-plus" data-closed-icon="icon-minus">{{ _('In This Article') }}<i></i></a>
+                <a href="#toc" class="title toggler" data-open-icon="icon-caret-right" data-closed-icon="icon-caret-down">{{ _('In This Article') }}<i></i></a>
                 <ol class="toggle-container">
                   {{ toc_html|safe }}
                 </ol>
@@ -225,15 +206,19 @@
               </div>
             {% endif %}
 
-            {# determine the article content based on template status #}
-            {% if not document.is_template %}
-              {% set document_html_safe = body_html|safe %}
-            {% else %}
-              {% set document_html_safe = document_html|safe %}
-            {% endif %}
 
             <!-- center: main article content -->
             <div id="wiki-content" class="{{ content_class }} wiki-column text-content">
+
+              {% if settings.MAINTENANCE_MODE and render_raw_fallback %}
+                <div id="doc-render-raw-fallback" class="warning">
+                {% trans url='/maintenance-mode/' %}
+                  This document has not yet been rendered, and cannot be
+                  rendered while MDN is in <a href="{{ url }}">maintenance
+                  mode</a>. Please check back when maintenance has concluded.
+                {% endtrans %}
+                </div>
+              {% endif %}
 
               {% if is_logged_in and document_html %}
                 {% if render_raw_fallback %}
@@ -264,47 +249,35 @@
                   </div>
                 {% endif %}
               {% endif %}
+              {% if document.is_experiment %}
+                <div id="doc-experiment" class="warning">
+                  {{ _("This is an experimental page.") }}
+                </div>
+              {% endif %}
 
               {% if kumascript_errors %}
                 {% include 'wiki/includes/kumascript_errors.html' %}
               {% endif %}
 
               {% if document.current_revision %}
-                {% if document.current_revision.needs_technical_review %}
-                  <div class="warning warning-review">
-                    <p>
-                      {% trans url="/docs/MDN/Contribute/HowTo/Do_a_technical_review" %}
-                        This article needs a technical review. <a href="{{ url }}">How you can help.</a>
-                      {% endtrans %}
-                    </p>
-                  </div>
-                {% endif %}
-                {% if document.current_revision.needs_editorial_review %}
-                  <div class="warning warning-review">
-                    <p>
-                      {% trans url="/docs/MDN/Contribute/Howto/Do_an_editorial_review" %}
-                        This article needs an editorial review. <a href="{{ url }}">How you can help.</a>
-                      {% endtrans %}
-                    </p>
-                  </div>
-                {% endif %}
                 {% if document.current_revision.localization_in_progress %}
-                  {% if document.current_revision.translation_age >= 10 %}
-                      <div class="overheadIndicator translationInProgress"><p>{% trans translate_url=document.get_edit_url() %}
-                        This translation is incomplete. Please help <a href="{{ translate_url }}">translate this article</a> from English.
-                      {% endtrans %}</p></div>
+                  {% if not settings.MAINTENANCE_MODE and document.current_revision.translation_age >= 10 %}
+                    <div class="overheadIndicator translationInProgress"><p>{% trans translate_url=document.get_edit_url() %}
+                      This translation is incomplete. Please help <a href="{{ translate_url }}">translate this article</a> from English.
+                    {% endtrans %}</p></div>
                   {% else %}
-                      <div class="overheadIndicator translationInProgress"><p>
-                        {{ _('This translation is in progress.') }}
-                      </p></div>
+                    <div class="overheadIndicator translationInProgress"><p>
+                      {{ _('This translation is in progress.') }}
+                    </p></div>
                   {% endif %}
                 {% endif %}
               {% endif %}
-              {% if fallback_reason %}
+              {% if not settings.MAINTENANCE_MODE and fallback_reason %}
                 <div id="doc-pending-fallback" class="warning">
-                  <p><bdi>{% trans help_link=help_link, locale=settings.LOCALES[request.LANGUAGE_CODE].native %}
+                  <p><bdi>{% trans help_link=help_link, locale=settings.LOCALES[request.LANGUAGE_CODE].native, parent_language=document.language %}
                     Our volunteers haven't translated this article into <bdi>{{ locale }}</bdi> yet.
-                    <a href="{{ help_link }}">Join us and help get the job done!</a>
+                    <a href="{{ help_link }}" rel="nofollow, noindex">Join us and help get the job done!</a><br>
+                    You can also read the article in <a href="{{ doc_abs_url }}">{{ parent_language }}</a>.
                   {% endtrans %}</bdi></p>
                 </div>
               {% endif %}
@@ -314,23 +287,37 @@
                 {% if not fallback_reason %}
                   {% if not document_html %}
                     {{ _("This article doesn't have any content yet.") }}
-                  {% elif document.is_template %}
-                    <pre class="brush: js">{{ document_html }}</pre>
-                    {% trans search_link=template_search_link, title=document.title %}
-                      Search for
-                      <a href="{{ search_link }}" rel="nofollow, noindex">pages that use {{ title }}</a>
-                      to see example use cases and how many pages use this macro.
-                    {% endtrans %}
                   {% else %}
-                    {{ document_html_safe }}
+                    {{ body_html|safe }}
                   {% endif %}
                 {% elif fallback_reason == 'no_translation' %}
-                  {{ document_html_safe }}
+                  {{ body_html|safe }}
                 {% elif fallback_reason == 'translation_not_approved' %}
                   {{ document.parent.html|safe }}
                 {% else %}
                   {{ _("This article doesn't have approved content yet.") }}
                 {% endif %}
+
+              {% if waffle.switch('helpful-survey-2') %}
+                <aside class="helpful-survey hidden" id="helpful-survey">
+                  <p>{{ _('Was this article helpful?') }}</p>
+
+                  <div class="helpful-survey-content">
+                    <div class="helpful-survey-buttons">
+                      <button type="button" class="helpful-survey-vote helpful-survey-yes">
+                        <span class="offscreen">{{ _('Yes') }}</span>
+                        <i class="icon-thumbs-o-up" aria-hidden="true"></i>
+                      </button>
+                      <button type="button" class="helpful-survey-vote helpful-survey-no">
+                        <span class="offscreen">{{ _('No') }}</span>
+                        <i class="icon-thumbs-o-down" aria-hidden="true"></i>
+                      </button>
+                    </div>
+
+                    <div class="helpful-survey-thankyou">{{ _('Thank you!') }}</div>
+                  </div>
+                </aside>
+              {% endif %}
               </article>
 
               {% if not is_zone_root %}
@@ -350,11 +337,19 @@
                   {% if current_revision.creator %}
                     <div class="contributors-sub">
                       <i aria-hidden="true" class="icon-clock-o icon-fw"></i>&nbsp;<strong>{{ _('Last updated by:') }}</strong>
-                      <a href="{{ current_revision.creator.get_absolute_url() }}">{{ current_revision.creator }}</a>,
+                      <a href="{{ current_revision.creator.get_absolute_url() }}"
+                         {%- if not current_revision.creator.is_active %} rel="nofollow"{% endif -%}
+                         >{{ current_revision.creator }}</a>,
                       {{ datetimeformat(current_revision.created, format='datetime') }}
                     </div>
                   {% endif %}
                 </div>
+              {% endif %}
+
+              {% if waffle.switch('newsletter') and waffle.switch('newsletter_article') and not waffle.flag('redesign') %}
+                  <div class="newsletter-box">
+                    {% include "includes/newsletter.html" %}
+                  </div>
               {% endif %}
             </div>
 
@@ -388,6 +383,12 @@
       </div>
     </div> <!-- ends "main-content" -->
 
+    {% if waffle.switch('newsletter') and waffle.switch('newsletter_article') and waffle.flag('redesign') %}
+      <div class="newsletter-box">
+      {% include "includes/newsletter.html" %}
+      </div>
+    {% endif %}
+
   <menu type="context" id="edit-history-menu">
     <menuitem data-action="{{ document.get_edit_url() }}" label="{{_('Edit page')}}"></menuitem>
     <menuitem data-action="{{ url('wiki.document_revisions', document.slug) }}" label="{{_('View page history')}}"></menuitem>
@@ -405,7 +406,8 @@
 
                 $('<a>').attr({
                     href: href,
-                    'class': 'button section-edit only-icon'
+                    'class': 'button section-edit only-icon',
+                    'rel': 'nofollow, noindex'
                 })
                 .append($('<i aria-hidden="true" class="icon-pencil"></i>'))
                 .append($('<span>'))
@@ -430,6 +432,10 @@
 
   {% if waffle.flag('sg_task_completion') %}
     {% javascript 'task-completion' %}
+  {% endif %}
+
+  {% if waffle.switch('newsletter') and waffle.switch('newsletter_article') %}
+    {% javascript 'newsletter' %}
   {% endif %}
 
 {% endblock %}

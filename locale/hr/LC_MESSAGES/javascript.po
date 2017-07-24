@@ -1,9 +1,9 @@
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: MDN 2016.0\n"
 "Report-Msgid-Bugs-To: dev-mdn@lists.mozilla.org\n"
-"POT-Creation-Date: 2016-08-08 13:21-0700\n"
+"POT-Creation-Date: 2017-06-20 07:47-0700\n"
 "PO-Revision-Date: 2016-09-19 22:56+0000\n"
 "Last-Translator: Stjepan Treger <stjepan.treger@gmail.com>\n"
 "Language-Team: Croatian https://pontoon.mozilla.org/hr/\n"
@@ -18,73 +18,52 @@ msgstr ""
 msgid "Close submenu"
 msgstr "Zatvorite pod-izbornik"
 
-#: kuma/static/js/components.js:542
+#: kuma/static/js/components.js:543
 msgid "Close notification"
 msgstr "Zatvorite obavijest"
 
-#: kuma/static/js/helpfulness.js:32
-msgid "Did this page help you?"
-msgstr "Je li Vam ova stranica pomogla?"
+#: kuma/static/js/dashboard.js:12
+msgid "Revert"
+msgstr ""
 
-#: kuma/static/js/helpfulness.js:34
-msgid "Yes"
-msgstr "Da"
+#: kuma/static/js/dashboard.js:13
+msgid "View Page"
+msgstr ""
 
-#: kuma/static/js/helpfulness.js:36
-msgid "No"
-msgstr "Ne"
+#: kuma/static/js/dashboard.js:14
+msgid "Edit Page"
+msgstr ""
 
-#: kuma/static/js/helpfulness.js:38
-msgid "Never ask me again"
-msgstr "Nemoj me više pitati"
+#: kuma/static/js/dashboard.js:15
+msgid "History"
+msgstr ""
 
-#: kuma/static/js/helpfulness.js:45
-msgid "Thanks for your feedback!"
-msgstr "Hvala Vam na Vašim povratnim informacijama!"
+#: kuma/static/js/dashboard.js:115
+msgid "Hang on! Updating filters…"
+msgstr ""
 
-#: kuma/static/js/helpfulness.js:54
-msgid "We won't bug you again."
-msgstr "Nećemo Vam više dosađivati."
+#: kuma/static/js/dashboard.js:122
+msgid "Updated filters."
+msgstr ""
 
-#: kuma/static/js/helpfulness.js:59
-msgid "Translate it into my language"
-msgstr "Prijevod na moj jezik"
+#: kuma/static/js/dashboard.js:139
+msgid "Submitting..."
+msgstr ""
 
-#: kuma/static/js/helpfulness.js:60
-msgid "Make explanations clearer"
-msgstr "Napravite jasnija objašnjenja"
+#: kuma/static/js/dashboard.js:147
+#, python-format
+msgid "Submitted as %(submission_type)s"
+msgstr ""
 
-#: kuma/static/js/helpfulness.js:61
-msgid "Add more details"
-msgstr "Dodajte više detalja"
+#: kuma/static/js/dashboard.js:148
+#, python-format
+msgid "%(sent_date)s by %(user)s"
+msgstr ""
 
-#: kuma/static/js/helpfulness.js:62
-msgid "Fix incorrect information"
-msgstr "Ispravite neispravne informacije"
-
-#: kuma/static/js/helpfulness.js:63
-msgid "Add or improve examples"
-msgstr "Dodajte ili poboljšajte primjere"
-
-#: kuma/static/js/helpfulness.js:64
-msgid "My search should have led to a different article"
-msgstr "Moja pretraga ja trebala dovesti do drugog članka"
-
-#: kuma/static/js/helpfulness.js:65
-msgid "Something else"
-msgstr "Nešto drugo"
-
-#: kuma/static/js/helpfulness.js:69
-msgid "Choose one..."
-msgstr "Odaberite jedno..."
-
-#: kuma/static/js/helpfulness.js:83
-msgid "Uh oh. What would make it better?"
-msgstr "A ne. Što bi ga učinilo boljim?"
-
-#: kuma/static/js/helpfulness.js:86
-msgid "Thanks! We'll fix it."
-msgstr "Hvala! Popravit ćemo."
+#: kuma/static/js/dashboard.js:158
+#, python-format
+msgid "Error submitting as %(type)s"
+msgstr ""
 
 #: kuma/static/js/moz-jquery-plugins.js:107
 msgid "No selection"
@@ -94,105 +73,98 @@ msgstr "Be odabira"
 msgid "Selected: "
 msgstr "Odabrano: "
 
-#: kuma/static/js/users.js:108
+#: kuma/static/js/users.js:107
 msgid "New interest..."
 msgstr "Novi interest..."
 
-#: kuma/static/js/wiki-compat-tables.js:23
-msgid "Open implementation notes"
-msgstr "Otvorite bilješke implementacije"
-
-#: kuma/static/js/wiki-compat-tables.js:23
-msgid "Open"
-msgstr "Otvori"
-
-#: kuma/static/js/wiki-compat-tables.js:25
-msgid "Return to compatibility table."
-msgstr "Vratite na tablicu kompatibilnosti."
-
-#: kuma/static/js/wiki-compat-tables.js:25
-msgid "Close"
-msgstr "Zatvori"
-
-#: kuma/static/js/wiki-compat-tables.js:108
-msgid "New compatibility tables are in beta "
-msgstr "Nove tablice kompatibilnosti su u beti "
-
-#: kuma/static/js/wiki-compat-tables.js:112
-msgid "More about the beta."
-msgstr "Više o beti."
-
-#: kuma/static/js/wiki-compat-tables.js:115
-msgid "Take the survey"
-msgstr "Ispunite anketu"
-
-#: kuma/static/js/wiki-compat-tables.js:118
-msgid "Report an error."
-msgstr "Prijavite grešku."
-
-#: kuma/static/js/wiki-compat-tables.js:124
-msgid "Reported. Thanks!"
-msgstr "Prijavljeno. Hvala!"
-
-#: kuma/static/js/wiki-compat-tables.js:128
-msgid "Show old table."
-msgstr "Prikaži staru tablicu."
-
-#: kuma/static/js/wiki-edit.js:401
-msgid "Save Draft"
-msgstr "Spremi skicu"
-
-#: kuma/static/js/wiki-edit.js:406
-msgid "Enable autosave."
-msgstr "Omogući automatsko spremanje."
-
-#: kuma/static/js/wiki-edit.js:414
+#: kuma/static/js/wiki-edit-draft.js:76
 msgid "an unknown date"
 msgstr "nepoznat datum"
 
-#: kuma/static/js/wiki-edit.js:415
-msgid "You have a draft from:"
-msgstr "Imate skicu od:"
+#: kuma/static/js/wiki-edit-draft.js:77
+msgid "View draft."
+msgstr ""
 
-#: kuma/static/js/wiki-edit.js:416
-msgid "Restore the draft content"
+#: kuma/static/js/wiki-edit-draft.js:78
+#, fuzzy
+msgid "Restore draft."
 msgstr "Vratite sadržaj skice"
 
-#: kuma/static/js/wiki-edit.js:417
-msgid "Discard the draft"
+#: kuma/static/js/wiki-edit-draft.js:79
+#, fuzzy
+msgid "Discard draft."
 msgstr "Odbacite skicu"
 
-#: kuma/static/js/wiki-edit.js:442
-msgid "restored"
-msgstr "vraćeno"
+#: kuma/static/js/wiki-edit-draft.js:101
+msgid "A newer version of this article has been published since this draft was saved. You can restore the draft to view the content, but you will not be able to submit it for publishing."
+msgstr ""
 
-#: kuma/static/js/wiki-edit.js:571
-msgid "Draft"
-msgstr "Skica"
+#: kuma/static/js/wiki-edit-draft.js:102 kuma/static/js/wiki-edit-draft.js:117
+msgid "Revision history."
+msgstr ""
 
-#: kuma/static/js/wiki-edit.js:590
-msgid "saved"
-msgstr "spremljeno"
-
-#: kuma/static/js/wiki-edit.js:609
-msgid "autosaved"
-msgstr "automatski spremljeno"
-
-#: kuma/static/js/wiki-edit.js:618
-msgid "published"
+#: kuma/static/js/wiki-edit-draft.js:103
+#, fuzzy
+msgid "Published version"
 msgstr "objavljeno"
 
-#: kuma/static/js/wiki-edit.js:622
-msgid "discarded"
+#: kuma/static/js/wiki-edit-draft.js:116
+msgid "Compare this date to the latest revision date to ensure you're not overwriting later changes."
+msgstr ""
+
+#: kuma/static/js/wiki-edit-draft.js:126
+#, fuzzy, python-format
+msgid "You have a draft from: %(time)s."
+msgstr "Imate skicu od:"
+
+#: kuma/static/js/wiki-edit-draft.js:152
+msgid "Viewing old draft. This draft cannot be published."
+msgstr ""
+
+#: kuma/static/js/wiki-edit-draft.js:171
+#, fuzzy
+msgid "Draft restored."
+msgstr "vraćeno"
+
+#: kuma/static/js/wiki-edit-draft.js:188
+#, fuzzy
+msgid "Draft discarded."
 msgstr "odbačeno"
 
-#: kuma/static/js/wiki-edit.js:660
+#: kuma/static/js/wiki-edit-draft.js:222
+#, fuzzy
+msgid "Draft published:"
+msgstr "objavljeno"
+
+#: kuma/static/js/wiki-edit-draft.js:224
+#, fuzzy
+msgid "Draft discarded:"
+msgstr "odbačeno"
+
+#: kuma/static/js/wiki-edit-draft.js:226
+#, fuzzy
+msgid "Draft autosaved:"
+msgstr "automatski spremljeno"
+
+#: kuma/static/js/wiki-edit-draft.js:407
 msgid "Autosave enabled."
 msgstr "Automatsko spremanje omogućeno."
 
-#: kuma/static/js/wiki-edit.js:667
-msgid "Autosave disabled."
-msgstr "Automatsko spremanje onemogućeno."
+#: kuma/static/js/wiki-edit.js:346
+msgid "Publishing changes…"
+msgstr ""
+
+#: kuma/static/js/wiki-edit.js:385
+msgid "Publishing failed. You are not currently signed in. Please use a new tab to sign in and try publishing again."
+msgstr ""
+
+#: kuma/static/js/wiki-edit.js:388
+msgid "Changes saved."
+msgstr ""
+
+#: kuma/static/js/wiki-edit.js:417
+msgid "Publishing failed. Please copy and paste your changes into a safe place and try submitting the form using the \"Publish\" button."
+msgstr ""
 
 #: kuma/static/js/wiki-samples.js:99
 #, python-format
@@ -203,19 +175,19 @@ msgstr "Otvori u %(site)s"
 msgid "New tag..."
 msgstr "Novi tag..."
 
-#: kuma/static/js/wiki.js:200
+#: kuma/static/js/wiki.js:184
 msgid "How to read CSS syntax."
 msgstr "Kako čitati CSS sintaksu."
 
-#: kuma/static/js/wiki.js:570
+#: kuma/static/js/wiki.js:476
 msgid "Search Stack Overflow"
 msgstr "Pretraži Stack Overflow"
 
-#: kuma/static/js/wiki.js:677
+#: kuma/static/js/wiki.js:583
 msgid "Your browser does not support MathML. A CSS fallback has been used instead."
 msgstr "Vaš preglednik ne podržava MathML. Bit će korišten CSS rezerva."
 
-#: kuma/static/js/wiki.js:892
+#: kuma/static/js/wiki.js:798
 msgid "Details"
 msgstr "Detalji"
 
@@ -276,30 +248,35 @@ msgid "What should the sample title be?"
 msgstr "Što bi trebao biti naslov primjera?"
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:23
-msgid "HTML Content"
-msgstr "HTML sadržaj"
+msgid "HTML"
+msgstr ""
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:24
 msgid "Sample HTML Content"
 msgstr "Primjer HTML sadržaja"
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:27
-msgid "CSS Content"
-msgstr "CSS sadržaj"
+msgid "CSS"
+msgstr ""
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:28
 msgid "Sample CSS Content"
 msgstr "Primjer CSS sadržaja"
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:31
-msgid "JavaScript Content"
+#, fuzzy
+msgid "JavaScript"
 msgstr "JavaScript sadržaj"
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:32
 msgid "Sample JavaScript Content"
 msgstr "Primjer JavaScript sadržaja"
 
-#: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:52
+#: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:35
+msgid "Result"
+msgstr ""
+
+#: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:53
 msgid "Insert Code Sample Template"
 msgstr "Unesite predložak primjera kôda"
 
@@ -338,3 +315,102 @@ msgstr "URL kojeg ste unijeli izgleda da nije valjan"
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-youtube/plugin.js:33
 msgid "Default"
 msgstr "Zadano"
+
+#~ msgid "Did this page help you?"
+#~ msgstr "Je li Vam ova stranica pomogla?"
+
+#~ msgid "Yes"
+#~ msgstr "Da"
+
+#~ msgid "No"
+#~ msgstr "Ne"
+
+#~ msgid "Never ask me again"
+#~ msgstr "Nemoj me više pitati"
+
+#~ msgid "Thanks for your feedback!"
+#~ msgstr "Hvala Vam na Vašim povratnim informacijama!"
+
+#~ msgid "We won't bug you again."
+#~ msgstr "Nećemo Vam više dosađivati."
+
+#~ msgid "Translate it into my language"
+#~ msgstr "Prijevod na moj jezik"
+
+#~ msgid "Make explanations clearer"
+#~ msgstr "Napravite jasnija objašnjenja"
+
+#~ msgid "Add more details"
+#~ msgstr "Dodajte više detalja"
+
+#~ msgid "Fix incorrect information"
+#~ msgstr "Ispravite neispravne informacije"
+
+#~ msgid "Add or improve examples"
+#~ msgstr "Dodajte ili poboljšajte primjere"
+
+#~ msgid "My search should have led to a different article"
+#~ msgstr "Moja pretraga ja trebala dovesti do drugog članka"
+
+#~ msgid "Something else"
+#~ msgstr "Nešto drugo"
+
+#~ msgid "Choose one..."
+#~ msgstr "Odaberite jedno..."
+
+#~ msgid "Uh oh. What would make it better?"
+#~ msgstr "A ne. Što bi ga učinilo boljim?"
+
+#~ msgid "Thanks! We'll fix it."
+#~ msgstr "Hvala! Popravit ćemo."
+
+#~ msgid "Save Draft"
+#~ msgstr "Spremi skicu"
+
+#~ msgid "Enable autosave."
+#~ msgstr "Omogući automatsko spremanje."
+
+#~ msgid "Draft"
+#~ msgstr "Skica"
+
+#~ msgid "saved"
+#~ msgstr "spremljeno"
+
+#~ msgid "Autosave disabled."
+#~ msgstr "Automatsko spremanje onemogućeno."
+
+#~ msgid "Open implementation notes"
+#~ msgstr "Otvorite bilješke implementacije"
+
+#~ msgid "Open"
+#~ msgstr "Otvori"
+
+#~ msgid "Return to compatibility table."
+#~ msgstr "Vratite na tablicu kompatibilnosti."
+
+#~ msgid "Close"
+#~ msgstr "Zatvori"
+
+#~ msgid "New compatibility tables are in beta "
+#~ msgstr "Nove tablice kompatibilnosti su u beti "
+
+#~ msgid "More about the beta."
+#~ msgstr "Više o beti."
+
+#~ msgid "Take the survey"
+#~ msgstr "Ispunite anketu"
+
+#~ msgid "Report an error."
+#~ msgstr "Prijavite grešku."
+
+#~ msgid "Reported. Thanks!"
+#~ msgstr "Prijavljeno. Hvala!"
+
+#~ msgid "Show old table."
+#~ msgstr "Prikaži staru tablicu."
+
+#~ msgid "HTML Content"
+#~ msgstr "HTML sadržaj"
+
+#~ msgid "CSS Content"
+#~ msgstr "CSS sadržaj"

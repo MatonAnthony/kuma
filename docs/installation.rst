@@ -1,39 +1,50 @@
-=======================
-Installation via Docker
-=======================
-Starting in 2016, we support using `Docker`_ for local development, and we are
-transitioning to Docker for integration testing and deployment as well.
+============
+Installation
+============
+Kuma uses `Docker`_ for local development and integration testing, and we are
+transitioning to Docker containers for deployment as well.
 
 .. _Docker: https://www.docker.com/
 
-**Current Status**:
+**Current Status of Dockerization**:
 
 * Kuma developers are using Docker for daily development and maintenance tasks.
-  Staff developers primarily use `Docker for Mac`_.  Other staff
+  Staff developers primarily use `Docker for Mac`_. Other staff
   members and contributors use `Docker's Ubuntu packages`_.
-* When the master branch is updated, the ``kuma_base`` image is refreshed and
-  published to `quay.io`_.  This image contains system packages and
-  third-party libraries.
 * The Docker development environment is evolving rapidly, to address issues
   found during development and to move toward a containerized design. You may
   need to regularly reset your environment to get the current changes.
-* The Docker environment doesn't yet support everything from the Vagrant
-  environment, such as local SSL development and automatic asset compiling.
-* We are documenting tips and tricks on the 
+* The Docker development environment doesn't fully support a 'production-like'
+  environment. For example, we don't have a documented configuration for
+  running with an SSL connection.
+* When the master branch is updated, the ``kuma_base`` image is refreshed and
+  published to `quay.io`_. This image contains system packages and
+  third-party libraries.
+* Our TravisCI_ builds include a target that build Docker containers and runs
+  the tests inside.
+* Our Jenkins_ server builds and publishes Docker images, and runs integration
+  tests using Docker.
+* We are documenting tips and tricks on the
   :doc:`Troubleshooting page <troubleshooting>`.
 
 .. _`Docker for Mac`: https://docs.docker.com/docker-for-mac/
 .. _`Docker's Ubuntu packages`: https://docs.docker.com/engine/installation/linux/ubuntulinux/
 .. _`quay.io`: https://quay.io/repository/mozmar/kuma_base?tab=tags
+.. _TravisCI: https://travis-ci.org/mozilla/kuma/
+.. _Jenkins: https://ci.us-west.moz.works/view/MDN/job/mdn_multibranch_pipeline/
 
 Docker setup
 ============
 
 #. Install the `Docker platform`_, following Docker's instructions for your
-   operating system (`Docker for Mac`_ for MacOS,
-   `Docker's Ubuntu packages`_ etc.).
+   operating system, such as `Docker for Mac`_ for MacOS, or for your
+   `Linux distribution`_.  Linux users will also want to install
+   `Docker Compose`_ and follow `post-install instructions`_ to confirm that
+   the development user can run Docker commmands.
 
-   .. _Docker platform: https://www.docker.com/products/overview
+   To confirm that Docker is installed correctly, run::
+
+        docker run hello-world
 
 #. Clone the kuma Git repository, if you haven't already::
 
@@ -42,6 +53,13 @@ Docker setup
 #. Ensure you are in the existing or newly cloned kuma working copy::
 
         cd kuma
+
+#. Initialize and customize ``.env``. Linux users should set the ``UID``
+   parameter in ``.env``, to avoid issues when mixing ``docker-compose`` and
+   ``docker`` commands::
+
+        cp .env-dist.dev .env
+        vim .env  # Or your favorite editor
 
 #. Pull the Docker images and build the containers::
 
@@ -52,6 +70,11 @@ Docker setup
 
         docker-compose up -d
 
+.. _Docker platform: https://www.docker.com/products/overview
+.. _Linux distribution: https://docs.docker.com/engine/installation/linux/
+.. _Docker Compose: https://docs.docker.com/compose/install/
+.. _post-install instructions: https://docs.docker.com/engine/installation/linux/linux-postinstall/
+
 The following instructions assume that you are running from a folder named
 ``kuma``, so that the containers created are named ``kuma_web_1``,
 ``kuma_worker_1``, etc.  If you run from another folder, like ``mdn``, the
@@ -60,39 +83,18 @@ command accordingly, or force the ``kuma`` name with::
 
         docker-compose up -d -p kuma
 
-Provision the database
-======================
-There are two options for provisioning the database.  One option is to
-initialize a new, empty database, and another is to restore an existing
-database from a data dump.
+.. _provision-the-database:
 
-Initialize a new database
--------------------------
-To initialize a fresh database, run the migrations::
+Load the Sample Database
+========================
+Download and load the sample database::
 
-    docker exec -it kuma_web_1 ./manage.py migrate
+    wget -N https://mdn-downloads.s3-us-west-2.amazonaws.com/mdn_sample_db.sql.gz
+    docker exec -i kuma_web_1 bash -c "zcat | ./manage.py dbshell" < mdn_sample_db.sql.gz
 
-It will run the standard Django migrations, with output similar to::
+It takes a few seconds to load, with this expected output::
 
-    Operations to perform:
-      Synchronize unmigrated apps: allauth, humans, dashboards, statici18n, captcha, django_mysql, django_extensions, rest_framework, cacheback, dbgettext, django_jinja, flat, persona, staticfiles, landing, puente, sitemaps, github, pipeline, soapbox, messages, honeypot, constance
-      Apply all migrations: wiki, core, account, tidings, attachments, database, admin, sessions, djcelery, search, auth, feeder, sites, contenttypes, taggit, users, waffle, authkeys, socialaccount
-    Synchronizing apps without migrations:
-      Creating tables...
-    ...
-      Applying wiki.0030_add_page_creators_group... OK
-      Applying wiki.0031_add_data_to_revisionip... OK
-
-The database will be populated with empty tables.
-
-Restore an existing database
-----------------------------
-To restore a gzipped-database dump ``kuma.sql.gz``::
-
-    docker exec -i kuma_web_1 bash -c "zcat | ./manage.py dbshell" < kuma.sql.gz
-
-There will be no output until the database is loaded, which may take several
-minutes depending on the size of the data dump.
+    mysql: [Warning] Using a password on the command line interface can be insecure.
 
 This command can be adjusted to restore from an uncompressed database, or
 directly from a ``mysqldump`` command.
@@ -106,20 +108,20 @@ compiled to their binary form::
 
 Dozens of lines of warnings will be printed::
 
-    cd locale; ./compile-mo.sh . ; cd --
+    cd locale; ./compile-mo.sh .
     ./af/LC_MESSAGES/django.po:2: warning: header field 'PO-Revision-Date' still has the initial default value
     ./af/LC_MESSAGES/django.po:2: warning: header field 'Last-Translator' still has the initial default value
     ...
-    ./zu/LC_MESSAGES/promote-mdn.po:4: warning: header field 'PO-Revision-Date' still has the initial default value
-    ./zu/LC_MESSAGES/promote-mdn.po:4: warning: header field 'Last-Translator' still has the initial default value
+    ./zu/LC_MESSAGES/javascript.po:2: warning: header field 'PO-Revision-Date' still has the initial default value
+    ./zu/LC_MESSAGES/javascript.po:2: warning: header field 'Last-Translator' still has the initial default value
 
 Warnings are OK, and will be fixed as translators update the strings on
-Pontoon_.  If there is an error, the output will end with the error, such as::
+Pontoon_. If there is an error, the output will end with the error, such as::
 
     ./az/LC_MESSAGES/django.po:263: 'msgid' and 'msgstr' entries do not both end with '\n'
     msgfmt: found 1 fatal error
 
-These need to be fixed by a Kuma developer. Notify then in the #mdndev IRC
+These need to be fixed by a Kuma developer. Notify them in the #mdndev IRC
 channel or open a bug. You can continue with installation, but non-English
 locales will not be localized.
 
@@ -134,18 +136,56 @@ compiled to their final form::
 
 A few thousand lines will be printed, like::
 
-    ## Compiling Stylus files to CSS ##
-    compiled build/assets/css/dashboards.css
-    generated build/assets/css/dashboards.css.map
+    ## Generating JavaScript translation catalogs ##
+    processing language en_US
+    processing language af
+    processing language ar
     ...
-    Post-processed 'css/zones.css' as 'css/zones.718d56a0cdc0.css'
-    Post-processed 'css/zones.css.map' as 'css/zones.css.6be0969a4847.map'
-
-    1717 static files copied to '/app/static', 1799 post-processed.
+    ## Compiling (Sass), collecting, and building static files ##
+    Copying '/app/build/locale/jsi18n/af/javascript.js'
+    Copying '/app/build/locale/jsi18n/ar/javascript.js'
+    Copying '/app/build/locale/jsi18n/az/javascript.js'
+    ...
+    Post-processed 'build/styles/wiki.css' as 'build/styles/wiki.css'
+    Post-processed 'build/styles/error-404.css' as 'build/styles/error-404.css'
+    Post-processed 'build/styles/mdn.css' as 'build/styles/mdn.css'
+    ....
+    1687 static files copied to '/app/static', 1773 post-processed
 
 Visit the Homepage
 ==================
 Open the homepage at http://localhost:8000 . You've installed Kuma!
+
+.. _frontend-development:
+
+Prepare for Front-end Development
+=================================
+When doing front-end development on your local machine, you'll probably
+want to run ``gulp``, to rebuild front-end assets as they edited, rather than
+running ``make build-static`` after each change.
+
+First, install Node.js v6, using the `install instructions for your OS`_.
+
+Next, from the root directory of your Kuma repository, install ``gulp`` and
+dependencies::
+
+    npm install
+
+Now, you can run ``gulp`` (probably from its own shell)::
+
+    node_modules/.bin/gulp
+
+Alternatively, you can install ``gulp`` globally::
+
+    sudo npm install -g
+
+And then run ``gulp`` more simply::
+
+    gulp
+
+.. _gulp: http://gulpjs.com/
+.. _`Node.js`: https://nodejs.org/
+.. _`install instructions for your OS`: https://nodejs.org/en/download/package-manager/
 
 Create an admin user
 ====================
@@ -160,24 +200,51 @@ If you want to create a new admin account, use ``createsuperuser``::
 This will prompt you for a username, email address (a fake address like
 ``admin@example.com`` will work), and a password.
 
-If your database has an existing account that you want to use, use the Django
-shell, similar to this::
+If your database has an existing account that you want to use, run the
+management command. Replace ``YOUR_USERNAME`` with your username and
+``YOUR_PASSWORD`` with your password::
 
-    docker exec -it kuma_web_1 ./manage.py shell_plus
-    >>> me = User.objects.get(username='admin_username')
-    >>> me.set_password('mypassword')
-    >>> me.is_superuser = True
-    >>> me.is_staff = True
-    >>> me.save()
-    >>> exit()
+    docker-compose run --rm web ./manage.py ihavepower YOUR_USERNAME \
+    --password YOUR_PASSWORD
 
 With a password-enabled admin account, you can log into Django admin at
 http://localhost:8000/admin/login/
 
-.. _Disable your admin password:
+.. _enable-github-auth:
 
-When social accounts are enabled, the password can be disabled with the Django
-shell::
+Enable GitHub Auth (optional)
+=============================
+To enable GitHub authentication, you'll need to
+`register an OAuth application on GitHub`_, with settings like:
+
+* Application name: MDN Development for (<username>).
+* Homepage URL: http://localhost:8000/.
+* Application description: My own GitHub app for MDN!
+* Authorization callback URL: http://localhost:8000/users/github/login/callback/.
+
+As an admin user, `add a django-allauth social app`_ for GitHub:
+
+* Provider: GitHub.
+* Name: MDN Development.
+* Client id: <*your GitHub App Client ID*>.
+* Secret key: <*your GitHub App Client Secret*>.
+* Sites: Move ``example.com`` from "Available sites" to "Chosen sites".
+
+Now you can sign in with GitHub.
+
+To associate your password-only admin account with GitHub:
+
+#. Login with your password at http://localhost:8000/admin/login/.
+#. Go to the Homepage at https://developer.mozilla.org/en-US/.
+#. Click your username at the top to view your profile.
+#. Click Edit to edit your profile.
+#. Under My Profiles, click `Use your GitHub account to sign in`_.
+
+To create a new account with GitHub, use the regular "Sign in" widget at the
+top of any page.
+
+With social accounts are enabled, you can disable the admin password in the
+Django shell::
 
     docker exec -it kuma_web_1 ./manage.py shell_plus
     >>> me = User.objects.get(username='admin_username')
@@ -185,86 +252,14 @@ shell::
     >>> me.save()
     >>> exit()
 
-Enable the wiki
-===============
-By default, the wiki is disabled with a
-:doc:`feature toggle <feature-toggles>`.  To enable editing:
-
-#. Log in as an admin user.
-#. Open the `Waffle / Flags`_ section of the admin site.
-#. Click "`ADD FLAG`_", above the Filter sidebar.
-#. Enter "kumaediting" for the Name.
-#. Set "Everyone" to "Yes".
-#. Click "SAVE" at the bottom of the page.
-
-If you are using a populated database, the "kumaediting" flag may already
-exist.
-
-You can now visit http://localhost:8000/docs/new to create new wiki pages.
-
-Many contributors use a a personal page as a testing sandbox, with a title
-such as "User:myusername".
-
-.. _Waffle / Flags: http://localhost:8000/admin/waffle/flag/
-.. _ADD FLAG: http://localhost:8000/admin/waffle/flag/add/
-
-Enable KumaScript
-=================
-By default, `KumaScript`_ is disabled by the default timeout of `0.0` seconds.
-To enable KumaScript:
-
-#. Log in as the admin user.
-#. Open the `Constance / Config`_ section of the admin site.
-#. Change ``KUMASCRIPT_TIMEOUT`` to 600.
-#. Click "SAVE" at the bottom of the page.
-#. Import the `KumaScript auto-loaded modules`_:
-
-::
-
-   docker exec -it kuma_web_1 ./manage.py import_kumascript_modules
-
-.. _KumaScript: https://developer.mozilla.org/en-US/docs/MDN/Contribute/Tools/KumaScript
-.. _Constance / Config: http://localhost:8000/admin/constance/config/
-.. _KumaScript auto-loaded modules: https://developer.mozilla.org/en-US/docs/MDN/Kuma/Introduction_to_KumaScript#Auto-loaded_modules
-
-
-Enable GitHub Auth
-==================
-To enable GitHub authentication, you'll need to
-`register an OAuth application on GitHub`_, with settings like:
-
-* Application name: MDN Development for (<username>)
-* Homepage URL: http://localhost:8000/
-* Application description: My own GitHub app for MDN!
-* Authorization callback URL: http://localhost:8000/users/github/login/callback/
-
-As an admin user, `add a django-allauth social app`_ for GitHub:
-
-* Provider: GitHub
-* Name: MDN Development
-* Client id: <*your GitHub App Client ID*>
-* Secret key: <*your GitHub App Client Secret*>
-* Sites: Move ``example.com`` from "Available sites" to "Chosen sites"
-
-Now you can sign in with GitHub.
-
-To associate your password-only admin account with GitHub:
-
-#. Login with your password at http://localhost:8000/admin/login/
-#. Go to Account Connections at http://localhost:8000/en-US/users/account/connections
-#. Click "Connect with GitHub"
-#. (*Optional*) `Disable your admin password`_.
-
-To create a new account with GitHub, use the regular "Sign in" widget at the
-top of any page.
-
 .. _register an OAuth application on GitHub: https://github.com/settings/applications/new
 .. _add a django-allauth social app: http://localhost:8000/admin/socialaccount/socialapp/add/
+.. _`Use your GitHub account to sign in`: https://developer.mozilla.org/users/github/login/?process=connect
 
 Interact with the Docker containers
 ===================================
 The current directory is mounted as the ``/app`` folder in the web and worker
-containers (``kuma_web_1`` and ``kuma_worker_1``).  Changes made to your local
+containers (``kuma_web_1`` and ``kuma_worker_1``). Changes made to your local
 directory are usually reflected in the running containers. To force the issue,
 the container can be restarted::
 

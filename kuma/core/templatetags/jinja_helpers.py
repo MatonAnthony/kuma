@@ -96,7 +96,7 @@ def entity_decode(str):
 
 @library.global_function
 def page_title(title):
-    return jinja2.Markup(u'%s | MDN' % title)
+    return jinja2.Markup(u'%s | MDN' % jinja2.escape(title))
 
 
 @library.filter
@@ -120,31 +120,6 @@ def jsonencode(data):
 def get_soapbox_messages(url):
     _, path = split_path(url)
     return Message.objects.match(path)
-
-
-@library.global_function
-def get_webfont_attributes(request):
-    """
-    Return data attributes based on assumptions about if user has them cached
-    """
-    if not request:
-        return ''
-    assume_loaded = 'true'
-    if request.META.get('HTTP_PRAGMA') == 'no-cache':
-        assume_loaded = 'false'
-    elif request.META.get('HTTP_CACHE_CONTROL') == 'no-cache':
-        assume_loaded = 'false'
-    elif request.COOKIES.get('ffo', 'false') == 'true':
-        assume_loaded = 'true'
-    else:
-        assume_loaded = 'false'
-
-    font_names = ['opensanslight', 'opensans']
-    font_attributes = ''
-    for font_name in font_names:
-        font_attributes += ' data-ffo-' + font_name + '=' + assume_loaded + ''
-
-    return font_attributes
 
 
 @library.global_function

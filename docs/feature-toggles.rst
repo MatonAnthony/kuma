@@ -1,5 +1,5 @@
 ===============
-Feature Toggles
+Feature toggles
 ===============
 
 MDN uses `feature toggles`_ to integrate un-finished feature changes as early
@@ -11,7 +11,7 @@ features in the django admin site's `waffle section`_.
 Some site features are controlled using `constance`_. You control these
 features in the django admin site's `constance section`_.
 
-Waffle Features
+Waffle features
 ===============
 
 Switches
@@ -19,17 +19,25 @@ Switches
 
 `Waffle switches`_ are simple booleans - they are either on or off.
 
-* ``application_ACAO`` - Enable Access-Control-Allow-Origin=0 header
+* ``application_ACAO`` - Enable Access-Control-Allow-Origin=0 header.
 * ``dumb_doc_urls`` - (deprecated) Disable the render-time changing of /docs/
   URLs to the equivalent Zone URLs (see `PR 3331`_ for reasoning).
-* ``enable_optimizely`` - Enable the Optimizely JavaScript
+* ``enable_optimizely`` - Enable the Optimizely JavaScript.
+* ``foundation_callout`` - show Foundation donation tile on homepage.
+* ``newsletter`` - Show newsletter sign-up site wide.
+* ``newsletter_article`` - Show newsletter sign-up in article footer (must be
+  used in combination with ``newsletter``).
+* ``redesign`` - show design reflecting new Mozilla branding
+* ``redesign_beta`` - show redesign notice for beta period
+* ``redesign_live`` - show redesign notice for launch period
 * ``store_revision_ips`` - Save request data, including the IP address, to
   enable marking revisions as spam.
-* ``welcome_email`` - send welcome email to new user registrations
-* ``wiki_error_on_delete`` - throw an error if a user tries to delete a page
-* ``wiki_force_immediate_rendering`` - force wiki pages to render immediately
+* ``welcome_email`` - Send welcome email to new user registrations.
+* ``wiki_error_on_delete`` - Throw an error if a user tries to delete a page.
+* ``wiki_force_immediate_rendering`` - Force wiki pages to render immediately
   in the same http request in which they are saved (not in a background
-  process)
+  process).
+
 
 Flags
 -----
@@ -37,28 +45,26 @@ Flags
 `Waffle flags`_ control behavior by specific users, groups, percentages, and
 other advanced criteria.
 
-* ``compat_api`` - View the new API-backed compatibility tables
-* ``kumabanned`` - (deprecated) added to users to mark them as banned
-* ``kumaediting`` - enable/disable wiki editing
-* ``page_move`` - (deprecated) enable/disable page move feature
-* ``registration_disabled`` - enable/disable new user registration
-* ``search_doc_navigator`` - show the search doc navigator feature
-* ``search_suggestions`` - show the advanced search filter suggestions
-  interface
-* ``section_edit`` - Show section edit buttons
-* ``sg_task_completion`` - enable the Survey Gizmo pop-up
-* ``spam_admin_override`` - Tell Akismet that edits are never spam
-* ``spam_spammer_override`` - Tell Akismet that edits are always spam
-* ``spam_testing_mode`` - Tell Akismet that edits are tests, not real content
-* ``spam_checks_enabled`` - toggle spam checks site wide
-* ``spam_submissions_enabled`` - toggle Akismet spam/spam submission ability
-* ``wiki_samples`` - Add button to open samples in Codepen or jsFiddle
-* ``wiki_spam_exempted`` - exempt users and user groups from checking
-  submissions for spam
+* ``kumabanned`` - (deprecated) added to users to mark them as banned.
+* ``kumaediting`` - Enable/disable wiki editing.
+* ``page_move`` - (deprecated) enable/disable page move feature.
+* ``registration_disabled`` - Enable/disable new user registration.
+* ``search_suggestions`` - Show the advanced search filter suggestions
+  interface.
+* ``section_edit`` - Show section edit buttons.
+* ``sg_task_completion`` - Enable the Survey Gizmo pop-up.
+* ``spam_admin_override`` - Tell Akismet that edits are never spam.
+* ``spam_spammer_override`` - Tell Akismet that edits are always spam.
+* ``spam_testing_mode`` - Tell Akismet that edits are tests, not real content.
+* ``spam_checks_enabled`` - Toggle spam checks site wide.
+* ``spam_submissions_enabled`` - Toggle Akismet spam/spam submission ability.
+* ``wiki_samples`` - Add button to open samples in Codepen or jsFiddle.
+* ``wiki_spam_exempted`` - Exempt users and user groups from checking.
+  submissions for spam.
 * ``wiki_spam_training`` - Call Akismet to check submissions, but don't block
   due to detected spam or Akismet errors.
 
-Constance Features
+Constance features
 ==================
 
 Constance configs let us set operational *values* for certain features in the

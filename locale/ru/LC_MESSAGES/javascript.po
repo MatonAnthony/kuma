@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MDN 2016.0\n"
 "Report-Msgid-Bugs-To: dev-mdn@lists.mozilla.org\n"
-"POT-Creation-Date: 2016-08-08 13:21-0700\n"
-"PO-Revision-Date: 2016-06-24 20:25+0000\n"
+"POT-Creation-Date: 2017-06-20 07:47-0700\n"
+"PO-Revision-Date: 2017-06-07 18:07+0000\n"
 "Last-Translator: Victor Bychek <a@bychek.ru>\n"
 "Language-Team: Russian https://pontoon.mozilla.org/ru/\n"
 "Language: ru\n"
@@ -19,73 +19,52 @@ msgstr ""
 msgid "Close submenu"
 msgstr "Закрыть подменю"
 
-#: kuma/static/js/components.js:542
+#: kuma/static/js/components.js:543
 msgid "Close notification"
 msgstr "Закрыть оповещение"
 
-#: kuma/static/js/helpfulness.js:32
-msgid "Did this page help you?"
-msgstr "Эта страница помогла вам?"
+#: kuma/static/js/dashboard.js:12
+msgid "Revert"
+msgstr "Вернуть"
 
-#: kuma/static/js/helpfulness.js:34
-msgid "Yes"
-msgstr "Да"
+#: kuma/static/js/dashboard.js:13
+msgid "View Page"
+msgstr "Просмотреть страницу"
 
-#: kuma/static/js/helpfulness.js:36
-msgid "No"
-msgstr "Нет"
+#: kuma/static/js/dashboard.js:14
+msgid "Edit Page"
+msgstr "Изменить страницу"
 
-#: kuma/static/js/helpfulness.js:38
-msgid "Never ask me again"
-msgstr "Никогда больше не спрашивать"
+#: kuma/static/js/dashboard.js:15
+msgid "History"
+msgstr "История"
 
-#: kuma/static/js/helpfulness.js:45
-msgid "Thanks for your feedback!"
-msgstr "Спасибо за ваш отзыв!"
+#: kuma/static/js/dashboard.js:115
+msgid "Hang on! Updating filters…"
+msgstr "Погодите! Обновление фильтров…"
 
-#: kuma/static/js/helpfulness.js:54
-msgid "We won't bug you again."
-msgstr "Мы не будем беспокоить вас снова."
+#: kuma/static/js/dashboard.js:122
+msgid "Updated filters."
+msgstr "Фильтры обновлены."
 
-#: kuma/static/js/helpfulness.js:59
-msgid "Translate it into my language"
-msgstr "Перевести это на мой язык"
+#: kuma/static/js/dashboard.js:139
+msgid "Submitting..."
+msgstr "Отправляю..."
 
-#: kuma/static/js/helpfulness.js:60
-msgid "Make explanations clearer"
-msgstr "Сделать объяснения понятнее"
+#: kuma/static/js/dashboard.js:147
+#, python-format
+msgid "Submitted as %(submission_type)s"
+msgstr "Отправлено как %(submission_type)s"
 
-#: kuma/static/js/helpfulness.js:61
-msgid "Add more details"
-msgstr "Добавить больше подробностей"
+#: kuma/static/js/dashboard.js:148
+#, python-format
+msgid "%(sent_date)s by %(user)s"
+msgstr "%(sent_date)s от %(user)s"
 
-#: kuma/static/js/helpfulness.js:62
-msgid "Fix incorrect information"
-msgstr "Исправить неверную информацию"
-
-#: kuma/static/js/helpfulness.js:63
-msgid "Add or improve examples"
-msgstr "Добавить или улучшить примеры"
-
-#: kuma/static/js/helpfulness.js:64
-msgid "My search should have led to a different article"
-msgstr "Мой поиск должен вести на другую статью"
-
-#: kuma/static/js/helpfulness.js:65
-msgid "Something else"
-msgstr "Что-то ещё"
-
-#: kuma/static/js/helpfulness.js:69
-msgid "Choose one..."
-msgstr "Выберите одно..."
-
-#: kuma/static/js/helpfulness.js:83
-msgid "Uh oh. What would make it better?"
-msgstr "Ой-ой. Как сделать это лучше?"
-
-#: kuma/static/js/helpfulness.js:86
-msgid "Thanks! We'll fix it."
-msgstr "Спасибо! Мы исправим это."
+#: kuma/static/js/dashboard.js:158
+#, python-format
+msgid "Error submitting as %(type)s"
+msgstr "Ошибка отправки как %(type)s"
 
 #: kuma/static/js/moz-jquery-plugins.js:107
 msgid "No selection"
@@ -95,105 +74,90 @@ msgstr "Не выбрано"
 msgid "Selected: "
 msgstr "Выбрано: "
 
-#: kuma/static/js/users.js:108
+#: kuma/static/js/users.js:107
 msgid "New interest..."
 msgstr "Новый интерес..."
 
-#: kuma/static/js/wiki-compat-tables.js:23
-msgid "Open implementation notes"
-msgstr "Открыть заметки реализации"
-
-#: kuma/static/js/wiki-compat-tables.js:23
-msgid "Open"
-msgstr "Открыть"
-
-#: kuma/static/js/wiki-compat-tables.js:25
-msgid "Return to compatibility table."
-msgstr "Вернуться к таблице совместимости."
-
-#: kuma/static/js/wiki-compat-tables.js:25
-msgid "Close"
-msgstr "Закрыть"
-
-#: kuma/static/js/wiki-compat-tables.js:108
-msgid "New compatibility tables are in beta "
-msgstr "Новые таблицы совместимости в бете "
-
-#: kuma/static/js/wiki-compat-tables.js:112
-msgid "More about the beta."
-msgstr "Подробнее о бете."
-
-#: kuma/static/js/wiki-compat-tables.js:115
-msgid "Take the survey"
-msgstr "Пройти опрос"
-
-#: kuma/static/js/wiki-compat-tables.js:118
-msgid "Report an error."
-msgstr "Сообщить об ошибке."
-
-#: kuma/static/js/wiki-compat-tables.js:124
-msgid "Reported. Thanks!"
-msgstr "Отправлено. Спасибо!"
-
-#: kuma/static/js/wiki-compat-tables.js:128
-msgid "Show old table."
-msgstr "Показать старую таблицу."
-
-#: kuma/static/js/wiki-edit.js:401
-msgid "Save Draft"
-msgstr "Сохранить черновик"
-
-#: kuma/static/js/wiki-edit.js:406
-msgid "Enable autosave."
-msgstr "Включить автосохранение."
-
-#: kuma/static/js/wiki-edit.js:414
+#: kuma/static/js/wiki-edit-draft.js:76
 msgid "an unknown date"
 msgstr "неизвестная дата"
 
-#: kuma/static/js/wiki-edit.js:415
-msgid "You have a draft from:"
-msgstr "У вас есть черновик от:"
+#: kuma/static/js/wiki-edit-draft.js:77
+msgid "View draft."
+msgstr "Просмотреть черновик."
 
-#: kuma/static/js/wiki-edit.js:416
-msgid "Restore the draft content"
-msgstr "Восстановить контент черновика"
+#: kuma/static/js/wiki-edit-draft.js:78
+msgid "Restore draft."
+msgstr "Восстановить черновик."
 
-#: kuma/static/js/wiki-edit.js:417
-msgid "Discard the draft"
-msgstr "Удалить черновик"
+#: kuma/static/js/wiki-edit-draft.js:79
+msgid "Discard draft."
+msgstr "Удалить черновик."
 
-#: kuma/static/js/wiki-edit.js:442
-msgid "restored"
-msgstr "восстановлен"
+#: kuma/static/js/wiki-edit-draft.js:101
+msgid "A newer version of this article has been published since this draft was saved. You can restore the draft to view the content, but you will not be able to submit it for publishing."
+msgstr "С момента сохранения черновика была опубликована более новая версия этой статьи. Вы можете восстановить черновик, чтобы увидеть контент, но вы не сможете опубликовать его."
 
-#: kuma/static/js/wiki-edit.js:571
-msgid "Draft"
-msgstr "Черновик"
+#: kuma/static/js/wiki-edit-draft.js:102 kuma/static/js/wiki-edit-draft.js:117
+msgid "Revision history."
+msgstr "История ревизий."
 
-#: kuma/static/js/wiki-edit.js:590
-msgid "saved"
-msgstr "сохранён"
+#: kuma/static/js/wiki-edit-draft.js:103
+msgid "Published version"
+msgstr "Опубликованная версия"
 
-#: kuma/static/js/wiki-edit.js:609
-msgid "autosaved"
-msgstr "автосохранён"
+#: kuma/static/js/wiki-edit-draft.js:116
+msgid "Compare this date to the latest revision date to ensure you're not overwriting later changes."
+msgstr "Сравните эту дату с датой последней версии, чтобы убедиться, что вы не перезаписываете более поздние изменения."
 
-#: kuma/static/js/wiki-edit.js:618
-msgid "published"
-msgstr "опубликован"
+#: kuma/static/js/wiki-edit-draft.js:126
+#, python-format
+msgid "You have a draft from: %(time)s."
+msgstr "У вас есть черновик от: %(time)s."
 
-#: kuma/static/js/wiki-edit.js:622
-msgid "discarded"
-msgstr "удалён"
+#: kuma/static/js/wiki-edit-draft.js:152
+msgid "Viewing old draft. This draft cannot be published."
+msgstr "Просмотр старого черновика. Этот черновик нельзя опубликовать."
 
-#: kuma/static/js/wiki-edit.js:660
+#: kuma/static/js/wiki-edit-draft.js:171
+msgid "Draft restored."
+msgstr "Черновик восстановлен."
+
+#: kuma/static/js/wiki-edit-draft.js:188
+msgid "Draft discarded."
+msgstr "Черновик удалён."
+
+#: kuma/static/js/wiki-edit-draft.js:222
+msgid "Draft published:"
+msgstr "Черновик опубликован:"
+
+#: kuma/static/js/wiki-edit-draft.js:224
+msgid "Draft discarded:"
+msgstr "Черновик удалён:"
+
+#: kuma/static/js/wiki-edit-draft.js:226
+msgid "Draft autosaved:"
+msgstr "Черновик автосохранён:"
+
+#: kuma/static/js/wiki-edit-draft.js:407
 msgid "Autosave enabled."
 msgstr "Автосохранение включено."
 
-#: kuma/static/js/wiki-edit.js:667
-msgid "Autosave disabled."
-msgstr "Автосохранение выключено."
+#: kuma/static/js/wiki-edit.js:346
+msgid "Publishing changes…"
+msgstr "Публикация изменений…"
+
+#: kuma/static/js/wiki-edit.js:385
+msgid "Publishing failed. You are not currently signed in. Please use a new tab to sign in and try publishing again."
+msgstr "Публикация не удалась. В настоящее время вы не вошли. Пожалуйста, используйте новую вкладку, чтобы войти и попытаться опубликовать снова."
+
+#: kuma/static/js/wiki-edit.js:388
+msgid "Changes saved."
+msgstr "Изменения сохранены."
+
+#: kuma/static/js/wiki-edit.js:417
+msgid "Publishing failed. Please copy and paste your changes into a safe place and try submitting the form using the \"Publish\" button."
+msgstr "Публикация не удалась. Пожалуйста, скопируйте и вставьте ваши изменения в безопасное место и попытайтесь отправить снова, используя кнопку \"Опубликовать\"."
 
 #: kuma/static/js/wiki-samples.js:99
 #, python-format
@@ -204,19 +168,19 @@ msgstr "Открыть на %(site)s"
 msgid "New tag..."
 msgstr "Новая метка..."
 
-#: kuma/static/js/wiki.js:200
+#: kuma/static/js/wiki.js:184
 msgid "How to read CSS syntax."
 msgstr "Как читать CSS синтаксис."
 
-#: kuma/static/js/wiki.js:570
+#: kuma/static/js/wiki.js:476
 msgid "Search Stack Overflow"
 msgstr "Поиск по Stack Overflow"
 
-#: kuma/static/js/wiki.js:677
+#: kuma/static/js/wiki.js:583
 msgid "Your browser does not support MathML. A CSS fallback has been used instead."
 msgstr "Ваш браузер не поддерживает MathML. Вместо него используется аварийное решение на CSS."
 
-#: kuma/static/js/wiki.js:892
+#: kuma/static/js/wiki.js:798
 msgid "Details"
 msgstr "Детали"
 
@@ -277,30 +241,34 @@ msgid "What should the sample title be?"
 msgstr "Каким будет заголовок примера?"
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:23
-msgid "HTML Content"
-msgstr "HTML контент"
+msgid "HTML"
+msgstr "HTML"
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:24
 msgid "Sample HTML Content"
 msgstr "HTML контент примера"
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:27
-msgid "CSS Content"
-msgstr "CSS контент"
+msgid "CSS"
+msgstr "CSS"
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:28
 msgid "Sample CSS Content"
 msgstr "CSS контент примера"
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:31
-msgid "JavaScript Content"
-msgstr "JavaScript контент"
+msgid "JavaScript"
+msgstr "JavaScript"
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:32
 msgid "Sample JavaScript Content"
 msgstr "JavaScript контент примера"
 
-#: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:52
+#: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:35
+msgid "Result"
+msgstr "Результат"
+
+#: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:53
 msgid "Insert Code Sample Template"
 msgstr "Вставить пример кода шаблона"
 
@@ -339,6 +307,105 @@ msgstr "URL, который вы ввели, выглядит неправиль
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-youtube/plugin.js:33
 msgid "Default"
 msgstr "По умолчанию"
+
+#~ msgid "Did this page help you?"
+#~ msgstr "Эта страница помогла вам?"
+
+#~ msgid "Yes"
+#~ msgstr "Да"
+
+#~ msgid "No"
+#~ msgstr "Нет"
+
+#~ msgid "Never ask me again"
+#~ msgstr "Никогда больше не спрашивать"
+
+#~ msgid "Thanks for your feedback!"
+#~ msgstr "Спасибо за ваш отзыв!"
+
+#~ msgid "We won't bug you again."
+#~ msgstr "Мы не будем беспокоить вас снова."
+
+#~ msgid "Translate it into my language"
+#~ msgstr "Перевести это на мой язык"
+
+#~ msgid "Make explanations clearer"
+#~ msgstr "Сделать объяснения понятнее"
+
+#~ msgid "Add more details"
+#~ msgstr "Добавить больше подробностей"
+
+#~ msgid "Fix incorrect information"
+#~ msgstr "Исправить неверную информацию"
+
+#~ msgid "Add or improve examples"
+#~ msgstr "Добавить или улучшить примеры"
+
+#~ msgid "My search should have led to a different article"
+#~ msgstr "Мой поиск должен вести на другую статью"
+
+#~ msgid "Something else"
+#~ msgstr "Что-то ещё"
+
+#~ msgid "Choose one..."
+#~ msgstr "Выберите одно..."
+
+#~ msgid "Uh oh. What would make it better?"
+#~ msgstr "Ой-ой. Как сделать это лучше?"
+
+#~ msgid "Thanks! We'll fix it."
+#~ msgstr "Спасибо! Мы исправим это."
+
+#~ msgid "Save Draft"
+#~ msgstr "Сохранить черновик"
+
+#~ msgid "Enable autosave."
+#~ msgstr "Включить автосохранение."
+
+#~ msgid "Draft"
+#~ msgstr "Черновик"
+
+#~ msgid "saved"
+#~ msgstr "сохранён"
+
+#~ msgid "Autosave disabled."
+#~ msgstr "Автосохранение выключено."
+
+#~ msgid "Open implementation notes"
+#~ msgstr "Открыть заметки реализации"
+
+#~ msgid "Open"
+#~ msgstr "Открыть"
+
+#~ msgid "Return to compatibility table."
+#~ msgstr "Вернуться к таблице совместимости."
+
+#~ msgid "Close"
+#~ msgstr "Закрыть"
+
+#~ msgid "New compatibility tables are in beta "
+#~ msgstr "Новые таблицы совместимости в бете "
+
+#~ msgid "More about the beta."
+#~ msgstr "Подробнее о бете."
+
+#~ msgid "Take the survey"
+#~ msgstr "Пройти опрос"
+
+#~ msgid "Report an error."
+#~ msgstr "Сообщить об ошибке."
+
+#~ msgid "Reported. Thanks!"
+#~ msgstr "Отправлено. Спасибо!"
+
+#~ msgid "Show old table."
+#~ msgstr "Показать старую таблицу."
+
+#~ msgid "HTML Content"
+#~ msgstr "HTML контент"
+
+#~ msgid "CSS Content"
+#~ msgstr "CSS контент"
 
 #~ msgid "Demo Studio"
 #~ msgstr "Демо студия"

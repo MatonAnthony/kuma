@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MDN 2016.0\n"
 "Report-Msgid-Bugs-To: dev-mdn@lists.mozilla.org\n"
-"POT-Creation-Date: 2016-08-15 09:57-0700\n"
-"PO-Revision-Date: 2016-08-30 06:31+0000\n"
+"POT-Creation-Date: 2017-07-13 13:29-0700\n"
+"PO-Revision-Date: 2017-07-14 10:39+0000\n"
 "Last-Translator: avelper <avelper@mozilla-hispano.org>\n"
 "Language-Team: Spanish https://pontoon.mozilla.org/es/\n"
 "Language: es\n"
@@ -28,37 +28,33 @@ msgid "Your profile has been banned from making edits."
 msgstr "Se ha prohibido que tu perfil realice ediciones."
 
 #: jinja2/403.html:27
-msgid "This user's profile has been banned."
-msgstr "Se ha bloqueado la cuenta de este usuario."
-
-#: jinja2/403.html:29
 msgid "You must sign in to view all history"
 msgstr "Debes iniciar sesión para ver todo el historial"
 
 # 83%
-#: jinja2/403.html:39 jinja2/handlers/400.html:21
+#: jinja2/403.html:37 jinja2/handlers/400.html:21
 #, python-format
 msgid "<p>We're sorry %(name)s, we're afraid we can't do that.</p>"
 msgstr "<p>Perdona %(name)s, pero creemos que no podemos hacerlo.</p>"
 
 # 80%
-#: jinja2/403.html:43 jinja2/handlers/400.html:25
+#: jinja2/403.html:41 jinja2/handlers/400.html:25
 msgid "<p>We're sorry, we're afraid we can't do that.</p>"
 msgstr "<p>Perdona, pero creemos que no podemos hacerlo.</p>"
 
 # 86%
-#: jinja2/403.html:50
+#: jinja2/403.html:48
 #, python-format
 msgid "<li><a href=\"%(logout_url)s\">Sign out</a> to try again.</li>"
 msgstr "<li><a href=\"%(logout_url)s\">Cierra sesión</a> para volver a intentarlo.</li>"
 
 # 86%
-#: jinja2/403.html:54 jinja2/handlers/400.html:36
+#: jinja2/403.html:52 jinja2/handlers/400.html:36
 #, python-format
 msgid "<li><a href=\"%(login_url)s\">Sign in</a> to try again.</li>"
 msgstr "<li><a href=\"%(login_url)s\">Inicia sesión</a> para volver a intentarlo.</li>"
 
-#: jinja2/403.html:62
+#: jinja2/403.html:60
 msgid ""
 "<p class=\"attrib\"><small><a href=\"http://theoatmeal.com/comics/state_web_summer#tumblr\" rel=\"nofollow\">Tumbeasts</a> by Matthew Inman of <a href=\"http://theoatmeal.com\" rel=\"nofollow\">The "
 "Oatmeal</a></small></p>"
@@ -86,7 +82,11 @@ msgstr ""
 "Si estabas siguiendo un enlace de documentación, puedes iniciar sesión y crear la página. Si no era el caso, te pedimos que <a href=\"%(bug_form_url)s\" rel=\"nofollow\">envíes un bug</a>. ¡Muchas "
 "gracias!"
 
-#: jinja2/404.html:36
+#: jinja2/404.html:35
+msgid "This user's profile has been banned."
+msgstr "Se ha bloqueado la cuenta de este usuario."
+
+#: jinja2/404.html:42
 #, python-format
 msgid "<a href=\"%(tumbeasts_url)s\" rel=\"nofollow\">Tumbeasts</a> by Matthew Inman of <a href=\"%(oatmeal_url)s\" rel=\"nofollow\">The Oatmeal</a>"
 msgstr "<a href=\"%(tumbeasts_url)s\" rel=\"nofollow\">Tumbeasts</a>, de Matthew Inman de <a href=\"%(oatmeal_url)s\" rel=\"nofollow\">The Oatmeal</a>"
@@ -95,202 +95,240 @@ msgstr "<a href=\"%(tumbeasts_url)s\" rel=\"nofollow\">Tumbeasts</a>, de Matthew
 msgid "Internal Server Error"
 msgstr "Error interno del servidor"
 
-#: jinja2/base.html:12 jinja2/base.html:31 jinja2/base.html:37 jinja2/base.html:100 kuma/search/jinja2/search/plugin.html:3
+#: jinja2/base.html:13 jinja2/base.html:47 jinja2/base.html:52 jinja2/base.html:127 kuma/search/jinja2/search/plugin.html:3
 msgid "Mozilla Developer Network"
 msgstr "Mozilla Developer Network"
 
-#: jinja2/base.html:75
-#, python-format
-msgid "You signed in with Persona. <a href=\"%(persona_info)s\">Persona is being turned off. Read more.</a>"
-msgstr "Has iniciado sesión con Persona.<a href=\"%(persona_info)s\">Persona está siendo desactivado. Descubre más.</a>"
+#: jinja2/base.html:98
+msgid "MDN is currently in read-only maintenance mode."
+msgstr "MDN se encuentra ahora mismo en el modo de mantenimiento y solo lectura."
 
-#: jinja2/base.html:83
+#: jinja2/base.html:99
+msgid "Learn more"
+msgstr "Saber más"
+
+#: jinja2/base.html:109
 msgid "Skip to main content"
 msgstr "Saltar al contenido principal"
 
-#: jinja2/base.html:84
+#: jinja2/base.html:111
 msgid "Select language"
 msgstr "Seleccionar idioma"
 
-#: jinja2/base.html:86
+#: jinja2/base.html:112
 msgid "Skip to search"
 msgstr "Saltar a la búsqueda"
 
-#: jinja2/base.html:107 kuma/core/translations/search/filter/tools/name.py:4
+#: jinja2/base.html:119 jinja2/base.html:257
+msgid "MDN Web Docs"
+msgstr "Documentación web de MDN"
+
+#: jinja2/base.html:136 kuma/core/translations/search/filter/tools/name.py:4
 msgid "Tools"
 msgstr "Herramientas"
 
-#: jinja2/base.html:111
+#: jinja2/base.html:139
 msgid "Contribute to MDN"
 msgstr "Colabora en MDN"
 
-#: jinja2/base.html:113
+#: jinja2/base.html:141
 msgid "Get started"
 msgstr "Comenzar"
 
-#: jinja2/base.html:114
+#: jinja2/base.html:142
 msgid "Review or localize docs"
 msgstr "Revisar o localizar documentos"
 
-#: jinja2/base.html:117
+#: jinja2/base.html:145
 msgid "Site Tools"
 msgstr "Herramientas del sitio"
 
-#: jinja2/base.html:119
+#: jinja2/base.html:147
 msgid "Revision dashboard"
 msgstr "Panel de revisión"
 
-#: jinja2/base.html:120
+#: jinja2/base.html:148
 msgid "Documentation status"
 msgstr "Estado de la documentación"
 
-#: jinja2/base.html:129
-msgid "Web Platform"
-msgstr "Plataforma web"
-
-#: jinja2/base.html:133
+#: jinja2/base.html:157 jinja2/base.html:187
 msgid "Technologies"
 msgstr "Tecnologías"
 
-#: jinja2/base.html:135 kuma/core/translations/search/filter/html/name.py:4 kuma/landing/jinja2/landing/homepage.html:75 kuma/landing/jinja2/landing/promote_buttons.html:105
+#: jinja2/base.html:161 jinja2/base.html:189 kuma/core/translations/search/filter/html/name.py:4 kuma/landing/jinja2/landing/homepage.html:91 kuma/landing/jinja2/landing/promote_buttons.html:105
 msgid "HTML"
 msgstr "HTML"
 
-#: jinja2/base.html:136 kuma/core/translations/search/filter/css/name.py:4 kuma/landing/jinja2/landing/homepage.html:76 kuma/landing/jinja2/landing/promote_buttons.html:99
+#: jinja2/base.html:162 jinja2/base.html:190 kuma/core/translations/search/filter/css/name.py:4 kuma/landing/jinja2/landing/homepage.html:92 kuma/landing/jinja2/landing/promote_buttons.html:99
 msgid "CSS"
 msgstr "CSS"
 
-#: jinja2/base.html:137 kuma/core/translations/search/filter/js/name.py:4 kuma/landing/jinja2/landing/homepage.html:77 kuma/landing/jinja2/landing/promote_buttons.html:111
+#: jinja2/base.html:163 jinja2/base.html:191 kuma/core/translations/search/filter/js/name.py:4 kuma/landing/jinja2/landing/homepage.html:93 kuma/landing/jinja2/landing/promote_buttons.html:111
 msgid "JavaScript"
 msgstr "JavaScript"
 
-#: jinja2/base.html:138
+#: jinja2/base.html:164 jinja2/base.html:192
 msgid "Graphics"
 msgstr "Gráficos"
 
-#: jinja2/base.html:139
+#: jinja2/base.html:165 jinja2/base.html:193
+msgid "HTTP"
+msgstr "HTTP"
+
+#: jinja2/base.html:166 jinja2/base.html:194
 msgid "APIs / DOM"
 msgstr "API / DOM"
 
-#: jinja2/base.html:140 kuma/core/sections.py:20
-msgid "Apps"
-msgstr "Aplicaciones"
+#: jinja2/base.html:167 jinja2/base.html:195
+msgid "WebExtensions"
+msgstr "WebExtensions"
 
-#: jinja2/base.html:141 kuma/core/translations/search/filter/mathml/name.py:4
+#: jinja2/base.html:168 jinja2/base.html:196 kuma/core/translations/search/filter/mathml/name.py:4
 msgid "MathML"
 msgstr "MathML"
 
-#: jinja2/base.html:144
+#: jinja2/base.html:170 jinja2/base.html:199
 msgid "References & Guides"
 msgstr "Referencias y guías"
 
-#: jinja2/base.html:146
-msgid "Learn the Web"
-msgstr "Aprende más sobre la Web"
+#: jinja2/base.html:174 jinja2/base.html:201 kuma/landing/jinja2/landing/homepage.html:80 kuma/landing/jinja2/landing/homepage.html:100
+msgid "Learn web development"
+msgstr "Aprender desarrollo web"
 
-#: jinja2/base.html:147
+#: jinja2/base.html:175 jinja2/base.html:202
 msgid "Tutorials"
 msgstr "Tutoriales"
 
 # 90%
-#: jinja2/base.html:148
+#: jinja2/base.html:176 jinja2/base.html:203
 msgid "References"
 msgstr "Referencias"
 
-#: jinja2/base.html:149
+#: jinja2/base.html:177 jinja2/base.html:204
 msgid "Developer Guides"
 msgstr "Guías para desarrolladores"
 
-#: jinja2/base.html:150
+#: jinja2/base.html:178 jinja2/base.html:205
 msgid "Accessibility"
 msgstr "Accesibilidad"
 
-#: jinja2/base.html:151
+#: jinja2/base.html:179 jinja2/base.html:206
+msgid "Game development"
+msgstr "Desarrollo de juegos"
+
+#: jinja2/base.html:180 jinja2/base.html:207
 msgid "...more docs"
 msgstr "...más documentos"
 
-#: jinja2/base.html:155
+#: jinja2/base.html:184 jinja2/base.html:261 kuma/landing/jinja2/landing/homepage.html:79 kuma/landing/jinja2/landing/homepage.html:85
+msgid "Web Technologies"
+msgstr "Tecnologías web"
+
+#: jinja2/base.html:211
 msgid "Mozilla Docs"
 msgstr "Mozilla Docs"
 
-#: jinja2/base.html:160 kuma/core/sections.py:6 kuma/landing/jinja2/landing/homepage.html:88
+#: jinja2/base.html:215 kuma/core/sections.py:6
 msgid "Add-ons"
 msgstr "Complementos"
 
 # 77%
-#: jinja2/base.html:161 kuma/core/translations/search/filter/firefox/name.py:4 kuma/landing/jinja2/landing/homepage.html:84
+#: jinja2/base.html:216 kuma/core/translations/search/filter/firefox/name.py:4
 msgid "Firefox"
 msgstr "Firefox"
 
-#: jinja2/base.html:162 kuma/landing/jinja2/landing/homepage.html:86
-msgid "Firefox Marketplace"
-msgstr "Firefox Marketplace"
-
-#: jinja2/base.html:163 kuma/core/translations/search/filter/b2g-os/name.py:4 kuma/landing/jinja2/landing/homepage.html:85
-msgid "B2G OS"
-msgstr "SO B2G"
-
-# 87%
-#: jinja2/base.html:164
-msgid "Persona"
-msgstr "Mozilla Persona"
-
-#: jinja2/base.html:168
+#: jinja2/base.html:220 kuma/landing/jinja2/landing/homepage.html:81
 msgid "Developer Tools"
 msgstr "Herramientas para desarrolladores"
 
-#: jinja2/base.html:168
+#: jinja2/base.html:220 jinja2/base.html:264
 msgid "Feedback"
 msgstr "Comentarios"
 
-#: jinja2/base.html:173
+#: jinja2/base.html:224
 msgid "Get Firefox help"
 msgstr "Obtén ayuda de Firefox"
 
-#: jinja2/base.html:174
+#: jinja2/base.html:225
 msgid "Get web development help"
 msgstr "Obtén ayuda de desarrollo web"
 
-#: jinja2/base.html:177
+#: jinja2/base.html:228
 msgid "Join the MDN community"
 msgstr "Únete a la comunidad de MDN"
 
-#: jinja2/base.html:178
+#: jinja2/base.html:229
 msgid "Report a content problem"
 msgstr "Denuncia un problema de contenido"
 
-#: jinja2/base.html:179
+#: jinja2/base.html:230
 msgid "Report a bug"
 msgstr "Informar de un error. "
 
-#: jinja2/base.html:186 jinja2/base.html:187 jinja2/base.html:189 jinja2/includes/common_macros.html:26 jinja2/includes/common_macros.html:27 kuma/landing/jinja2/landing/homepage.html:38
-#: kuma/landing/jinja2/landing/homepage.html:48 kuma/landing/jinja2/landing/homepage.html:55 kuma/landing/jinja2/landing/homepage.html:60 kuma/search/jinja2/search/base.html:2
+#: jinja2/base.html:236 jinja2/base.html:237 jinja2/base.html:239 jinja2/includes/common_macros.html:26 jinja2/includes/common_macros.html:27 kuma/landing/jinja2/landing/homepage.html:47
+#: kuma/landing/jinja2/landing/homepage.html:57 kuma/landing/jinja2/landing/homepage.html:64 kuma/landing/jinja2/landing/homepage.html:69 kuma/search/jinja2/search/base.html:2
 #: kuma/search/jinja2/search/results.html:15 kuma/search/jinja2/search/results.html:52 kuma/search/jinja2/search/results.html:55 kuma/search/jinja2/search/results.html:60
 msgid "Search"
 msgstr "Buscar"
 
-#: jinja2/base.html:205
+#: jinja2/base.html:262 kuma/landing/jinja2/landing/homepage.html:142
+msgid "Learn Web Development"
+msgstr "Aprender Desarrollo web"
+
+#: jinja2/base.html:263 jinja2/base.html:312
+msgid "About MDN"
+msgstr "Acerca de MDN"
+
+#: jinja2/base.html:265 jinja2/base.html:277 kuma/users/forms.py:60 kuma/users/models.py:156 kuma/users/jinja2/users/includes/user_title_info.html:74
+msgid "Twitter"
+msgstr "Twitter"
+
+#: jinja2/base.html:266 kuma/users/forms.py:69 kuma/users/models.py:151 kuma/users/jinja2/users/includes/user_title_info.html:79 kuma/users/jinja2/users/includes/user_title_info.html:83
+msgid "GitHub"
+msgstr "GitHub"
+
+#: jinja2/base.html:270 kuma/core/sections.py:13
+msgid "Mozilla"
+msgstr "Mozilla"
+
+#: jinja2/base.html:274
+msgid "About"
+msgstr "Acerca de"
+
+#: jinja2/base.html:275
+msgid "Contact Us"
+msgstr "Contáctanos"
+
+#: jinja2/base.html:276
+msgid "Donate"
+msgstr "Donar"
+
+#: jinja2/base.html:278 kuma/users/forms.py:105 kuma/users/models.py:166 kuma/users/jinja2/users/includes/user_title_info.html:100
+msgid "Facebook"
+msgstr "Facebook"
+
+#: jinja2/base.html:279
+msgid "Instagram"
+msgstr "Instagram"
+
+#: jinja2/base.html:287 jinja2/base.html:313
+msgid "Terms"
+msgstr "Condiciones"
+
+#: jinja2/base.html:288 jinja2/base.html:314
+msgid "Privacy"
+msgstr "Privacidad"
+
+#: jinja2/base.html:289 jinja2/base.html:315
+msgid "Cookies"
+msgstr "Cookies"
+
+#: jinja2/base.html:294 jinja2/base.html:307
 #, python-format
 msgid "<p>&copy; 2005-%(thisyear)s Mozilla Developer Network and individual contributors.</p> <p>Content is available under <a href=\"%(copyright_url)s\">these licenses</a>.</p>"
 msgstr "<p>&copy; Mozilla Developer Network y colaboradores individuales de 2005-%(thisyear)s .</p> <p>El contenido está disponible bajo <a href=\"%(copyright_url)s\">estas licencias</a>.</p>"
 
-#: jinja2/base.html:210
-msgid "About MDN"
-msgstr "Acerca de MDN"
-
-#: jinja2/base.html:211
-msgid "Terms"
-msgstr "Condiciones"
-
-#: jinja2/base.html:212
-msgid "Privacy"
-msgstr "Privacidad"
-
-#: jinja2/base.html:213
-msgid "Cookies"
-msgstr "Cookies"
-
-#: jinja2/base.html:214
+#: jinja2/base.html:316
 msgid "Contribute to the code"
 msgstr "Contribuir en el código"
 
@@ -302,68 +340,154 @@ msgstr "<li><a href=\"/logout\">Cerrar sesión</a> para volver a intentarlo.</li
 msgid "Search Firefox Help"
 msgstr "Buscar en la ayuda de Firefox"
 
-#: jinja2/includes/common_macros.html:36
-#, python-format
-msgid "Welcome, <span class=\"user\">%(user)s</span>."
-msgstr "Te damos la bienvenida, <span class=\"user\">%(user)s</span>."
-
-#: jinja2/includes/common_macros.html:38
-msgid "Profile"
-msgstr "Perfil"
-
-#: jinja2/includes/common_macros.html:40 kuma/users/jinja2/account/logout.html:3 kuma/users/jinja2/account/logout.html:8 kuma/users/jinja2/account/logout.html:17
-msgid "Sign Out"
-msgstr "Salir"
-
-#: jinja2/includes/common_macros.html:44
-#, python-format
-msgid "Want to contribute?<br /> <a href=\"%(login_url)s\">Sign in</a>"
-msgstr "¿Quieres colaborar?<br /> <a href=\"%(login_url)s\">Inicia sesión</a>"
-
-#: jinja2/includes/lang_switcher.html:2 kuma/wiki/jinja2/wiki/document.html:86
+#: jinja2/includes/lang_switcher.html:4 kuma/wiki/jinja2/wiki/document.html:91
 msgid "Other languages:"
 msgstr "Otros idiomas:"
 
-#: jinja2/includes/lang_switcher.html:15 kuma/wiki/jinja2/wiki/document.html:97
+#: jinja2/includes/lang_switcher.html:23 kuma/wiki/jinja2/wiki/document.html:102
 msgid "Go"
 msgstr "Ir"
 
+#: jinja2/includes/login.html:9 kuma/users/jinja2/users/user_edit.html:40
+msgid "View profile"
+msgstr "Ver perfil"
+
+#: jinja2/includes/login.html:10 kuma/users/jinja2/account/email.html:60
+msgid "Edit profile"
+msgstr "Editar perfil"
+
 # 87%
-#: jinja2/includes/login.html:6
+#: jinja2/includes/login.html:14 jinja2/includes/login.html:24
 msgid "Sign out"
 msgstr "Desconectarse"
 
-#: jinja2/includes/login.html:17
+#: jinja2/includes/login.html:30
 msgid "Sign in"
 msgstr "Registrarse"
 
-#: jinja2/includes/login.html:19 kuma/users/forms.py:68 kuma/users/models.py:146 kuma/users/jinja2/users/includes/user_title_info.html:81 kuma/users/jinja2/users/includes/user_title_info.html:85
-msgid "GitHub"
-msgstr "GitHub"
+#: jinja2/includes/newsletter.html:3
+msgid "Learn the best of web development"
+msgstr "Aprender lo mejor del desarrollo web"
 
-#: jinja2/includes/login.html:24
-msgid "Sign in or create an account:"
-msgstr "Inicia sesión o crea una cuenta:"
+#: jinja2/includes/newsletter.html:4
+msgid "Get the latest and greatest from MDN delivered straight to your inbox."
+msgstr "Obtén lo mejor y más reciente de MDN directamente en tu bandeja de entrada."
 
-#: jinja2/includes/login.html:28
-msgid "Sign in:"
-msgstr "Iniciar sesión:"
+#: jinja2/includes/newsletter.html:12
+msgid "E-mail"
+msgstr "Correo electrónico"
 
-#: jinja2/includes/login.html:28
-msgid "Why is Persona sign in only?"
-msgstr "¿Por qué solo se inicia sesión con Persona?"
+#: jinja2/includes/newsletter.html:13
+msgid "you@example.com"
+msgstr "you@example.com"
 
-#: jinja2/includes/login.html:33 kuma/users/jinja2/account/signup_closed.html:8
-msgid "We are sorry, but profile creation is currently disabled."
-msgstr "Lo sentimos pero la creación de cuentas está actualmente desactivada."
+#: jinja2/includes/newsletter.html:19
+#, python-format
+msgid "I'm okay with Mozilla handling my info as explained in this <a href=\"%(policy_url)s\">Privacy Policy</a>."
+msgstr "Estoy de acuerdo con que Mozilla administre mis datos según la <a href=\"%(policy_url)s\"> Política de privacidad</a>."
 
-#: jinja2/includes/paginator.html:6 kuma/search/jinja2/search/results.html:154 kuma/wiki/jinja2/wiki/list/revisions.html:56
+#: jinja2/includes/newsletter.html:25
+msgid "Sign up now"
+msgstr "Suscribirse"
+
+#: jinja2/includes/newsletter.html:29
+msgid "The newsletter is offered in English only at the moment."
+msgstr "Por ahora, el boletín solo está disponible en inglés."
+
+#: jinja2/includes/newsletter.html:33
+msgid "Thanks! Please check your inbox to confirm your subscription."
+msgstr "¡Gracias! Comprueba tu correo para confirmar la subscripción."
+
+#: jinja2/includes/newsletter.html:34
+msgid "If you haven’t previously confirmed a subscription to a Mozilla-related newsletter you may have to do so. Please check your inbox or your spam filter for an email from us."
+msgstr "Si no has confirmado nunca una subscripción a boletines relacionados con Mozilla, tendrás que hacerlo. Comprueba tu correo o carpeta de spam para ver si recibiste un correo nuestro."
+
+#: jinja2/includes/newsletter.html:41
+msgid "Hide Newsletter Sign-up"
+msgstr "Ocultar registro al boletín"
+
+#: jinja2/includes/paginator.html:6 kuma/search/jinja2/search/results.html:154 kuma/wiki/jinja2/wiki/list/revisions.html:59 kuma/wiki/tests/test_templates.py:1375
 msgid "Previous"
 msgstr "Anterior"
 
 #: jinja2/includes/paginator.html:30 kuma/search/jinja2/search/results.html:159
 msgid "Next"
 msgstr "Siguiente"
+
+#: jinja2/includes/redesign_notice.html:4
+msgid "Under Construction"
+msgstr "En construcción"
+
+#: jinja2/includes/redesign_notice.html:6
+#, python-format
+msgid "Thanks for helping us test the <a href=\"%(blog_url)s\">new MDN look</a>. Find anything wrong? Please <a href=\"%(bug_url)s\">file a bug</a>."
+msgstr "Gracias por ayudarnos a probar la <a href=\"%(blog_url)s\">nueva apariencia de MDN</a>. ¿Encontraste algún error? <a href=\"%(bug_url)s\">Enviánoslo</a>."
+
+#: jinja2/includes/redesign_notice.html:14
+msgid "Hello Beta Tester!"
+msgstr "¡Hola, Tester beta!"
+
+#: jinja2/includes/redesign_notice.html:15
+msgid ""
+"We’re updating the look and navigation of MDN to more closely reflect our dedication to providing the best (and most platform-agnostic) web docs in the world. As a beta tester, you’re the first to "
+"see the new look, and we’d love to hear what you think."
+msgstr ""
+"Estamos actualizando la apariencia y forma de navegación de MDN para que refleje mejor nuestro empeño por ofrecer los mejores documentos web (y la mejor plataforma) de todo el mundo. Como tester "
+"beta, eres el primero en ver la nueva apariencia y nos encantaría saber lo que opinas."
+
+#: jinja2/includes/redesign_notice.html:18
+#, python-format
+msgid ""
+"You're seeing a preview of our new look. If you find anything wrong please file a bug (the link is in the footer) and you can opt out of being a beta tester on <a href=\"%(profile_url)s\">your "
+"profile page</a>."
+msgstr ""
+"Esta es una vista previa de la nueva apariencia. Si encuentras algún error, envíanos un bug (el enlace aparece más abajo) y puedes dejar de ser un tester beta en tu <a "
+"href=\"%(profile_url)s\">página de perfil</a>."
+
+#: jinja2/includes/redesign_notice.html:22
+msgid "You're seeing a preview of our new look. If you find anything wrong please file a bug (the link is in the footer) and you can opt out of being a beta tester on your profile page."
+msgstr "Esta es una vista previa de la nueva apariencia. Si encuentras algún error, envíanos un bug (el enlace aparece más abajo) y puedes dejar de ser un tester beta en tu página de perfil."
+
+#: jinja2/includes/redesign_notice.html:25
+msgid "The changes will roll out to you (as a beta tester) over the next couple weeks, and to the world in mid-July."
+msgstr "Como tester beta, podrás ver los cambios en las próximas semanas; el resto de usuarios, a mediados de julio."
+
+#: jinja2/includes/redesign_notice.html:26
+msgid "We hope you love it and find it useful!"
+msgstr "¡Esperamos que te guste y lo encuentres útil!"
+
+#: jinja2/includes/redesign_notice.html:28 jinja2/includes/redesign_notice.html:42
+#, python-format
+msgid "<a href=\"%(blog_url)s\">Read more about the redesign</a> in our blog post."
+msgstr "<a href=\"%(blog_url)s\">Descubre más sobre el cambio de diseño</a> en nuestro blog."
+
+#: jinja2/includes/redesign_notice.html:32 jinja2/includes/redesign_notice.html:45
+msgid "Thanks for using MDN!"
+msgstr "¡Gracias por usar MDN!"
+
+#: jinja2/includes/redesign_notice.html:32
+msgid "The MDN Web Docs Team"
+msgstr "El Equipo de documentos web de MDN"
+
+#: jinja2/includes/redesign_notice.html:33 jinja2/includes/redesign_notice.html:47
+msgid "Hide redesign announcement"
+msgstr "Ocultar anuncio de cambio de diseño"
+
+#: jinja2/includes/redesign_notice.html:37
+msgid "Why does MDN look different?"
+msgstr "¿Por qué ha cambiado la apariencia de MDN?"
+
+#: jinja2/includes/redesign_notice.html:38
+msgid ""
+"MDN is changing to focus just on documenting web technologies. All the same great content is still here; we’re just changing some visual elements and navigation, to help you more quickly find the "
+"web technology docs you’re looking for."
+msgstr ""
+"MDN está cambiando para centrarse en la documentación de tecnologías web. Todo el contenido sigue estando disponible, solo hemos cambiado elementos visuales y la navegación para ayudarte a encontrar"
+" más rápido los documentos sobre tecnología web que estés buscando."
+
+#: jinja2/includes/redesign_notice.html:39
+msgid "But don’t worry, MDN and Mozilla are still together! In fact, we're updating MDN’s look to reflect Mozilla's new logo and colors."
+msgstr "Pero no te preocupes, ¡Mozilla y MDN siguen trabajando juntos! De hecho, estamos actualizando MDN para que se adapte a los nuevos colores y logo de Mozilla."
 
 #: jinja2/includes/translate_locales.html:3
 msgid "Afrikaans"
@@ -394,211 +518,219 @@ msgid "Bengali (India)"
 msgstr "Bengalí (La India)"
 
 #: jinja2/includes/translate_locales.html:10
+msgid "Bulgarian"
+msgstr "Búlgaro"
+
+#: jinja2/includes/translate_locales.html:11
 msgid "Burmese"
 msgstr "Birmano"
 
-#: jinja2/includes/translate_locales.html:11
+#: jinja2/includes/translate_locales.html:12
 msgid "Catalan"
 msgstr "Catalán"
 
-#: jinja2/includes/translate_locales.html:12
+#: jinja2/includes/translate_locales.html:13
 msgid "Chinese (Simplified)"
 msgstr "Chino (simplificado)"
 
-#: jinja2/includes/translate_locales.html:13
+#: jinja2/includes/translate_locales.html:14
 msgid "Chinese (Traditional)"
 msgstr "Chino (tradicional)"
 
-#: jinja2/includes/translate_locales.html:14
+#: jinja2/includes/translate_locales.html:15
 msgid "Croatian"
 msgstr "Croata"
 
-#: jinja2/includes/translate_locales.html:15
+#: jinja2/includes/translate_locales.html:16
 msgid "Czech"
 msgstr "Checo"
 
-#: jinja2/includes/translate_locales.html:16
+#: jinja2/includes/translate_locales.html:17
 msgid "Dutch"
 msgstr "Neerlandés"
 
-#: jinja2/includes/translate_locales.html:17
+#: jinja2/includes/translate_locales.html:18 kuma/wiki/tests/test_templates.py:1385
 msgid "English (US)"
 msgstr "Inglés (EE.UU.)"
 
-#: jinja2/includes/translate_locales.html:18
+#: jinja2/includes/translate_locales.html:19
 msgid "Ewe"
 msgstr "Ewé"
 
-#: jinja2/includes/translate_locales.html:19
+#: jinja2/includes/translate_locales.html:20
 msgid "Finnish"
 msgstr "Finlandés"
 
-#: jinja2/includes/translate_locales.html:20
+#: jinja2/includes/translate_locales.html:21
 msgid "French"
 msgstr "Francés"
 
-#: jinja2/includes/translate_locales.html:21
+#: jinja2/includes/translate_locales.html:22
 msgid "Frisian"
 msgstr "Frisón"
 
-#: jinja2/includes/translate_locales.html:22
+#: jinja2/includes/translate_locales.html:23
 msgid "Fulah"
 msgstr "Fula"
 
-#: jinja2/includes/translate_locales.html:23
+#: jinja2/includes/translate_locales.html:24
 msgid "Georgian"
 msgstr "Georgiano"
 
-#: jinja2/includes/translate_locales.html:24
+#: jinja2/includes/translate_locales.html:25
 msgid "German"
 msgstr "Alemán"
 
-#: jinja2/includes/translate_locales.html:25
+#: jinja2/includes/translate_locales.html:26
 msgid "Greek"
 msgstr "Griego"
 
-#: jinja2/includes/translate_locales.html:26
+#: jinja2/includes/translate_locales.html:27
 msgid "Hausa"
 msgstr "Hausa"
 
-#: jinja2/includes/translate_locales.html:27
+#: jinja2/includes/translate_locales.html:28
 msgid "Hebrew"
 msgstr "Hebreo"
 
-#: jinja2/includes/translate_locales.html:28
+#: jinja2/includes/translate_locales.html:29
 msgid "Hindi (India)"
 msgstr "Hindú (India)"
 
-#: jinja2/includes/translate_locales.html:29
+#: jinja2/includes/translate_locales.html:30
 msgid "Hungarian"
 msgstr "Húngaro"
 
-#: jinja2/includes/translate_locales.html:30
+#: jinja2/includes/translate_locales.html:31
 msgid "Igbo"
 msgstr "Igbo"
 
-#: jinja2/includes/translate_locales.html:31
+#: jinja2/includes/translate_locales.html:32
 msgid "Indonesian"
 msgstr "Indonesio"
 
-#: jinja2/includes/translate_locales.html:32
+#: jinja2/includes/translate_locales.html:33
 msgid "Irish"
 msgstr "Irlandés"
 
-#: jinja2/includes/translate_locales.html:33
+#: jinja2/includes/translate_locales.html:34
 msgid "Italian"
 msgstr "Italiano"
 
-#: jinja2/includes/translate_locales.html:34
+#: jinja2/includes/translate_locales.html:35
 msgid "Japanese"
 msgstr "Japonés"
 
-#: jinja2/includes/translate_locales.html:35
+#: jinja2/includes/translate_locales.html:36
+msgid "Kabyle"
+msgstr "Cabilio"
+
+#: jinja2/includes/translate_locales.html:37
 msgid "Korean"
 msgstr "Coreano"
 
-#: jinja2/includes/translate_locales.html:36
+#: jinja2/includes/translate_locales.html:38
 msgid "Lingala"
 msgstr "Lingala"
 
-#: jinja2/includes/translate_locales.html:37
+#: jinja2/includes/translate_locales.html:39
 msgid "Malagasy"
 msgstr "Malgache"
 
-#: jinja2/includes/translate_locales.html:38
+#: jinja2/includes/translate_locales.html:40
 msgid "Malay"
 msgstr "Malayo"
 
-#: jinja2/includes/translate_locales.html:39
+#: jinja2/includes/translate_locales.html:41
 msgid "Malayalam"
 msgstr "Malabar"
 
 # 87%
-#: jinja2/includes/translate_locales.html:40
+#: jinja2/includes/translate_locales.html:42
 msgid "Persian"
 msgstr "Persa"
 
-#: jinja2/includes/translate_locales.html:41
+#: jinja2/includes/translate_locales.html:43
 msgid "Polish"
 msgstr "Polaco"
 
-#: jinja2/includes/translate_locales.html:42
+#: jinja2/includes/translate_locales.html:44
 msgid "Portuguese (Brazilian)"
 msgstr "Portugués (Brasil)"
 
-#: jinja2/includes/translate_locales.html:43
+#: jinja2/includes/translate_locales.html:45
 msgid "Portuguese (Portugal)"
 msgstr "Portugués (Portugal)"
 
-#: jinja2/includes/translate_locales.html:44
+#: jinja2/includes/translate_locales.html:46
 msgid "Romanian"
 msgstr "Rumano"
 
-#: jinja2/includes/translate_locales.html:45
+#: jinja2/includes/translate_locales.html:47
 msgid "Russian"
 msgstr "Ruso"
 
-#: jinja2/includes/translate_locales.html:46 jinja2/includes/translate_locales.html:47
+#: jinja2/includes/translate_locales.html:48 jinja2/includes/translate_locales.html:49
 msgid "Serbian"
 msgstr "Serbio"
 
-#: jinja2/includes/translate_locales.html:48
+#: jinja2/includes/translate_locales.html:50
 msgid "Songhai"
 msgstr "Songhai"
 
-#: jinja2/includes/translate_locales.html:49
+#: jinja2/includes/translate_locales.html:51
 msgid "Spanish"
 msgstr "Español"
 
-#: jinja2/includes/translate_locales.html:50
+#: jinja2/includes/translate_locales.html:52
 msgid "Swahili"
 msgstr "Suajili"
 
-#: jinja2/includes/translate_locales.html:51
+#: jinja2/includes/translate_locales.html:53
 msgid "Swedish"
 msgstr "Sueco"
 
-#: jinja2/includes/translate_locales.html:52
+#: jinja2/includes/translate_locales.html:54
 msgid "Tagalog"
 msgstr "Tagalo"
 
-#: jinja2/includes/translate_locales.html:53
+#: jinja2/includes/translate_locales.html:55
 msgid "Tamil"
 msgstr "Tamil"
 
-#: jinja2/includes/translate_locales.html:54
+#: jinja2/includes/translate_locales.html:56
 msgid "Thai"
 msgstr "Tailandés"
 
-#: jinja2/includes/translate_locales.html:55
+#: jinja2/includes/translate_locales.html:57
 msgid "Tswana"
 msgstr "Setsuana"
 
-#: jinja2/includes/translate_locales.html:56
+#: jinja2/includes/translate_locales.html:58
 msgid "Turkish"
 msgstr "Turco"
 
-#: jinja2/includes/translate_locales.html:57
+#: jinja2/includes/translate_locales.html:59
 msgid "Ukrainian"
 msgstr "Ucraniano"
 
-#: jinja2/includes/translate_locales.html:58
+#: jinja2/includes/translate_locales.html:60
 msgid "Vietnamese"
 msgstr "Vietnamita"
 
-#: jinja2/includes/translate_locales.html:59
+#: jinja2/includes/translate_locales.html:61
 msgid "Wolof"
 msgstr "Wólof"
 
-#: jinja2/includes/translate_locales.html:60
+#: jinja2/includes/translate_locales.html:62
 msgid "Xhosa"
 msgstr "Xhosa"
 
-#: jinja2/includes/translate_locales.html:61
+#: jinja2/includes/translate_locales.html:63
 msgid "Yoruba"
 msgstr "Yoruba"
 
-#: jinja2/includes/translate_locales.html:62
+#: jinja2/includes/translate_locales.html:64
 msgid "Zulu"
 msgstr "Zulú"
 
@@ -614,8 +746,8 @@ msgstr "Cancelar suscripción"
 msgid "Are you sure you want to unsubscribe?"
 msgstr "¿Seguro que quieres cancelar la suscripción?"
 
-#: jinja2/tidings/unsubscribe.html:13 kuma/authkeys/jinja2/authkeys/delete.html:16 kuma/authkeys/jinja2/authkeys/new.html:17 kuma/wiki/jinja2/wiki/confirm_document_delete.html:39
-#: kuma/wiki/jinja2/wiki/confirm_revision_revert.html:40 kuma/wiki/jinja2/wiki/move.html:93
+#: jinja2/tidings/unsubscribe.html:13 kuma/authkeys/jinja2/authkeys/delete.html:16 kuma/authkeys/jinja2/authkeys/new.html:17 kuma/wiki/jinja2/wiki/confirm_document_delete.html:44
+#: kuma/wiki/jinja2/wiki/confirm_revision_revert.html:43 kuma/wiki/jinja2/wiki/move.html:93
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -742,8 +874,8 @@ msgstr "Se pueden adjuntar imágenes y luego vincularlas en el artículo."
 msgid "File"
 msgstr "Archivo"
 
-#: kuma/attachments/jinja2/attachments/includes/attachment_list.html:45 kuma/dashboards/jinja2/dashboards/includes/revision_dashboard_body.html:8 kuma/users/models.py:65
-#: kuma/users/jinja2/users/includes/user_revision_history_form.html:9 kuma/wiki/models.py:1911
+#: kuma/attachments/jinja2/attachments/includes/attachment_list.html:45 kuma/dashboards/jinja2/dashboards/includes/revision_dashboard_body.html:8 kuma/users/models.py:70
+#: kuma/users/jinja2/users/includes/user_revision_history_form.html:9 kuma/wiki/models.py:1963
 msgid "Title"
 msgstr "Título"
 
@@ -812,8 +944,8 @@ msgstr "Descripción del uso previsto"
 msgid "Created"
 msgstr "Creada"
 
-#: kuma/authkeys/jinja2/authkeys/delete.html:15 kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:106 kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:245
-#: kuma/wiki/jinja2/wiki/confirm_document_delete.html:15 kuma/wiki/jinja2/wiki/confirm_document_delete.html:38
+#: kuma/authkeys/jinja2/authkeys/delete.html:15 kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:107 kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:246
+#: kuma/wiki/jinja2/wiki/confirm_document_delete.html:16 kuma/wiki/jinja2/wiki/confirm_document_delete.html:43
 msgid "Delete"
 msgstr "Eliminar"
 
@@ -896,9 +1028,9 @@ msgstr "Asegúrate de que este valor tenga %(limit_value)s caracteres como míni
 msgid "Ensure this value has at most %(limit_value)s characters (it has %(show_value)s)."
 msgstr "Asegúrate de que este valor tenga %(limit_value)s caracteres como máximo (tiene %(show_value)s)."
 
-#: kuma/core/sections.py:13
-msgid "Mozilla"
-msgstr "Mozilla"
+#: kuma/core/sections.py:20
+msgid "Apps"
+msgstr "Aplicaciones"
 
 #: kuma/core/sections.py:27 kuma/core/translations/search/filter/mobile/name.py:4
 msgid "Mobile"
@@ -912,16 +1044,16 @@ msgstr "Web"
 msgid "Moz Hacks"
 msgstr "Moz Hacks"
 
-#: kuma/core/utils.py:430
+#: kuma/core/utils.py:425
 #, python-format
 msgid "Today at %s"
 msgstr "Hoy a las %s"
 
-#: kuma/core/templatetags/jinja_helpers.py:88
+#: kuma/core/templatetags/jinja_helpers.py:88 kuma/scrape/sources/revision.py:156 kuma/wiki/jinja2/wiki/document.html:308
 msgid "Yes"
 msgstr "Sí"
 
-#: kuma/core/templatetags/jinja_helpers.py:88
+#: kuma/core/templatetags/jinja_helpers.py:88 kuma/wiki/jinja2/wiki/document.html:312
 msgid "No"
 msgstr "No"
 
@@ -940,6 +1072,10 @@ msgstr "API y DOM"
 #: kuma/core/translations/search/filter/apps/name.py:4
 msgid "Open Web Apps"
 msgstr "Aplicaciones web abiertas"
+
+#: kuma/core/translations/search/filter/b2g-os/name.py:4
+msgid "B2G OS"
+msgstr "SO B2G"
 
 #: kuma/core/translations/search/filter/beginner/name.py:4
 msgid "I'm Learning"
@@ -1046,27 +1182,27 @@ msgstr "Autores conocidos"
 msgid "Unknown Authors"
 msgstr "Autores no conocidos"
 
-#: kuma/dashboards/forms.py:33 kuma/dashboards/jinja2/dashboards/revisions.html:14
+#: kuma/dashboards/forms.py:33 kuma/dashboards/jinja2/dashboards/revisions.html:15
 msgid "Locale:"
 msgstr "Idioma:"
 
-#: kuma/dashboards/forms.py:37 kuma/dashboards/jinja2/dashboards/revisions.html:19
+#: kuma/dashboards/forms.py:37 kuma/dashboards/jinja2/dashboards/revisions.html:20
 msgid "User:"
 msgstr "Usuario:"
 
-#: kuma/dashboards/forms.py:41 kuma/dashboards/jinja2/dashboards/revisions.html:24
+#: kuma/dashboards/forms.py:41 kuma/dashboards/jinja2/dashboards/revisions.html:25
 msgid "Topic:"
 msgstr "Tema:"
 
-#: kuma/dashboards/forms.py:43 kuma/dashboards/jinja2/dashboards/revisions.html:30
+#: kuma/dashboards/forms.py:43 kuma/dashboards/jinja2/dashboards/revisions.html:31
 msgid "Start Date:"
 msgstr "Fecha de inicio:"
 
-#: kuma/dashboards/forms.py:47 kuma/dashboards/jinja2/dashboards/revisions.html:35
+#: kuma/dashboards/forms.py:47 kuma/dashboards/jinja2/dashboards/revisions.html:36
 msgid "End Date:"
 msgstr "Fecha final:"
 
-#: kuma/dashboards/forms.py:53 kuma/dashboards/jinja2/dashboards/revisions.html:40
+#: kuma/dashboards/forms.py:53 kuma/dashboards/jinja2/dashboards/revisions.html:41
 msgid "Preceding Period:"
 msgstr "Periodo anterior:"
 
@@ -1074,46 +1210,78 @@ msgstr "Periodo anterior:"
 msgid "Authors"
 msgstr "Autores"
 
+#: kuma/dashboards/jinja2/dashboards/macros.html:3 kuma/dashboards/jinja2/dashboards/macros.html:26
+msgid "Active macros"
+msgstr "Macros activas"
+
+#: kuma/dashboards/jinja2/dashboards/macros.html:14
+#, python-format
+msgid "Found %(num)s active macro."
+msgid_plural "Found %(num)s active macros."
+msgstr[0] "Se ha encontrado %(num)s macro activa."
+msgstr[1] "Se han encontrado %(num)s macros activas."
+
+#: kuma/dashboards/jinja2/dashboards/macros.html:16
+#, python-format
+msgid "See the <a href=\"%(url)s\">GitHub repo</a> for the list of macros."
+msgstr "Para obtener una lista de macros, consulta el <a href=\"%(url)s\">repositorio de GitHub</a>."
+
+#: kuma/dashboards/jinja2/dashboards/macros.html:18
+#, python-format
+msgid "You can also <a href=\"%(url)s\">manually search for macros</a>."
+msgstr "También puedes <a href=\"%(url)s\">buscar macros de forma manual</a>."
+
+#: kuma/dashboards/jinja2/dashboards/macros.html:24
+msgid "Active macros and their usage counts"
+msgstr "Macros activas y su contador de uso"
+
+#: kuma/dashboards/jinja2/dashboards/macros.html:31 kuma/dashboards/jinja2/dashboards/macros.html:66
+msgid "Macro Name"
+msgstr "Nombre de la macro"
+
+#: kuma/dashboards/jinja2/dashboards/macros.html:33
+msgid "English Page Count"
+msgstr "Número de páginas en inglés"
+
+#: kuma/dashboards/jinja2/dashboards/macros.html:34
+msgid "All Page Count"
+msgstr "Número total de páginas"
+
+#: kuma/dashboards/jinja2/dashboards/macros.html:65
+msgid "Search for macro usage:"
+msgstr "Buscar uso de macros_"
+
+#: kuma/dashboards/jinja2/dashboards/macros.html:68
+msgid "Search All Pages"
+msgstr "Buscar en todas las páginas"
+
+#: kuma/dashboards/jinja2/dashboards/macros.html:69
+msgid "Search English Pages"
+msgstr "Buscar en todas las páginas en inglés"
+
 #: kuma/dashboards/jinja2/dashboards/revisions.html:2
 msgid "Revision Dashboard"
 msgstr "Panel de revisión"
 
-#: kuma/dashboards/jinja2/dashboards/revisions.html:45
+#: kuma/dashboards/jinja2/dashboards/revisions.html:46
 msgid "Authors:"
 msgstr "Autores:"
 
-#: kuma/dashboards/jinja2/dashboards/revisions.html:49 kuma/search/jinja2/search/results.html:222
+#: kuma/dashboards/jinja2/dashboards/revisions.html:50 kuma/search/jinja2/search/results.html:222
 msgid "Filter"
 msgstr "Filtrar"
 
-#: kuma/dashboards/jinja2/dashboards/revisions.html:78 kuma/wiki/jinja2/wiki/confirm_revision_revert.html:39
-msgid "Revert"
-msgstr "Deshacer"
+#: kuma/dashboards/jinja2/dashboards/spam.html:31
+#, python-format
+msgid "Trends Over Time, Ending %(date)s"
+msgstr "Tendencias en el tiempo, hasta %(date)s"
 
-# 77%
-#: kuma/dashboards/jinja2/dashboards/revisions.html:78 kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:96 kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:128
-#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:149 kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:169 kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:188
-#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:211 kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:235 kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:266
-#: kuma/wiki/feeds.py:340
-msgid "View Page"
-msgstr "Ver página"
-
-# 88%
-#: kuma/dashboards/jinja2/dashboards/revisions.html:78 kuma/wiki/feeds.py:343
-msgid "Edit Page"
-msgstr "Editar página"
-
-#: kuma/dashboards/jinja2/dashboards/revisions.html:78 kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:100 kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:215
-#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:239 kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:270 kuma/wiki/feeds.py:364 kuma/wiki/jinja2/wiki/includes/buttons.html:61
-msgid "History"
-msgstr "Historial"
-
-#: kuma/dashboards/jinja2/dashboards/includes/revision_dashboard_body.html:7 kuma/users/jinja2/users/includes/user_revision_history_form.html:8 kuma/wiki/models.py:1864
+#: kuma/dashboards/jinja2/dashboards/includes/revision_dashboard_body.html:7 kuma/users/jinja2/users/includes/user_revision_history_form.html:8 kuma/wiki/models.py:1916
 msgid "Revision"
 msgstr "Revisión"
 
-#: kuma/dashboards/jinja2/dashboards/includes/revision_dashboard_body.html:9 kuma/users/jinja2/users/user_detail.html:43 kuma/users/jinja2/users/includes/user_revision_history_form.html:10
-#: kuma/wiki/jinja2/wiki/confirm_revision_revert.html:32 kuma/wiki/jinja2/wiki/revision.html:42
+#: kuma/dashboards/jinja2/dashboards/includes/revision_dashboard_body.html:9 kuma/users/jinja2/users/user_detail.html:44 kuma/users/jinja2/users/includes/user_revision_history_form.html:10
+#: kuma/wiki/jinja2/wiki/confirm_revision_revert.html:35 kuma/wiki/jinja2/wiki/revision.html:42
 msgid "Comment"
 msgstr "Comentario"
 
@@ -1125,54 +1293,54 @@ msgstr "Autor"
 msgid "Toggle IPs"
 msgstr "Habilitar/deshabilitar las IP"
 
-#: kuma/dashboards/jinja2/dashboards/includes/revision_dashboard_body.html:35 kuma/users/jinja2/users/includes/user_revision_history_form.html:24
+#: kuma/dashboards/jinja2/dashboards/includes/revision_dashboard_body.html:37 kuma/users/jinja2/users/includes/user_revision_history_form.html:24
 msgid "new"
 msgstr "nuevo"
 
-#: kuma/dashboards/jinja2/dashboards/includes/revision_dashboard_body.html:36 kuma/users/jinja2/users/includes/user_revision_history_form.html:25
+#: kuma/dashboards/jinja2/dashboards/includes/revision_dashboard_body.html:38 kuma/users/jinja2/users/includes/user_revision_history_form.html:25
 msgid "deleted"
 msgstr "eliminado"
 
-#: kuma/dashboards/jinja2/dashboards/includes/revision_dashboard_body.html:51
+#: kuma/dashboards/jinja2/dashboards/includes/revision_dashboard_body.html:55
 msgid "IP:"
 msgstr "IP:"
 
-#: kuma/dashboards/jinja2/dashboards/includes/revision_dashboard_body.html:52
+#: kuma/dashboards/jinja2/dashboards/includes/revision_dashboard_body.html:56
 msgid "Ban IP from Editing"
 msgstr "Expulsar esta IP de Edición"
 
-#: kuma/dashboards/jinja2/dashboards/includes/revision_dashboard_body.html:54
+#: kuma/dashboards/jinja2/dashboards/includes/revision_dashboard_body.html:58
 msgid "User agent:"
 msgstr "Agente de usuario:"
 
-#: kuma/dashboards/jinja2/dashboards/includes/revision_dashboard_body.html:58
+#: kuma/dashboards/jinja2/dashboards/includes/revision_dashboard_body.html:62
 msgid "Referrer:"
 msgstr "Referente:"
 
-#: kuma/dashboards/jinja2/dashboards/includes/revision_dashboard_body.html:65
+#: kuma/dashboards/jinja2/dashboards/includes/revision_dashboard_body.html:69 kuma/users/jinja2/users/includes/user_title_info.html:108
 #, python-format
 msgid "banned %(ban_date)s by %(user)s"
 msgstr "expulsado el %(ban_date)s por %(user)s"
 
-#: kuma/dashboards/jinja2/dashboards/includes/revision_dashboard_body.html:79
+#: kuma/dashboards/jinja2/dashboards/includes/revision_dashboard_body.html:82
 #, python-format
 msgid "Submitted as %(submission_type)s"
 msgstr "Enviado como %(submission_type)s"
 
-#: kuma/dashboards/jinja2/dashboards/includes/revision_dashboard_body.html:82
+#: kuma/dashboards/jinja2/dashboards/includes/revision_dashboard_body.html:85
 #, python-format
 msgid "%(sent_date)s by %(user)s"
 msgstr "%(sent_date)s por %(user)s"
 
-#: kuma/dashboards/jinja2/dashboards/includes/revision_dashboard_body.html:89
+#: kuma/dashboards/jinja2/dashboards/includes/revision_dashboard_body.html:92
 msgid "Submit as:"
 msgstr "Enviar como:"
 
-#: kuma/dashboards/jinja2/dashboards/includes/revision_dashboard_body.html:91
+#: kuma/dashboards/jinja2/dashboards/includes/revision_dashboard_body.html:93
 msgid "spam"
 msgstr "contenido no deseado"
 
-#: kuma/dashboards/jinja2/dashboards/includes/revision_dashboard_body.html:103
+#: kuma/dashboards/jinja2/dashboards/includes/revision_dashboard_body.html:104
 msgid "There are no revisions matching this filter set."
 msgstr "No hay revisiones que coincidan con ese filtro."
 
@@ -1204,7 +1372,7 @@ msgstr "Recibir un correo cuando haya revisiones en inglés pendientes"
 msgid "The Mozilla Developer Network (MDN) Fellowship Program invites world-class web developers to come change the world with Mozilla."
 msgstr "El programa de becas de la red de desarrolladores de Mozilla (MDN) invita a los desarrolladores de todo el planeta a cambiar el mundo con Mozilla.                "
 
-#: kuma/landing/jinja2/landing/homepage.html:14
+#: kuma/landing/jinja2/landing/homepage.html:19
 msgid ""
 "The Mozilla Developer Network (MDN) provides information about Open Web technologies including HTML, CSS, and APIs for both Web sites and HTML5 Apps. It also documents Mozilla products, like Firefox"
 " OS."
@@ -1212,107 +1380,111 @@ msgstr ""
 "Mozilla Developer Network (MDN) facilita información acerca de tecnologías web abiertas, como HTML, CSS y API para sitios web y aplicaciones HTML5. También documenta los productos de Mozilla, como "
 "Firefox OS."
 
-#: kuma/landing/jinja2/landing/homepage.html:32
+#: kuma/landing/jinja2/landing/homepage.html:38
+msgid "Resources for developers, by developers."
+msgstr "Recursos para desarrolladores, creados por desarrolladores."
+
+#: kuma/landing/jinja2/landing/homepage.html:40
 msgid "Shared knowledge <span>for the Open Web</span>"
 msgstr "Conocimiento compartido <span>para la Web abierta</span>"
 
-#: kuma/landing/jinja2/landing/homepage.html:42 kuma/landing/jinja2/landing/homepage.html:59 kuma/search/jinja2/search/results.html:59
+#: kuma/landing/jinja2/landing/homepage.html:51 kuma/landing/jinja2/landing/homepage.html:68 kuma/search/jinja2/search/results.html:59
 msgid "Search the docs"
 msgstr "Buscar en la documentación"
 
-#: kuma/landing/jinja2/landing/homepage.html:45
+#: kuma/landing/jinja2/landing/homepage.html:54
 msgid "Show topics"
 msgstr "Mostrar temas"
 
-#: kuma/landing/jinja2/landing/homepage.html:69
-msgid "Web Technologies"
-msgstr "Tecnologías web"
+#: kuma/landing/jinja2/landing/homepage.html:88
+msgid "Web<br />Technologies"
+msgstr "Tecnologías<br />web"
 
-#: kuma/landing/jinja2/landing/homepage.html:72
-msgid "Web<br />Platform"
-msgstr "Plataforma<br />web"
-
-#: kuma/landing/jinja2/landing/homepage.html:74
+#: kuma/landing/jinja2/landing/homepage.html:90
 msgid "Web APIs &amp; DOM"
 msgstr "Web API y DOM"
 
-#: kuma/landing/jinja2/landing/homepage.html:75
-msgid "HTML5"
-msgstr "HTML5"
-
-#: kuma/landing/jinja2/landing/homepage.html:76
-msgid "CSS3"
-msgstr "CSS3"
-
-#: kuma/landing/jinja2/landing/homepage.html:78 kuma/landing/jinja2/landing/homepage.html:98
+#: kuma/landing/jinja2/landing/homepage.html:94 kuma/landing/jinja2/landing/homepage.html:114
 msgid "more..."
 msgstr "más..."
 
-#: kuma/landing/jinja2/landing/homepage.html:82
-msgid "Mozilla<br> Docs"
-msgstr "Documentos<br> de Mozilla"
+#: kuma/landing/jinja2/landing/homepage.html:98
+msgid "Learn"
+msgstr "Aprende"
 
-#: kuma/landing/jinja2/landing/homepage.html:87
-msgid "App Center"
-msgstr "Centro de Aps"
+#: kuma/landing/jinja2/landing/homepage.html:101
+msgid "Getting started with the Web"
+msgstr "Introducción a la Web"
 
-#: kuma/landing/jinja2/landing/homepage.html:92
+#: kuma/landing/jinja2/landing/homepage.html:102
+msgid "Learn HTML"
+msgstr "Aprender HTML"
+
+#: kuma/landing/jinja2/landing/homepage.html:103
+msgid "Learn CSS"
+msgstr "Aprender CSS"
+
+#: kuma/landing/jinja2/landing/homepage.html:104
+msgid "Learn JavaScript"
+msgstr "Aprender JavaScript"
+
+#: kuma/landing/jinja2/landing/homepage.html:108
 msgid "Developer<br />Tools"
 msgstr "Herramientas<br />para desarrolladores"
 
-#: kuma/landing/jinja2/landing/homepage.html:94
+#: kuma/landing/jinja2/landing/homepage.html:110
 msgid "Page Inspector"
 msgstr "Inspector de página"
 
-#: kuma/landing/jinja2/landing/homepage.html:95
+#: kuma/landing/jinja2/landing/homepage.html:111
 msgid "Web Console"
 msgstr "Consola web"
 
-#: kuma/landing/jinja2/landing/homepage.html:96
+#: kuma/landing/jinja2/landing/homepage.html:112
 msgid "JavaScript Debugger"
 msgstr "Depurador de JavaScript"
 
-#: kuma/landing/jinja2/landing/homepage.html:97
+#: kuma/landing/jinja2/landing/homepage.html:113
 msgid "Performance Tools"
 msgstr "Herramientas de rendimiento"
 
-#: kuma/landing/jinja2/landing/homepage.html:102
-msgid "Connect"
-msgstr "Conectar"
-
-#: kuma/landing/jinja2/landing/homepage.html:103
-msgid "Get Web technology news from Mozilla, get help from other developers, and more!"
-msgstr "¡Recibe noticias de Mozilla sobre tecnología, obtén ayuda de otros desarrolladores y mucho más!"
-
-#: kuma/landing/jinja2/landing/homepage.html:104
-msgid "Learn more and sign up!"
-msgstr "¡Descubre más e inscríbete!"
-
-#: kuma/landing/jinja2/landing/homepage.html:113
+#: kuma/landing/jinja2/landing/homepage.html:130
 msgid "Open Web and Mobile"
 msgstr "Web abierta y móvil"
 
-#: kuma/landing/jinja2/landing/homepage.html:116
-msgid "Learn Web Development"
-msgstr "Aprender Desarrollo web"
+#: kuma/landing/jinja2/landing/homepage.html:135
+msgid "Do you have a couple minutes to help us out by taking a developer survey?"
+msgstr "¿Tienes un par de minutos para ayudarnos rellenando una encuesta para desarrolladores?"
 
-#: kuma/landing/jinja2/landing/homepage.html:119
+#: kuma/landing/jinja2/landing/homepage.html:137
+msgid "Take the Survey"
+msgstr "Hacer la encuesta"
+
+#: kuma/landing/jinja2/landing/homepage.html:147
+msgid "Proudly non-profit."
+msgstr "Sin ánimo de lucro."
+
+#: kuma/landing/jinja2/landing/homepage.html:147
+msgid "Donate before Dec 31."
+msgstr "Dona antes del 31 de dic."
+
+#: kuma/landing/jinja2/landing/homepage.html:147
+msgid "Donate Now"
+msgstr "Donar ahora"
+
+#: kuma/landing/jinja2/landing/homepage.html:152
 msgid "Get The Browser For Developers Like You"
 msgstr "Obten el navegador para los desarrolladores como tú"
 
-#: kuma/landing/jinja2/landing/homepage.html:122
-msgid "Build Open Web Apps"
-msgstr "Compilar aplicaciones web abiertas"
-
-#: kuma/landing/jinja2/landing/homepage.html:130
+#: kuma/landing/jinja2/landing/homepage.html:161
 msgid "<a href=\"http://hacks.mozilla.org\">read more at hacks.mozilla.org <i aria-hidden=\"true\" class=\"icon-arrow-right\"></i></a></span>"
 msgstr "<a href=\"http://hacks.mozilla.org\">lee más en hacks.mozilla.org <i aria-hidden=\"true\" class=\"icon-arrow-right\"></i></a></span>"
 
-#: kuma/landing/jinja2/landing/homepage.html:135
+#: kuma/landing/jinja2/landing/homepage.html:166
 msgid "Get Involved"
 msgstr "Colabora"
 
-#: kuma/landing/jinja2/landing/homepage.html:137
+#: kuma/landing/jinja2/landing/homepage.html:168
 #, python-format
 msgid ""
 "<p class=\"numbers\"> <span class=\"row1\">Join <span class=\"number\">%(contributors)s</span> contributors</span> <span class=\"row2\">in <span class=\"number\">%(locales)s</span> languages and "
@@ -1321,37 +1493,69 @@ msgstr ""
 " <p class=\"numbers\"> <span class=\"row1\">Únete a <span class=\"number\">%(contributors)s</span> colaboradores</span> <span class=\"row2\">de <span class=\"number\">%(locales)s</span> idiomas y "
 "configuraciones regionales </span> <span class=\"row3\">de todo el mundo.</span> </p> "
 
-#: kuma/landing/jinja2/landing/homepage.html:144 kuma/landing/jinja2/landing/homepage.html:151
+#: kuma/landing/jinja2/landing/homepage.html:175 kuma/landing/jinja2/landing/homepage.html:182
 msgid "Help improve MDN"
 msgstr "Ayuda a mejorar MDN"
 
-#: kuma/landing/jinja2/landing/homepage.html:155
+#: kuma/landing/jinja2/landing/homepage.html:186
 msgid "All parts of MDN (docs and the site itself) are created by an open community of developers. Please join us! Pick one of these ways to help:"
 msgstr "Todas las partes de MDN (documentos y el propio sitio) las crean una comunidad abierta de desarrolladores. ¡Únete a nosotros! Selecciona una de estas formas de ayudar:"
 
-#: kuma/landing/jinja2/landing/homepage.html:161
+#: kuma/landing/jinja2/landing/homepage.html:192
 msgid "Getting started"
 msgstr "Comenzar"
 
-#: kuma/landing/jinja2/landing/homepage.html:162
+#: kuma/landing/jinja2/landing/homepage.html:193
 msgid "Editorial review"
 msgstr "Revisión editorial"
 
-#: kuma/landing/jinja2/landing/homepage.html:163
+#: kuma/landing/jinja2/landing/homepage.html:194
 msgid "Technical review"
 msgstr "Revisión técnica"
 
-#: kuma/landing/jinja2/landing/homepage.html:168
+#: kuma/landing/jinja2/landing/homepage.html:199
 msgid "Translating"
 msgstr "Traduciendo"
 
-#: kuma/landing/jinja2/landing/homepage.html:169
+#: kuma/landing/jinja2/landing/homepage.html:200
 msgid "Promoting MDN"
 msgstr "Promocionar MDN"
 
-#: kuma/landing/jinja2/landing/homepage.html:170
+#: kuma/landing/jinja2/landing/homepage.html:201
 msgid "Contributing to the MDN codebase"
 msgstr "Contribuir en el código base de MDN"
+
+#: kuma/landing/jinja2/landing/maintenance-mode.html:5 kuma/landing/jinja2/landing/maintenance-mode.html:13
+msgid "Maintenance Mode"
+msgstr "Modo de mantenimiento"
+
+#: kuma/landing/jinja2/landing/maintenance-mode.html:18
+msgid ""
+"MDN is currently in maintenance mode. Content is being served from a backup database, which means some articles may show out-of-date information. Have no fear! All will be restored when maintenance "
+"has concluded."
+msgstr ""
+"MDN se encuentra ahora mismo en modo de mantenimiento. El contenido se obtiene de una copia de seguridad de la base de datos, por lo que puede que haya información desactualizada. ¡No temas! Cuando "
+"finalice el mantenimiento, todo volverá a la normalidad."
+
+#: kuma/landing/jinja2/landing/maintenance-mode.html:27
+msgid "While in maintenance mode, the following actions are unavailable:"
+msgstr "Mientras el modo de mantenimiento esté activo, no podrás hacer lo siguiente:"
+
+#: kuma/landing/jinja2/landing/maintenance-mode.html:33
+msgid "editing articles"
+msgstr "editar artículos"
+
+#: kuma/landing/jinja2/landing/maintenance-mode.html:34
+msgid "creating accounts"
+msgstr "crear cuentas"
+
+#: kuma/landing/jinja2/landing/maintenance-mode.html:35
+msgid "logging in"
+msgstr "iniciar sesión"
+
+#: kuma/landing/jinja2/landing/maintenance-mode.html:39
+msgid "We apologize for the inconvenience."
+msgstr "Sentimos los inconvenientes."
 
 #: kuma/landing/jinja2/landing/newsfeed.html:10
 #, python-format
@@ -1493,36 +1697,36 @@ msgstr "No se puede promocionar más de un índice a la vez."
 msgid "Promoted search index %s."
 msgstr "Índice de búsqueda %s promocionado."
 
-#: kuma/search/admin.py:16
+#: kuma/search/admin.py:18
 msgid "Promote selected search index to current index"
 msgstr "Promocionar el índice de búsqueda seleccionado al índice actual"
 
-#: kuma/search/admin.py:21
+#: kuma/search/admin.py:23
 msgid "Can't demote more than one index at once."
 msgstr "No se puede degradar más de un índice a la vez."
 
-#: kuma/search/admin.py:24
+#: kuma/search/admin.py:26
 msgid "Can't demote the index if there is only one. Create and populate a new one first."
 msgstr "No se puede degradar el índice si sólo hay uno. Crea y regenera uno nuevo primero."
 
-#: kuma/search/admin.py:29
+#: kuma/search/admin.py:31
 #, python-format
 msgid "Demoted search index %s."
 msgstr "Índice de búsqueda %s degradado."
 
-#: kuma/search/admin.py:30
+#: kuma/search/admin.py:34
 msgid "Demote selected search index (automatic fallback to previous index)"
 msgstr "Degradar el índice de búsqueda seleccionado (se revertirá automáticamente al índice anterior)"
 
-#: kuma/search/admin.py:37
+#: kuma/search/admin.py:41
 msgid "Can't populate more than one index at once."
 msgstr "No se puede regenerar más de un índice a la vez."
 
-#: kuma/search/admin.py:42
+#: kuma/search/admin.py:48
 msgid "Populate selected search index via Celery"
 msgstr "Regenerar el índice de búsqueda seleccionado a través de Celery"
 
-#: kuma/search/admin.py:57
+#: kuma/search/admin.py:63
 msgid "Is current index?"
 msgstr "¿Es el índice actual?"
 
@@ -1699,152 +1903,136 @@ msgstr "Usuario"
 msgid "You have completed the first step of <a href=\"%s\">getting started with MDN</a>"
 msgstr "Has completados los primeros pasos para <a href=\"%s\">comenzar con MDN</a>"
 
-#: kuma/users/backends.py:32
-msgid "algorithm"
-msgstr "algoritmo"
-
-#: kuma/users/backends.py:33
-msgid "salt"
-msgstr "salt"
-
-#: kuma/users/backends.py:34
-msgid "hash"
-msgstr "hash"
-
 # 94%
 #: kuma/users/constants.py:6
 msgid "Username may contain only letters, numbers, and these characters: . - _ +"
 msgstr "El nombre de usuario sólo puede contener letras, números y estos caracteres:  . - _ +"
 
-#: kuma/users/forms.py:30 kuma/users/models.py:41
+#: kuma/users/forms.py:31 kuma/users/models.py:46
 msgid "Timezone"
 msgstr "Zona horaria"
 
-#: kuma/users/forms.py:36
+#: kuma/users/forms.py:37
 msgid "Beta tester"
 msgstr "Beta tester"
 
-#: kuma/users/forms.py:40 kuma/users/jinja2/users/includes/user_title_info.html:52
+#: kuma/users/forms.py:41 kuma/users/jinja2/users/includes/user_title_info.html:50
 msgid "Interests"
 msgstr "Intereses"
 
-#: kuma/users/forms.py:46
+#: kuma/users/forms.py:47
 msgid "Expertise"
 msgstr "Experiencia"
 
 # 88%
-#: kuma/users/forms.py:52
+#: kuma/users/forms.py:53
 msgid "Username"
 msgstr "Nombre de usuario"
 
-#: kuma/users/forms.py:59 kuma/users/models.py:151 kuma/users/jinja2/users/includes/user_title_info.html:76
-msgid "Twitter"
-msgstr "Twitter"
-
-#: kuma/users/forms.py:77 kuma/users/models.py:166 kuma/users/jinja2/users/includes/user_title_info.html:90
+#: kuma/users/forms.py:78 kuma/users/models.py:171 kuma/users/jinja2/users/includes/user_title_info.html:88
 msgid "Stack Overflow"
 msgstr "Stack Overflow"
 
-#: kuma/users/forms.py:86 kuma/users/models.py:156 kuma/users/jinja2/users/includes/user_title_info.html:94
+#: kuma/users/forms.py:87 kuma/users/models.py:161 kuma/users/jinja2/users/includes/user_title_info.html:92
 msgid "LinkedIn"
 msgstr "LinkedIn"
 
-#: kuma/users/forms.py:95 kuma/users/models.py:141 kuma/users/jinja2/users/includes/user_title_info.html:98
+#: kuma/users/forms.py:96 kuma/users/models.py:146 kuma/users/jinja2/users/includes/user_title_info.html:96
 msgid "Mozillians"
 msgstr "Mozilleros"
 
-#: kuma/users/forms.py:104 kuma/users/models.py:161 kuma/users/jinja2/users/includes/user_title_info.html:102
-msgid "Facebook"
-msgstr "Facebook"
-
-#: kuma/users/forms.py:136
+#: kuma/users/forms.py:137
 msgid "Areas of expertise must be a subset of interests"
 msgstr "Las áreas de experiencia han de ser un subconjunto de intereses"
 
-#: kuma/users/forms.py:145
+#: kuma/users/forms.py:146
 msgid "This field cannot be blank."
 msgstr "Esta campo no puede quedar en blanco."
 
-#: kuma/users/forms.py:151
+#: kuma/users/forms.py:152
 msgid "Username already in use."
 msgstr "Ya existe el nombre de usuario."
 
-#: kuma/users/models.py:29
+#: kuma/users/forms.py:162
+msgid "Email"
+msgstr "Correo electrónico"
+
+#: kuma/users/models.py:34
 #, python-format
 msgid "%(banned_user)s banned by %(banned_by)s"
 msgstr "%(banned_user)s expulsado por %(banned_by)s"
 
-#: kuma/users/models.py:32
+#: kuma/users/models.py:37
 #, python-format
 msgid "%s (no longer active)"
 msgstr "%s (ya no está activo)"
 
-#: kuma/users/models.py:51
+#: kuma/users/models.py:56
 msgid "Language"
 msgstr "Idioma"
 
-#: kuma/users/models.py:56
+#: kuma/users/models.py:61
 msgid "Homepage"
 msgstr "Página de inicio"
 
-#: kuma/users/models.py:60
+#: kuma/users/models.py:65
 msgid "This URL has an invalid format. Valid URLs look like http://example.com/my_page."
 msgstr "Esta URL no tiene un formato válido. Las URL válidas son similares a http://ejemplo.com/mi_pagina."
 
-#: kuma/users/models.py:70
+#: kuma/users/models.py:75
 msgid "Name"
 msgstr "Nombre"
 
-#: kuma/users/models.py:75
+#: kuma/users/models.py:80
 msgid "Organization"
 msgstr "Organización"
 
-#: kuma/users/models.py:80
+#: kuma/users/models.py:85
 msgid "Location"
 msgstr "Ubicación"
 
-#: kuma/users/models.py:85
+#: kuma/users/models.py:90
 msgid "About Me"
 msgstr "Acerca de mí"
 
-#: kuma/users/models.py:89
+#: kuma/users/models.py:94
 msgid "IRC nickname"
 msgstr "Apodo en IRC"
 
-#: kuma/users/models.py:94 kuma/users/jinja2/users/includes/user_revision_history_form.html:11 kuma/wiki/jinja2/wiki/confirm_revision_revert.html:27 kuma/wiki/jinja2/wiki/create.html:79
-#: kuma/wiki/jinja2/wiki/edit.html:191
+#: kuma/users/models.py:99 kuma/users/jinja2/users/includes/user_revision_history_form.html:11 kuma/wiki/jinja2/wiki/confirm_revision_revert.html:30 kuma/wiki/jinja2/wiki/create.html:65
+#: kuma/wiki/jinja2/wiki/edit.html:184
 msgid "Tags"
 msgstr "Etiquetas"
 
-#: kuma/users/models.py:99
+#: kuma/users/models.py:104
 msgid "Enter a valid website URL."
 msgstr "Introduce una URL válida."
 
-#: kuma/users/models.py:104
+#: kuma/users/models.py:109
 msgid "Enter a valid Twitter URL."
 msgstr "Por favor, introduce una URL de Twitter válida."
 
-#: kuma/users/models.py:109
+#: kuma/users/models.py:114
 msgid "Enter a valid GitHub URL."
 msgstr "Introduce una URL de GitHub válida."
 
-#: kuma/users/models.py:114
+#: kuma/users/models.py:119
 msgid "Enter a valid Stack Overflow URL."
 msgstr "Introduce una URL de Stack Overflow válida."
 
-#: kuma/users/models.py:119
+#: kuma/users/models.py:124
 msgid "Enter a valid LinkedIn URL."
 msgstr "Introduce una URL de LinkedIn válida."
 
-#: kuma/users/models.py:124
+#: kuma/users/models.py:129
 msgid "Enter a valid Mozillians URL."
 msgstr "Introduce una URL de Mozillians válida."
 
-#: kuma/users/models.py:129
+#: kuma/users/models.py:134
 msgid "Enter a valid Facebook URL."
 msgstr "Introduce una URL de Facebook válida."
 
-#: kuma/users/models.py:136
+#: kuma/users/models.py:141
 msgid "Website"
 msgstr "Sitio web"
 
@@ -1870,29 +2058,29 @@ msgstr "Debes aceptar los términos de uso."
 msgid "I agree"
 msgstr "Acepto"
 
-#: kuma/users/tasks.py:38 kuma/users/jinja2/users/email/welcome/html.ltxt:6
+#: kuma/users/tasks.py:55 kuma/users/jinja2/users/email/welcome/html.ltxt:6
 msgid "Take the next step to get involved on MDN!"
 msgstr "¡Da un paso adelante e involúcrate con MDN!"
 
-#: kuma/users/views.py:454
+#: kuma/users/views.py:473
 msgid "Email address"
 msgstr "Dirección de correo electrónico"
 
-#: kuma/users/views.py:499
+#: kuma/users/views.py:519
 #, python-format
 msgid "%(email)s <b>Verified</b>"
 msgstr "%(email)s <b>verificado</b>"
 
-#: kuma/users/views.py:502
+#: kuma/users/views.py:522
 #, python-format
 msgid "%(email)s Unverified"
 msgstr "%(email)s sin verificar"
 
-#: kuma/users/views.py:506 kuma/users/jinja2/socialaccount/signup.html:135
+#: kuma/users/views.py:526 kuma/users/jinja2/socialaccount/signup.html:128
 msgid "Other:"
 msgstr "Otro:"
 
-#: kuma/users/views.py:508
+#: kuma/users/views.py:528
 msgid "Email:"
 msgstr "Correo electrónico:"
 
@@ -1904,7 +2092,7 @@ msgstr "Perfil inactivo"
 msgid "This profile is inactive."
 msgstr "Este perfil está inactivo."
 
-#: kuma/users/jinja2/account/email.html:3 kuma/users/jinja2/account/email.html:7 kuma/users/jinja2/users/includes/user_title_info.html:32
+#: kuma/users/jinja2/account/email.html:3 kuma/users/jinja2/account/email.html:7 kuma/users/jinja2/users/includes/user_title_info.html:30
 msgid "Email addresses"
 msgstr "Direcciones de correo electrónico"
 
@@ -1930,7 +2118,7 @@ msgid "Remove"
 msgstr "Eliminar"
 
 #: kuma/users/jinja2/account/email.html:45
-msgid "<strong>Warning:</strong>\"You have not added any email addresses to this profile. Without one you cannot receive notifications."
+msgid "<strong>Warning:</strong> You have not added any email addresses to this profile. Without one you cannot receive notifications."
 msgstr "<strong>Advertencia:</strong>\"No has agregado ninguna dirección de correo a este perfil. Si no lo agregas, no podrás recibir notificaciones."
 
 #: kuma/users/jinja2/account/email.html:49
@@ -1940,10 +2128,6 @@ msgstr "Añadir dirección de correo electrónico"
 #: kuma/users/jinja2/account/email.html:55
 msgid "Add Email"
 msgstr "Añadir correo electrónico"
-
-#: kuma/users/jinja2/account/email.html:60 kuma/users/jinja2/socialaccount/connections.html:70
-msgid "Edit profile"
-msgstr "Editar perfil"
 
 #: kuma/users/jinja2/account/email.html:71
 msgid "Do you really want to remove the selected email address?"
@@ -1984,13 +2168,21 @@ msgstr "Por favor, inicia sesión"
 msgid "All content on MDN is free and available without signing in."
 msgstr "Todo el contenido de MDN es gratuito y está disponible sin tener que iniciar sesión."
 
-#: kuma/users/jinja2/account/login.html:19
+#: kuma/users/jinja2/account/login.html:20
+msgid "In order to contribute, you need to sign in to an existing MDN profile."
+msgstr "Para poder colaborar, necesitas iniciar sesión con un perfil de MDN."
+
+#: kuma/users/jinja2/account/login.html:24 kuma/users/jinja2/account/signup_closed.html:4
+msgid "We are sorry, but profile creation is currently disabled."
+msgstr "Lo sentimos pero la creación de cuentas está actualmente desactivada."
+
+#: kuma/users/jinja2/account/login.html:27
 msgid "In order to contribute, you need to sign in to MDN. You can sign in using GitHub and a MDN profile will be created for you if you don't already have one."
 msgstr "Para poder colaborar, necesitas iniciar sesión en MDN. Puedes hacerlo utilizando GitHub y, si todavía no lo tienes, se te creará un perfil en MDN."
 
-#: kuma/users/jinja2/account/login.html:31
-msgid "If you already have a MDN profile sign in:"
-msgstr "Si ya tienes un perfil en MDN, inicia sesión:"
+#: kuma/users/jinja2/account/logout.html:3 kuma/users/jinja2/account/logout.html:8 kuma/users/jinja2/account/logout.html:17
+msgid "Sign Out"
+msgstr "Salir"
 
 #: kuma/users/jinja2/account/logout.html:10
 msgid "Are you sure you want to sign out?"
@@ -2065,11 +2257,6 @@ msgstr "¿Ya tienes una cuenta? Entonces por favor <a href=\"%(login_url)s\">con
 msgid "Profile Creation Disabled"
 msgstr "Creación de perfil desactivada"
 
-#: kuma/users/jinja2/account/signup_closed.html:5
-#, python-format
-msgid "We are sorry, but you can not create a profile with Persona. <a href=\"%(url)s\">Please try again with a GitHub account</a>."
-msgstr "Lo sentimos, pero no puedes crearte un perfil con Persona. <a href=\"%(url)s\">Vuelve a intentarlo con una cuenta en GitHub</a>."
-
 #: kuma/users/jinja2/account/verification_sent.html:3 kuma/users/jinja2/account/verification_sent.html:7 kuma/users/jinja2/account/verified_email_required.html:3
 #: kuma/users/jinja2/account/verified_email_required.html:7
 msgid "Confirm Your Email Address"
@@ -2113,30 +2300,6 @@ msgstr "Error al iniciar sesión en la cuenta"
 msgid "An error occurred while attempting to sign in with your account."
 msgstr "Se ha producido un error al intentar iniciar sesión con tu cuenta."
 
-#: kuma/users/jinja2/socialaccount/connections.html:3
-msgid "Account Connections"
-msgstr "Conexiones de la cuenta"
-
-#: kuma/users/jinja2/socialaccount/connections.html:6 kuma/users/jinja2/users/includes/user_title_info.html:30
-msgid "Account connections"
-msgstr "Conexiones de la cuenta"
-
-#: kuma/users/jinja2/socialaccount/connections.html:11
-msgid "You can sign in to your profile using any of the following:"
-msgstr "Puedes iniciar sesión en tu perfil utilizando:"
-
-#: kuma/users/jinja2/socialaccount/connections.html:50
-msgid "Disconnect"
-msgstr "Desconectar"
-
-#: kuma/users/jinja2/socialaccount/connections.html:58
-msgid "You have no connected accounts."
-msgstr "No tienes cuentas conectadas."
-
-#: kuma/users/jinja2/socialaccount/connections.html:61
-msgid "Connect a new account"
-msgstr "Conectar una nueva cuenta"
-
 #: kuma/users/jinja2/socialaccount/login_cancelled.html:3 kuma/users/jinja2/socialaccount/login_cancelled.html:7
 msgid "Login Cancelled"
 msgstr "Inicio de sesión cancelado"
@@ -2146,72 +2309,56 @@ msgstr "Inicio de sesión cancelado"
 msgid "You decided to cancel logging in to our site using one of your existing accounts. If this was a mistake, please proceed to <a href=\"%(login_url)s\">sign in</a>."
 msgstr "Has decidido cancelar el inicio de sesión en tu sitio mediante una de tus cuentas. Si se trata de un error, te pedimos que  <a href=\"%(login_url)s\">inicies sesión</a>."
 
-#: kuma/users/jinja2/socialaccount/signup.html:3 kuma/users/jinja2/socialaccount/signup.html:19
+#: kuma/users/jinja2/socialaccount/signup.html:3 kuma/users/jinja2/socialaccount/signup.html:20
 msgid "Create your MDN profile to continue"
 msgstr "Créate un perfil MDN para continuar."
 
 #: kuma/users/jinja2/socialaccount/signup.html:23
-#, python-format
-msgid "A profile already exists with this email address. To connect Persona to your MDN profile, <a href=\"%(connections_url)s\">you need to sign in and visit your social account connections.</a>"
-msgstr ""
-"Ya existe un perfil con esta dirección de correo electrónico. Para conectar Persona con tu perfil de MDN, <a href=\"%(connections_url)s\">debes inicar sesión y comprobar tu conexión a las cuentas "
-"sociales.</a>"
+msgid "An existing MDN profile matches your GitHub email. Click here to recover a profile:"
+msgstr "Un perfil de MDN coincide con tu correo de GitHub. Haz clic aquí para recuperar tu perfil:"
 
-#: kuma/users/jinja2/socialaccount/signup.html:36
-#, python-format
-msgid ""
-"A profile already exists with an email address below. Do you already have an MDN profile? <a href=\"%(persona_login_url)s\" class=\"launch-persona-login\" data-next=\"%(persona_next_url)s\">Yes, "
-"connect with my MDN profile</a>"
-msgid_plural ""
-"A profile already exists with one of these email addresses below. Do you already have an MDN profile? <a href=\"%(persona_login_url)s\" class=\"launch-persona-login\" data-"
-"next=\"%(persona_next_url)s\">Yes, connect with my MDN profile</a>"
-msgstr[0] ""
-"Ya existe un perfil con esta dirección de correo electrónico. ¿Ya tienes un perfil en MDN? <a href=\"%(persona_login_url)s\" class=\"launch-persona-login\" data-next=\"%(persona_next_url)s\">Sí, "
-"iniciar sesión en mi perfil MDN</a>"
-msgstr[1] ""
-"Ya existe un perfil con una de estas direcciones de correo electrónico. ¿Ya tienes un perfil en MDN? <a href=\"%(persona_login_url)s\" class=\"launch-persona-login\" data-"
-"next=\"%(persona_next_url)s\">Sí, iniciar sesión en mi perfil MDN</a>"
+#: kuma/users/jinja2/socialaccount/signup.html:32
+msgid "Recover my Profile"
+msgstr "Recuperar mi perfil"
 
-#: kuma/users/jinja2/socialaccount/signup.html:48
+#: kuma/users/jinja2/socialaccount/signup.html:41
 #, python-format
 msgid "Thanks for signing in to MDN with %(provider_name)s. You have one more step to join MDN: <strong>create your MDN profile</strong>."
 msgstr "Gracias por iniciar sesión en MDN con %(provider_name)s. Ya solo te queda un paso para unirte a MDN: <strong>crearte tu perfil</strong>."
 
-#: kuma/users/jinja2/socialaccount/signup.html:54
+#: kuma/users/jinja2/socialaccount/signup.html:47
 msgid "You can access everything on the MDN website even without an MDN profile. However, by joining MDN, you'll be able to edit docs and have your own profile page."
 msgstr "Puedes acceder a todo el contenido de la página web de MDN aunque no tengas perfil. Pero, si te unes a MDN, podrás editar documentos y tener tu propia página de perfil."
 
-#: kuma/users/jinja2/socialaccount/signup.html:61
+#: kuma/users/jinja2/socialaccount/signup.html:54
 msgid "To set up your MDN profile, please <strong>choose a username</strong>. Your username will be displayed on MDN to identify any contributions that you make."
 msgstr "Para configurar tu perfil MDN, por favor <strong>escoge tu nombre de usuario</strong>. Tu usuario se mostrará en MDN para identificar las colaboraciones que haces."
 
-#: kuma/users/jinja2/socialaccount/signup.html:67
+#: kuma/users/jinja2/socialaccount/signup.html:60
 msgid "To set up your MDN profile, please <strong>choose a username and email address</strong>. Your username will be displayed on MDN to identify any contributions that you make."
 msgstr ""
 "Para configurar tu perfil MDN, por favor <strong>escoge tu nombre de usuario y dirección de correo electrónico</strong>. Tu usuario se mostrará en MDN para identificar las colaboraciones que haces."
 
-#: kuma/users/jinja2/socialaccount/signup.html:75
+#: kuma/users/jinja2/socialaccount/signup.html:68
 #, python-format
 msgid "If you're <strong>having trouble</strong> signing in or creating an MDN profile, <strong><a href=\"%(bug_href)s\" rel=\"external\">let us know</a></strong>."
 msgstr "Si <strong>tienes problemas</strong> para iniciar sesión o para crear un perfil en MDN, <strong><a href=\"%(bug_href)s\" rel=\"external\">comunícanoslo</a></strong>."
 
-#: kuma/users/jinja2/socialaccount/signup.html:100
+#: kuma/users/jinja2/socialaccount/signup.html:93
 #, python-format
 msgid "Your GitHub username %(username)s is already taken. Please choose another."
 msgstr "Tu usuario de GitHub %(username)s ya está en uso. Por favor, escoge otro."
 
-#: kuma/users/jinja2/socialaccount/signup.html:104
+#: kuma/users/jinja2/socialaccount/signup.html:97
 msgid "Please enter the name you'd like to display to other users to identify your contributions."
 msgstr "Escribe el nombre que te gustaría mostrar al resto de usuarios para identificar tus contribuciones."
 
-#: kuma/users/jinja2/socialaccount/signup.html:118
+#: kuma/users/jinja2/socialaccount/signup.html:111
 #, python-format
-msgid ""
-"A profile already exists with the selected email address. <a href=\"%(persona_login_url)s\" class=\"launch-persona-login\" data-next=\"%(persona_next_url)s\">Connect your %(provider_name)s account "
-"to it.</a>"
-msgstr "Ya existe un perfil con esa dirección de correo. <a href=\"%(persona_login_url)s\" class=\"launch-persona-login\" data-next=\"%(persona_next_url)s\">Conéctalo con tu cuenta de %(provider_name)s.</a>"
+msgid "A profile already exists with the selected email address. <a href=\"%(login_url)s\" class=\"launch-login\" data-next=\"%(next_url)s\">Connect your %(provider_name)s account to it.</a>"
+msgstr "Ya existe un perfil con esa dirección de correo. <a href=\"%(login_url)s\" class=\"launch-login\" data-next=\"%(next_url)s\">Conéctalo con tu cuenta de %(provider_name)s.</a>"
 
-#: kuma/users/jinja2/socialaccount/signup.html:148
+#: kuma/users/jinja2/socialaccount/signup.html:141
 #, python-format
 msgid ""
 "What email address should we use to send you MDN-related messages and notifications? This address will <strong>not</strong> be displayed on MDN and will be used according to our <a "
@@ -2220,44 +2367,28 @@ msgstr ""
 "¿A qué dirección de correo deberíamos enviar los mensajes relacionados con MDN y las notificaciones? La dirección <strong>no</strong> aparecerá en MDN y la utilizaremos siguiendo las pautas de "
 "nuestra <a href=\"%(privacy_url)s\">política de privacidad</a>."
 
-#: kuma/users/jinja2/socialaccount/signup.html:164
+#: kuma/users/jinja2/socialaccount/signup.html:157
 msgid "Terms and Privacy"
 msgstr "Términos y privacidad"
 
-#: kuma/users/jinja2/socialaccount/signup.html:173
+#: kuma/users/jinja2/socialaccount/signup.html:166
 #, python-format
 msgid "to Mozilla's <a href=\"%(terms_url)s\">Terms</a> and <a href=\"%(privacy_url)s\">Privacy Notice</a>."
 msgstr "según los <a href=\"%(terms_url)s\">Términos</a> y <a href=\"%(privacy_url)s\">aviso de privacidad</a> de Mozilla."
 
-#: kuma/users/jinja2/socialaccount/signup.html:183
+#: kuma/users/jinja2/socialaccount/signup.html:176
 msgid "Create my MDN profile"
 msgstr "Crear mi perfil MDN"
 
 #: kuma/users/jinja2/socialaccount/snippets/login_service_icon.html:2
-msgid "Signed in with Persona"
-msgstr "Conectado con Persona"
-
-#: kuma/users/jinja2/socialaccount/snippets/login_service_icon.html:4
 msgid "Signed in with GitHub"
 msgstr "Conectado con GitHub"
 
 #: kuma/users/jinja2/socialaccount/snippets/provider_list.html:18
-msgid "Connect with Persona"
-msgstr "Conectar con Persona"
-
-#: kuma/users/jinja2/socialaccount/snippets/provider_list.html:20
-msgid "Sign in with Persona"
-msgstr "Conectar con Mozilla Persona"
-
-#: kuma/users/jinja2/socialaccount/snippets/provider_list.html:29
 msgid "Connect with GitHub"
 msgstr "Conectar con GitHub"
 
-#: kuma/users/jinja2/socialaccount/snippets/provider_list.html:31
-msgid "Create MDN profile with GitHub"
-msgstr "Crear un perfil MDN con GitHub"
-
-#: kuma/users/jinja2/socialaccount/snippets/provider_list.html:33
+#: kuma/users/jinja2/socialaccount/snippets/provider_list.html:20
 msgid "Sign in with GitHub"
 msgstr "Conéctate con GitHub"
 
@@ -2283,126 +2414,166 @@ msgstr "o introduce una razón en el campo de texto"
 msgid "Ban user"
 msgstr "Prohibir usuario"
 
-#: kuma/users/jinja2/users/ban_user_and_cleanup.html:22
+#: kuma/users/jinja2/users/ban_user_and_cleanup.html:23
 #, python-format
 msgid "Identify <a href=\"%(url)s\">%(user)s</a> as a spammer?"
 msgstr "¿Identificar a <a href=\"%(url)s\">%(user)s</a> como un spammer?"
 
-#: kuma/users/jinja2/users/ban_user_and_cleanup.html:26
+#: kuma/users/jinja2/users/ban_user_and_cleanup.html:27
 #, python-format
 msgid "<a href=\"%(url)s\">%(user)s</a> has been banned."
 msgstr "<a href=\"%(url)s\">%(user)s</a> ha sido bloqueado."
 
-#: kuma/users/jinja2/users/ban_user_and_cleanup.html:29
+#: kuma/users/jinja2/users/ban_user_and_cleanup.html:30
 #, python-format
 msgid "%(user)s has already been banned. You may review and revert their revisions below."
 msgstr "%(user)s ya ha sido restringido. Puedes revisar y revertir sus revisiones más abajo."
 
-#: kuma/users/jinja2/users/ban_user_and_cleanup.html:46
+#: kuma/users/jinja2/users/ban_user_and_cleanup.html:47
 msgid "You cannot ban yourself for spam."
 msgstr "No puedes restringirte a ti mismo por spam."
 
-#: kuma/users/jinja2/users/ban_user_and_cleanup.html:50
+#: kuma/users/jinja2/users/ban_user_and_cleanup.html:51
 msgid "Submit Spam"
 msgstr "Enviar Spam"
 
-#: kuma/users/jinja2/users/ban_user_and_cleanup.html:52
+#: kuma/users/jinja2/users/ban_user_and_cleanup.html:53
 msgid "Ban User for Spam"
 msgstr "Restringir Usuario por Spam"
 
-#: kuma/users/jinja2/users/ban_user_and_cleanup.html:54
+#: kuma/users/jinja2/users/ban_user_and_cleanup.html:55
 msgid "Ban User for Spam & Submit Spam"
 msgstr "Restringir Usuario por Spam y enviar Spam"
 
-#: kuma/users/jinja2/users/ban_user_and_cleanup.html:58
+#: kuma/users/jinja2/users/ban_user_and_cleanup.html:59
 msgid "Ban user for other reasons."
 msgstr "Restringir usuario por otras razones."
 
-#: kuma/users/jinja2/users/ban_user_and_cleanup.html:61
+#: kuma/users/jinja2/users/ban_user_and_cleanup.html:62
 msgid "User has not made any revisions to be reverted in the past three days, and this user was already banned."
 msgstr "El usuario no ha hecho ninguna revisión en los últimos tres días, y este usuario ya ha sido restringido."
 
-#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:19
+#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:20
 msgid "Summary"
 msgstr "Resumen"
 
-#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:22
+#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:23
 msgid "Actions Taken"
 msgstr "Acciones tomadas"
 
-#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:23
+#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:24
 msgid "Banned:"
 msgstr "Restringido:"
 
-#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:31
+#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:32
 msgid "Submitted to Akismet as spam:"
 msgstr "Enviado a Akismet como spam:"
 
-#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:44
+#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:45
 msgid "The user did not have any revisions that were reported as spam."
 msgstr "El usuario no tuvo ninguna revisión registrada como spam."
 
-#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:48
+#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:49
 msgid "Deleted:"
 msgstr "Eliminado:"
 
-#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:61
+#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:62
 msgid "The user did not have any revisions that were deleted."
 msgstr "El usuario no tuvo ninguna revisión registrada como eliminada."
 
-#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:65
+#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:66
 msgid "Reverted:"
 msgstr "Deshecho:"
 
-#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:79
+#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:80
 msgid "The user did not have any revisions that were reverted."
 msgstr "El usuario no tuvo ninguna revisión registrada como deshecha."
 
-#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:85
+#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:86
 msgid "Needs follow up"
 msgstr "Necesita seguimiento"
 
-#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:86
+#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:87
 msgid "New action by user:"
 msgstr "Nueva acción del usuario:"
 
-#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:114 kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:135 kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:156
-#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:175 kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:194 kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:222
-#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:253 kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:277
+# 77%
+#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:97 kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:129 kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:150
+#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:170 kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:189 kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:212
+#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:236 kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:267 kuma/wiki/feeds.py:340
+msgid "View Page"
+msgstr "Ver página"
+
+#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:101 kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:216 kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:240
+#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:271 kuma/wiki/feeds.py:364 kuma/wiki/jinja2/wiki/includes/buttons.html:67
+msgid "History"
+msgstr "Historial"
+
+#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:115 kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:136 kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:157
+#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:176 kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:195 kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:223
+#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:254 kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:278
 msgid "None."
 msgstr "Ninguna."
 
-#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:118
+#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:119
 msgid "Revisions skipped due to newer non-spam revision:"
 msgstr "Se obviaron las revisiones debido a una nueva revisión no identificada como spam:"
 
-#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:139
+#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:140
 msgid "Could not submit to Akismet:"
 msgstr "No se pudo enviar a Akismet"
 
-#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:160
+#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:161
 msgid "Could not delete:"
 msgstr "No se pudo eliminar:"
 
-#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:179
+#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:180
 msgid "Could not revert:"
 msgstr "No se pudo revertir:"
 
-#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:200
+#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:201
 msgid "No actions taken"
 msgstr "No se realizó ninguna acción"
 
-#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:201
+#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:202
 msgid "Latest revision is non-spam:"
 msgstr "La última revisión no está identificada como spam:"
 
-#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:225
+#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:226
 msgid "Already identified as spam:"
 msgstr "Ya identificada como spam:"
 
-#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:256
+#: kuma/users/jinja2/users/ban_user_and_cleanup_summary.html:257
 msgid "Identified as not spam:"
 msgstr "No identificado como spam:"
+
+#: kuma/users/jinja2/users/recover_done.html:3
+msgid "Connect Account"
+msgstr "Conectar cuenta"
+
+#: kuma/users/jinja2/users/recover_done.html:12
+msgid "Use the button below to connect your MDN profile to GitHub."
+msgstr "Utiliza este botón para conectarte a tu perfil de MDN con GitHub."
+
+#: kuma/users/jinja2/users/recover_done.html:18
+msgid "This account recovery link cannot be used to log in again."
+msgstr "Este enlace para recuperar tu cuenta no se puede utilizar para volver a acceder."
+
+#: kuma/users/jinja2/users/recover_failed.html:3
+msgid "Account Recovery Failed"
+msgstr "Error al recuperar la cuenta"
+
+#: kuma/users/jinja2/users/recover_failed.html:11
+msgid "This link is no longer valid."
+msgstr "Este enlace ya no es válido."
+
+#: kuma/users/jinja2/users/recovery_email_sent.html:3
+msgid "Recovery Email Sent"
+msgstr "Correo de recuperación enviado"
+
+#: kuma/users/jinja2/users/recovery_email_sent.html:11
+msgid "Click the link in the email to recover your existing account."
+msgstr "Haz clic en el enlace que has recibido para recuperar tu cuenta."
 
 #: kuma/users/jinja2/users/user_banned.html:2
 msgid "You've Been Banned"
@@ -2416,40 +2587,72 @@ msgstr "Has sido prohibido por las siguientes razones:"
 msgid "<p><a href=\"mailto:mdn-admins@mozilla.org?subject=Ban Appeal\">Click here</a> to appeal this ban.</p>"
 msgstr "<p><a href=\"mailto:mdn-admins@mozilla.org?subject=Ban Appeal\">Haz clic aquí</a> para recurrir esta prohibición.</p>"
 
-#: kuma/users/jinja2/users/user_detail.html:36
+#: kuma/users/jinja2/users/user_delete.html:11
+msgid "Delete your profile"
+msgstr "Elimina tu perfil"
+
+#: kuma/users/jinja2/users/user_delete.html:28
+msgid "We're sorry to see you go."
+msgstr "Sentimos que te vayas."
+
+#: kuma/users/jinja2/users/user_delete.html:31
+msgid "While it's possible delete your account, we can't delete any revisions (page changes) you've made, and our content license requires that your revisions have an attribution."
+msgstr "Aunque puedes eliminar tu cuenta, no podemos eliminar las revisiones que has hecho y, según nuestra licencia de contenido, tenemos que atribuir esas revisiones a alguien."
+
+#: kuma/users/jinja2/users/user_delete.html:38
+msgid "Please file a bug to request closing your account, and ensure one of these options is in the the description field:"
+msgstr "Envía un bug para cerrar la cuenta y asegúrate de que una de las siguientes opciones está incluida en el campo de descripción:"
+
+#: kuma/users/jinja2/users/user_delete.html:57
+msgid "I haven't changed any pages; just delete my account."
+msgstr "No he cambiado ninguna página; eliminar mi cuenta."
+
+#: kuma/users/jinja2/users/user_delete.html:62
+msgid "Keep my attribution for my page changes; delete my email address and freeze my account so I can't ever log in again."
+msgstr "Mantener mi colaboración en la página de cambios; eliminar mi correo electrónico y congelar mi cuenta para que no pueda volver a acceder."
+
+#: kuma/users/jinja2/users/user_delete.html:67
+msgid "Switch all my attributions for page changes to \"Anonymous\", and delete my account."
+msgstr "Cambiar todas las colaboraciones de la página de cambios a \"Anónimo\" y eliminar mi cuenta."
+
+#: kuma/users/jinja2/users/user_delete.html:70
+msgid "File a bug to close your account"
+msgstr "Envía un bug para cerrar la cuenta"
+
+#: kuma/users/jinja2/users/user_detail.html:37
 msgid "Recent Docs Activity"
 msgstr "Actividad reciente de documentos"
 
-#: kuma/users/jinja2/users/user_detail.html:36
+#: kuma/users/jinja2/users/user_detail.html:37
 msgid "View all activity"
 msgstr "Ver toda la actividad"
 
-#: kuma/users/jinja2/users/user_detail.html:41
+#: kuma/users/jinja2/users/user_detail.html:42
 msgid "Page"
 msgstr "Página"
 
-#: kuma/users/jinja2/users/user_detail.html:42 kuma/wiki/jinja2/wiki/confirm_revision_revert.html:23
+#: kuma/users/jinja2/users/user_detail.html:43 kuma/wiki/jinja2/wiki/confirm_revision_revert.html:26
 msgid "Date"
 msgstr "Fecha"
 
-#: kuma/users/jinja2/users/user_detail.html:51 kuma/wiki/jinja2/wiki/document.html:382
+#: kuma/users/jinja2/users/user_detail.html:52 kuma/wiki/jinja2/wiki/document.html:393
 msgid "Edit page"
 msgstr "Editar página"
 
-#: kuma/users/jinja2/users/user_detail.html:52
+#: kuma/users/jinja2/users/user_detail.html:53
 msgid "View complete diff"
 msgstr "Ver diff completo"
 
-#: kuma/users/jinja2/users/user_detail.html:53 kuma/wiki/jinja2/wiki/document.html:383
+#: kuma/users/jinja2/users/user_detail.html:54 kuma/wiki/jinja2/wiki/document.html:394
 msgid "View page history"
 msgstr "Ver historial de la página"
 
-#: kuma/users/jinja2/users/user_detail.html:65
+#: kuma/users/jinja2/users/user_detail.html:66
 #, python-format
 msgid "<p class=\"none\">You haven't contributed to any MDN docs. <a href=\"%(docs_url)s\">Pitch in!</a></p>"
 msgstr "<p class=\"none\">No has colaborado en ningún documento de MDN. <a href=\"%(docs_url)s\">¡Anímate!</a></p>"
 
-#: kuma/users/jinja2/users/user_detail.html:69
+#: kuma/users/jinja2/users/user_detail.html:70
 msgid "This user has no activity."
 msgstr "Este usuario no tiene ninguna actividad."
 
@@ -2457,67 +2660,84 @@ msgstr "Este usuario no tiene ninguna actividad."
 msgid "Edit Your Profile"
 msgstr "Edita tu perfil"
 
-#: kuma/users/jinja2/users/user_edit.html:36
+#: kuma/users/jinja2/users/user_edit.html:34
 msgid "Change your avatar at"
 msgstr "Cambia tu avatar en"
 
-#: kuma/users/jinja2/users/user_edit.html:40
-msgid "View profile"
-msgstr "Ver perfil"
-
-#: kuma/users/jinja2/users/user_edit.html:48
+#: kuma/users/jinja2/users/user_edit.html:44
 msgid "You're editing a different profile than your own. Please take care!"
 msgstr "Estás editando un perfil que no es el tuyo. ¡Por favor, ten cuidado!"
 
-#: kuma/users/jinja2/users/user_edit.html:59
+#: kuma/users/jinja2/users/user_edit.html:55
 msgid "We'd love to have your feedback on site changes! Beta testers get access to new features first and we send the occasional email asking for help testing specific things."
 msgstr ""
 "¡Nos encantaría saber tu opinión sobre los últimos cambios! Los testers Beta son los primeros en tener acceso a las nuevas características y, a veces, enviamos correos para que nos ayuden a probar "
 "cosas específicas. "
 
-#: kuma/users/jinja2/users/user_edit.html:62
+#: kuma/users/jinja2/users/user_edit.html:58
 msgid "Primary Email"
 msgstr "Correo principal"
 
-#: kuma/users/jinja2/users/user_edit.html:63
+#: kuma/users/jinja2/users/user_edit.html:58
 msgid "Edit email"
 msgstr "Editar correo electrónico"
 
-#: kuma/users/jinja2/users/user_edit.html:75
+#: kuma/users/jinja2/users/user_edit.html:71
 msgid "Interests (tags)"
 msgstr "Intereses (etiquetas)"
 
-#: kuma/users/jinja2/users/user_edit.html:76
+#: kuma/users/jinja2/users/user_edit.html:72
 msgid "Separate tags with commas or spaces. Join multi-word tags with double quotes, like \"web standards\"."
 msgstr "Separa las etiquetas con comas o espacios. Une etiquetas de más de una palabra con comillas dobles, como, por ejemplo, \"estándares web\"."
 
-#: kuma/users/jinja2/users/user_edit.html:82
+#: kuma/users/jinja2/users/user_edit.html:78
 msgid "Areas of expertise"
 msgstr "Áreas de experiencia"
 
-#: kuma/users/jinja2/users/user_edit.html:83
+#: kuma/users/jinja2/users/user_edit.html:79
 msgid "Add your interests first, then declare yourself an expert in selected topics."
 msgstr "Agrega tus intereses primero, después declárate experto en los temas que quieras."
 
-#: kuma/users/jinja2/users/user_edit.html:91
+#: kuma/users/jinja2/users/user_edit.html:87
 msgid "My Profiles"
 msgstr "Mis perfiles"
 
-#: kuma/users/jinja2/users/user_edit.html:94 kuma/users/jinja2/users/user_edit.html:111
-msgid "Change"
-msgstr "Cambiar"
-
-#: kuma/users/jinja2/users/user_edit.html:101
-msgid "Use your Persona account to sign in."
-msgstr "Utiliza tu cuenta Persona para iniciar sesión."
-
-#: kuma/users/jinja2/users/user_edit.html:118
+#: kuma/users/jinja2/users/user_edit.html:99
 msgid "Use your GitHub account to sign in."
 msgstr "Utiliza tu cuenta en GitHub para iniciar sesión."
 
-#: kuma/users/jinja2/users/user_edit.html:143 kuma/wiki/jinja2/wiki/includes/page_buttons.html:27
+#: kuma/users/jinja2/users/user_edit.html:118 kuma/wiki/jinja2/wiki/includes/page_buttons.html:28
 msgid "Publish"
 msgstr "Publicar"
+
+#: kuma/users/jinja2/users/user_edit.html:120
+msgid "Delete your account."
+msgstr "Eliminar tu cuenta."
+
+#: kuma/users/jinja2/users/user_edit.html:128
+msgid "Manage your Mozilla Newsletter Subscriptions."
+msgstr "Gestionar las subscripciones al boletín de Mozilla."
+
+#: kuma/users/jinja2/users/email/recovery/plain.ltxt:2
+msgid "Hello from MDN!"
+msgstr "¡Hola desde MDN!"
+
+#: kuma/users/jinja2/users/email/recovery/plain.ltxt:4
+#, python-format
+msgid ""
+"You are receiving this e-mail because you or someone else has requested access to your user account %(username)s at %(domain)s. It can be safely ignored if you did not make this request. Click the "
+"link below to access your account:"
+msgstr ""
+"Has recibido este correo porque alguien ha solicitado acceso a tu cuenta %(username)s en %(domain)s. Si no fuiste tú, puedes ignorarlo. Haz clic en el enlace de más abajo para acceder a tu cuenta:"
+
+#: kuma/users/jinja2/users/email/recovery/plain.ltxt:12
+msgid "Thank you for using MDN!"
+msgstr "¡Gracias por usar MDN!"
+
+#: kuma/users/jinja2/users/email/recovery/subject.ltxt:1
+#, python-format
+msgid "Profile Recovery for %(username)s at %(domain)s"
+msgstr "Recuperación de perfil para %(username)s en %(domain)s"
 
 #: kuma/users/jinja2/users/email/welcome/html.ltxt:9
 #, python-format
@@ -2663,27 +2883,27 @@ msgstr "Ya identificada como spam."
 msgid "This user has not created any revisions in the past three days."
 msgstr "Este usuario no ha creado ninguna revisión en los últimos tres días."
 
-#: kuma/users/jinja2/users/includes/user_title_info.html:22 kuma/wiki/content.py:739 kuma/wiki/jinja2/wiki/includes/buttons.html:41
+#: kuma/users/jinja2/users/includes/user_title_info.html:21 kuma/wiki/content.py:743 kuma/wiki/jinja2/wiki/includes/buttons.html:47
 msgid "Edit"
 msgstr "Editar"
 
-#: kuma/users/jinja2/users/includes/user_title_info.html:24 kuma/wiki/jinja2/wiki/includes/buttons.html:55 kuma/wiki/jinja2/wiki/includes/buttons.html:59
+#: kuma/users/jinja2/users/includes/user_title_info.html:23 kuma/wiki/jinja2/wiki/includes/buttons.html:61 kuma/wiki/jinja2/wiki/includes/buttons.html:65
 msgid "Advanced"
 msgstr "Avanzado"
 
-#: kuma/users/jinja2/users/includes/user_title_info.html:28
+#: kuma/users/jinja2/users/includes/user_title_info.html:27
 msgid "Manage"
 msgstr "Administrar"
 
-#: kuma/users/jinja2/users/includes/user_title_info.html:31
+#: kuma/users/jinja2/users/includes/user_title_info.html:29
 msgid "API keys"
 msgstr "Claves de la API"
 
-#: kuma/users/jinja2/users/includes/user_title_info.html:65
+#: kuma/users/jinja2/users/includes/user_title_info.html:63
 msgid "Areas of Expertise"
 msgstr "Áreas de experiencia"
 
-#: kuma/users/jinja2/users/includes/user_title_info.html:107
+#: kuma/users/jinja2/users/includes/user_title_info.html:105
 #, python-format
 msgid "Member since %(date_joined)s"
 msgstr "Miembro desde %(date_joined)s"
@@ -2713,30 +2933,35 @@ msgstr "Restringir Usuario y Limpiar"
 msgid "Admin"
 msgstr "Administrador"
 
-#: kuma/wiki/apps.py:58 kuma/wiki/templates/admin/wiki/purge_documents.html:23 kuma/wiki/templates/admin/wiki/document/load_data_form.html:23
+#: kuma/wiki/apps.py:55 kuma/wiki/templates/admin/wiki/purge_documents.html:23 kuma/wiki/templates/admin/wiki/document/load_data_form.html:23
 msgid "Wiki"
 msgstr "Wiki"
 
-#: kuma/wiki/constants.py:209 kuma/wiki/jinja2/wiki/includes/approvals.html:13
+#: kuma/wiki/constants.py:216
 msgid "Technical - code samples, APIs, or technologies"
 msgstr "Técnico: ejemplos de código, API o tecnologías"
 
-#: kuma/wiki/constants.py:210 kuma/wiki/jinja2/wiki/includes/approvals.html:19
+#: kuma/wiki/constants.py:217
 msgid "Editorial - prose, grammar, or content"
 msgstr "Editorial: prosa, gramática o contenido"
 
-#: kuma/wiki/constants.py:215
+#: kuma/wiki/constants.py:222
 msgid "Localization in progress - not completely translated yet."
 msgstr "Localización en curso - aún no está traducido completamente."
 
-#: kuma/wiki/content.py:720
+#: kuma/wiki/content.py:724
 msgid "Edit section"
 msgstr "Editar sección"
 
-#: kuma/wiki/events.py:72
+#: kuma/wiki/events.py:96
 #, python-format
-msgid "[MDN] Page \"%(document_title)s\" changed by %(creator)s"
-msgstr "[MDN] La página \"%(document_title)s\" ha sido cambiada por %(creator)s"
+msgid "[MDN][%(locale)s][New] Page \"%(document_title)s\" created by %(creator)s"
+msgstr "[MDN][%(locale)s][Nueva] Página \"%(document_title)s\" creada por %(creator)s"
+
+#: kuma/wiki/events.py:100
+#, python-format
+msgid "[MDN][%(locale)s] Page \"%(document_title)s\" changed by %(creator)s"
+msgstr "[MDN][%(locale)s] Página \"%(document_title)s\" modificada por %(creator)s"
 
 #: kuma/wiki/feeds.py:28
 msgid "MDN documents"
@@ -2794,161 +3019,176 @@ msgstr "Revisiones recientes de MDN"
 msgid "Recent revisions to MDN documents"
 msgstr "Revisiones recientes en documentos de MDN"
 
+# 88%
+#: kuma/wiki/feeds.py:343
+msgid "Edit Page"
+msgstr "Editar página"
+
 #: kuma/wiki/feeds.py:351
 msgid "Show comparison"
 msgstr "Mostrar comparativa"
 
-#: kuma/wiki/forms.py:35
+#: kuma/wiki/forms.py:36
 msgid "Please provide a title."
 msgstr "Por favor, proporciona un título."
 
-#: kuma/wiki/forms.py:36
+#: kuma/wiki/forms.py:37
 #, python-format
 msgid "The title is too short (%(show_value)s characters). It must be at least %(limit_value)s characters."
 msgstr "El título es demasiado corto (%(show_value)s characters). Debe tener un mínimo de %(limit_value)s caracteres."
 
-#: kuma/wiki/forms.py:38
+#: kuma/wiki/forms.py:39
 #, python-format
 msgid "Please keep the length of the title to %(limit_value)s characters or less. It is currently %(show_value)s characters."
 msgstr "Reduce la longitud del título a un máximo de %(limit_value)s caracteres. Ahora tiene %(show_value)s."
 
-#: kuma/wiki/forms.py:41
+#: kuma/wiki/forms.py:42
 msgid "Name Your Article"
 msgstr "Pon un nombre a tu artículo"
 
-#: kuma/wiki/forms.py:42
+#: kuma/wiki/forms.py:43
+#, python-format
+msgid "The tags field is too long (%(show_value)s characters). Keep the total length to %(limit_value)s characters."
+msgstr "El campo de etiquetas es demasiado largo (%(show_value)s caracteres). Debe tener un máximo de %(limit_value)s caracteres."
+
+#: kuma/wiki/forms.py:45
 msgid "Please provide a slug."
 msgstr "Por favor, proporciona un enlace amigable (slug)."
 
-#: kuma/wiki/forms.py:43
+#: kuma/wiki/forms.py:46
 msgid "The slug provided is not valid."
 msgstr "El enlace amigable (slug) que se ha dado no es válido."
 
-#: kuma/wiki/forms.py:44
+#: kuma/wiki/forms.py:47
 #, python-format
 msgid "The slug is too short (%(show_value)s characters). It must be at least %(limit_value)s characters."
 msgstr "El enlace amigable (slug) es demasiado reducido (%(show_value)s caracteres). Debe tener un mínimo de %(limit_value)s caracteres."
 
-#: kuma/wiki/forms.py:46
+#: kuma/wiki/forms.py:49
 #, python-format
 msgid "Please keep the length of the slug to %(limit_value)s characters or less. It is currently %(show_value)s characters."
 msgstr "Por favor, reduce la longitud del enlace amigable (slug) a un máximo de %(limit_value)s caracteres. Ahora tiene %(show_value)s."
 
-#: kuma/wiki/forms.py:49
+#: kuma/wiki/forms.py:52
 msgid "Please provide a summary."
 msgstr "Por favor, proporciona un resumen."
 
-#: kuma/wiki/forms.py:50
+#: kuma/wiki/forms.py:53
 #, python-format
 msgid "The summary is too short (%(show_value)s characters). It must be at least %(limit_value)s characters."
 msgstr "El resumen es demasiado breve (%(show_value)s characters). Debe tener un mínimo de %(limit_value)s caracteres."
 
-#: kuma/wiki/forms.py:52
+#: kuma/wiki/forms.py:55
 #, python-format
 msgid "Please keep the length of the summary to %(limit_value)s characters or less. It is currently %(show_value)s characters."
 msgstr "Por favor, reduce la longitud del resumen a un máximo de %(limit_value)s caracteres. Ahora tiene %(show_value)s."
 
-#: kuma/wiki/forms.py:55
+#: kuma/wiki/forms.py:58
 msgid "Please provide content."
 msgstr "Por favor, proporciona contenido."
 
-#: kuma/wiki/forms.py:56
+#: kuma/wiki/forms.py:59
 #, python-format
 msgid "The content is too short (%(show_value)s characters). It must be at least %(limit_value)s characters."
 msgstr "El contenido es demasiado breve (%(show_value)s characters). Debe tener un mínimo de %(limit_value)s caracteres."
 
-#: kuma/wiki/forms.py:58
+#: kuma/wiki/forms.py:61
 #, python-format
 msgid "Please keep the length of the content to %(limit_value)s characters or less. It is currently %(show_value)s characters."
 msgstr "Por favor, reduce la longitud del contenido a un máximo de %(limit_value)s caracteres. Ahora tiene %(show_value)s."
 
-#: kuma/wiki/forms.py:61
+#: kuma/wiki/forms.py:64
 #, python-format
 msgid "Please keep the length of the comment to %(limit_value)s characters or less. It is currently %(show_value)s characters."
 msgstr "Por favor, reduce la longitud del comentario a un máximo de %(limit_value)s caracteres. Ahora tiene %(show_value)s."
 
-#: kuma/wiki/forms.py:64
+#: kuma/wiki/forms.py:67
 msgid "Another document with this slug already exists."
 msgstr "Ya existe otro documento con este enlace amigable (slug)."
 
-#: kuma/wiki/forms.py:65
+#: kuma/wiki/forms.py:68
 msgid "Another document with this metadata already exists."
 msgstr "Ya existe otro documento con estos metadatos."
 
-#: kuma/wiki/forms.py:67
-msgid "This document was modified while you were editing it."
-msgstr "Este documento se modificó mientras que estabas editándolo."
+#: kuma/wiki/forms.py:70
+#, python-format
+msgid ""
+"Publishing failed. Conflicting edit attempts detected. Please copy and paste your edits to a safe place and visit the <a href=\"%(url)s\">revision history</a> page to see what was changed before "
+"making further edits."
+msgstr ""
+"La publicación ha fallado. Se ha detectado un conflicto en los intentos de edición. Por favor, copia y pega en un lugar seguro lo que has editado y visita la página con el <a "
+"href=\"%(url)s\">historial de revisiones</a> para ver qué ha cambiado antes de hacer más ediciones."
 
-#: kuma/wiki/forms.py:69
+#: kuma/wiki/forms.py:74
 msgid "Changing this document's slug requires moving it and its children."
 msgstr "Cambiar el enlace amigable (slug) de este documento requiere moverlo, incluyendo sus descendientes."
 
 # 83%
-#: kuma/wiki/forms.py:335 kuma/wiki/forms.py:405 kuma/wiki/forms.py:871 kuma/wiki/jinja2/wiki/create.html:37 kuma/wiki/jinja2/wiki/edit.html:68 kuma/wiki/jinja2/wiki/edit.html:116
+#: kuma/wiki/forms.py:340 kuma/wiki/forms.py:410 kuma/wiki/forms.py:894 kuma/wiki/jinja2/wiki/create.html:34 kuma/wiki/jinja2/wiki/edit.html:72 kuma/wiki/jinja2/wiki/edit.html:120
 #: kuma/wiki/jinja2/wiki/move.html:60 kuma/wiki/jinja2/wiki/includes/document_macros.html:66 kuma/wiki/jinja2/wiki/includes/translate_description.html:11
 msgid "Title:"
 msgstr "Título:"
 
-#: kuma/wiki/forms.py:336 kuma/wiki/forms.py:406 kuma/wiki/forms.py:872
+#: kuma/wiki/forms.py:341 kuma/wiki/forms.py:411 kuma/wiki/forms.py:895
 msgid "Title of article"
 msgstr "Título del artículo"
 
-#: kuma/wiki/forms.py:344 kuma/wiki/forms.py:419 kuma/wiki/jinja2/wiki/create.html:41 kuma/wiki/jinja2/wiki/includes/document_macros.html:70
+#: kuma/wiki/forms.py:349 kuma/wiki/forms.py:424 kuma/wiki/jinja2/wiki/create.html:38 kuma/wiki/jinja2/wiki/includes/document_macros.html:70
 #: kuma/wiki/jinja2/wiki/includes/translate_description.html:22
 msgid "Slug:"
 msgstr "Enlace amigable (slug):"
 
-#: kuma/wiki/forms.py:345 kuma/wiki/forms.py:420
+#: kuma/wiki/forms.py:350 kuma/wiki/forms.py:425
 msgid "Article URL"
 msgstr "URL del artículo"
 
-#: kuma/wiki/forms.py:352 kuma/wiki/jinja2/wiki/create.html:45 kuma/wiki/jinja2/wiki/includes/translate_description.html:33
+#: kuma/wiki/forms.py:357 kuma/wiki/jinja2/wiki/create.html:42 kuma/wiki/jinja2/wiki/includes/translate_description.html:33
 msgid "Parent:"
 msgstr "Padre:"
 
 # 80%
-#: kuma/wiki/forms.py:430 kuma/wiki/jinja2/wiki/edit.html:74 kuma/wiki/jinja2/wiki/includes/document_macros.html:75 kuma/wiki/jinja2/wiki/includes/document_tag.html:4
+#: kuma/wiki/forms.py:436 kuma/wiki/jinja2/wiki/edit.html:78 kuma/wiki/jinja2/wiki/includes/document_macros.html:75 kuma/wiki/jinja2/wiki/includes/document_tag.html:4
 msgid "Tags:"
 msgstr "Etiquetas:"
 
-#: kuma/wiki/forms.py:435 kuma/wiki/jinja2/wiki/edit.html:80
+#: kuma/wiki/forms.py:444 kuma/wiki/jinja2/wiki/edit.html:84
 msgid "Keywords:"
 msgstr "Palabras clave:"
 
-#: kuma/wiki/forms.py:436
+#: kuma/wiki/forms.py:445
 msgid "Affects search results"
 msgstr "Afecta a los resultados de la búsqueda"
 
-#: kuma/wiki/forms.py:444
+#: kuma/wiki/forms.py:453
 msgid "Search result summary:"
 msgstr "Resumen de los resultados de la búsqueda:"
 
-#: kuma/wiki/forms.py:445
+#: kuma/wiki/forms.py:454
 msgid "Only displayed on search results page"
 msgstr "Solo los mostrados en la página de resultados de la búsqueda"
 
-#: kuma/wiki/forms.py:456 kuma/wiki/jinja2/wiki/edit.html:92 kuma/wiki/jinja2/wiki/includes/document_macros.html:80
+#: kuma/wiki/forms.py:465 kuma/wiki/jinja2/wiki/edit.html:96 kuma/wiki/jinja2/wiki/includes/document_macros.html:86
 msgid "Content:"
 msgstr "Contenido:"
 
 # 87%
-#: kuma/wiki/forms.py:468
+#: kuma/wiki/forms.py:477 kuma/wiki/jinja2/wiki/includes/document_macros.html:81
 msgid "Comment:"
 msgstr "Comentario:"
 
-#: kuma/wiki/forms.py:472
+#: kuma/wiki/forms.py:481
 msgid "Tag this revision for review?"
 msgstr "¿Etiquetar esta corrección para revisión?"
 
-#: kuma/wiki/forms.py:479
+#: kuma/wiki/forms.py:488
 msgid "Tag this revision for localization?"
 msgstr "¿Etiquetar esta revisión para localización?"
 
-#: kuma/wiki/forms.py:878
+#: kuma/wiki/forms.py:901
 msgid "New slug:"
 msgstr "Nuevo enlace amigable (slug):"
 
-#: kuma/wiki/forms.py:879
+#: kuma/wiki/forms.py:902
 msgid "New article URL"
 msgstr "Nueva URL del artículo"
 
@@ -2978,112 +3218,112 @@ msgstr "enlazado en el contenido del documento"
 msgid "Attachment %(attachment_id)s can't be attached multiple times to document %(document_id)s"
 msgstr "El adjunto %(attachment_id)s no se puede adjuntar varias veces al documento %(document_id)s"
 
-#: kuma/wiki/models.py:1542
+#: kuma/wiki/models.py:1599
 msgid "Review Tag"
 msgstr "Etiqueta de la revisión"
 
-#: kuma/wiki/models.py:1543
+#: kuma/wiki/models.py:1600
 msgid "Review Tags"
 msgstr "Etiquetas de la revisión"
 
-#: kuma/wiki/models.py:1549
+#: kuma/wiki/models.py:1606
 msgid "Localization Tag"
 msgstr "Etiqueta de localización"
 
-#: kuma/wiki/models.py:1550
+#: kuma/wiki/models.py:1607
 msgid "Localization Tags"
 msgstr "Etiquetas de localización"
 
-#: kuma/wiki/models.py:1583
+#: kuma/wiki/models.py:1640
 msgid "No table of contents"
 msgstr "Sin índice de contenidos"
 
-#: kuma/wiki/models.py:1584
+#: kuma/wiki/models.py:1641
 msgid "All levels"
 msgstr "Todos los niveles"
 
-#: kuma/wiki/models.py:1585
+#: kuma/wiki/models.py:1642
 msgid "H2 and higher"
 msgstr "H2 y superiores"
 
-#: kuma/wiki/models.py:1586
+#: kuma/wiki/models.py:1643
 msgid "H3 and higher"
 msgstr "H3 y superiores"
 
-#: kuma/wiki/models.py:1587
+#: kuma/wiki/models.py:1644
 msgid "H4 and higher"
 msgstr "H4 y superiores"
 
-#: kuma/wiki/models.py:1691
+#: kuma/wiki/models.py:1746
 #, python-format
 msgid "A revision must be based on a revision of the %(locale)s document. Revision ID %(id)s does not fit those criteria."
 msgstr "Una revisión debe basarse en otra del mismo documento en %(locale)s. La revisión ID %(id)s no se ajusta a estos criterios."
 
-#: kuma/wiki/models.py:1824
+#: kuma/wiki/models.py:1876
 msgid "IP address"
 msgstr "Dirección IP"
 
-#: kuma/wiki/models.py:1832
+#: kuma/wiki/models.py:1884
 msgid "User-Agent"
 msgstr "Agente de usuario"
 
-#: kuma/wiki/models.py:1837
+#: kuma/wiki/models.py:1889
 msgid "HTTP Referrer"
 msgstr "HTTP Referer"
 
-#: kuma/wiki/models.py:1845 kuma/wiki/models.py:1930
+#: kuma/wiki/models.py:1897 kuma/wiki/models.py:1982
 msgid "Data submitted to Akismet"
 msgstr "Información enviada a Akismet"
 
-#: kuma/wiki/models.py:1870
+#: kuma/wiki/models.py:1922
 msgid "Akismet submission"
 msgstr "Envío Akismet"
 
-#: kuma/wiki/models.py:1871
+#: kuma/wiki/models.py:1923
 msgid "Akismet submissions"
 msgstr "Envíos Akismet"
 
-#: kuma/wiki/models.py:1915
+#: kuma/wiki/models.py:1967
 msgid "Slug"
 msgstr "Enlace amigable (slug)"
 
-#: kuma/wiki/models.py:1923
+#: kuma/wiki/models.py:1975
 msgid "Document (optional)"
 msgstr "Documentación (opcional)"
 
-#: kuma/wiki/models.py:1933
+#: kuma/wiki/models.py:1985
 msgid "reviewed"
 msgstr "revisado"
 
-#: kuma/wiki/models.py:1944
+#: kuma/wiki/models.py:1996
 msgid "Needs Review"
 msgstr "Necesita revisión"
 
-#: kuma/wiki/models.py:1945
+#: kuma/wiki/models.py:1997
 msgid "Ham / False Positive"
 msgstr "Contenido aceptable / Falso positivo"
 
-#: kuma/wiki/models.py:1946
+#: kuma/wiki/models.py:1998
 msgid "Confirmed as Spam"
 msgstr "Confirmado como spam"
 
-#: kuma/wiki/models.py:1947
+#: kuma/wiki/models.py:1999
 msgid "Review Unavailable"
 msgstr "Revisión no disponible"
 
-#: kuma/wiki/models.py:1948
+#: kuma/wiki/models.py:2000
 msgid "Akismet Error"
 msgstr "Error de Akismet"
 
-#: kuma/wiki/models.py:1953
+#: kuma/wiki/models.py:2005
 msgid "Review of Akismet's classification as spam"
 msgstr "Revisión de la clasificación de Akismet como spam"
 
-#: kuma/wiki/models.py:1960
+#: kuma/wiki/models.py:2012
 msgid "Staff reviewer"
 msgstr "Revisor del personal"
 
-#: kuma/wiki/search.py:310
+#: kuma/wiki/search.py:307
 #, python-format
 msgid "Indexing %(total)d documents into %(total_chunks)d chunks of size %(size)d into index %(index)s.total"
 msgstr "Indexando %(total)d documentos en %(total_chunks)d fragmentos de tamaño %(size)d en el índice %(index)s."
@@ -3129,31 +3369,31 @@ msgstr "Volver al historial"
 msgid "Delete Document | %(document)s"
 msgstr "Eliminar documento | %(document)s"
 
-#: kuma/wiki/jinja2/wiki/confirm_document_delete.html:9
+#: kuma/wiki/jinja2/wiki/confirm_document_delete.html:10
 msgid "Cannot delete pages with children until we fix this bug:"
 msgstr "No podemos borrar páginas con hijos hasta que solucionemos este error:"
 
-#: kuma/wiki/jinja2/wiki/confirm_document_delete.html:17 kuma/wiki/jinja2/wiki/confirm_revision_revert.html:21
+#: kuma/wiki/jinja2/wiki/confirm_document_delete.html:18 kuma/wiki/jinja2/wiki/confirm_revision_revert.html:22
 msgid "Creator"
 msgstr "Creador"
 
-#: kuma/wiki/jinja2/wiki/confirm_document_delete.html:20
+#: kuma/wiki/jinja2/wiki/confirm_document_delete.html:23
 msgid "Creation Date"
 msgstr "Fecha de creación"
 
-#: kuma/wiki/jinja2/wiki/confirm_document_delete.html:23
+#: kuma/wiki/jinja2/wiki/confirm_document_delete.html:26
 msgid "Last Change By"
 msgstr "Último cambio realizado por"
 
-#: kuma/wiki/jinja2/wiki/confirm_document_delete.html:26
+#: kuma/wiki/jinja2/wiki/confirm_document_delete.html:31
 msgid "Last Change Date"
 msgstr "Fecha del último cambio"
 
-#: kuma/wiki/jinja2/wiki/confirm_document_delete.html:29
+#: kuma/wiki/jinja2/wiki/confirm_document_delete.html:34
 msgid "You are about to delete this document and all of its revisions. Please let us know why this page should be deleted."
 msgstr "Estás a punto de borrar este documento y todas sus revisiones. Coméntanos por qué se debe borrar esta página."
 
-#: kuma/wiki/jinja2/wiki/confirm_document_delete.html:36
+#: kuma/wiki/jinja2/wiki/confirm_document_delete.html:41
 msgid "Are you sure you want to continue?"
 msgstr "¿Seguro que deseas continuar?"
 
@@ -3167,45 +3407,45 @@ msgstr "Deshacer revisión | %(document)s"
 # 76%
 # 87%
 # 100%
-#: kuma/wiki/jinja2/wiki/confirm_revision_revert.html:10
+#: kuma/wiki/jinja2/wiki/confirm_revision_revert.html:11
 msgid "Are you sure you want to revert to this revision?"
 msgstr "¿Seguro que quieres volver a esta revisión?"
 
-#: kuma/wiki/jinja2/wiki/confirm_revision_revert.html:18
+#: kuma/wiki/jinja2/wiki/confirm_revision_revert.html:19
 msgid "Document"
 msgstr "Documento"
 
-#: kuma/wiki/jinja2/wiki/confirm_revision_revert.html:25
+#: kuma/wiki/jinja2/wiki/confirm_revision_revert.html:28
 msgid "Content"
 msgstr "Contenido"
 
-#: kuma/wiki/jinja2/wiki/confirm_revision_revert.html:33
+#: kuma/wiki/jinja2/wiki/confirm_revision_revert.html:36
 msgid "Why are you reverting to this revision?"
 msgstr "¿Por qué vuelves a esta revisión?"
 
-#: kuma/wiki/jinja2/wiki/confirm_revision_revert.html:36
+#: kuma/wiki/jinja2/wiki/confirm_revision_revert.html:39
 msgid "You are about to revert the document to this revision. Click \"revert\" to revert to the content&nbsp;above."
 msgstr "Estás a punto de revertir el documento a esta revisión. Pulsa \"revertir\" para volver al contenido&nbsp;de&nbsp;arriba."
 
-#: kuma/wiki/jinja2/wiki/create.html:6
-msgid "Create a New Template"
-msgstr "Crear una nueva plantilla"
+#: kuma/wiki/jinja2/wiki/confirm_revision_revert.html:42
+msgid "Revert"
+msgstr "Deshacer"
 
-#: kuma/wiki/jinja2/wiki/create.html:8
+#: kuma/wiki/jinja2/wiki/create.html:5
 msgid "Create a New Article"
 msgstr "Crear un nuevo artículo"
 
 # 75%
 # 100%
-#: kuma/wiki/jinja2/wiki/create.html:32
+#: kuma/wiki/jinja2/wiki/create.html:29
 msgid "Create a"
 msgstr "Crear un"
 
-#: kuma/wiki/jinja2/wiki/create.html:32
+#: kuma/wiki/jinja2/wiki/create.html:29
 msgid "New Document"
 msgstr "Nuevo documento"
 
-#: kuma/wiki/jinja2/wiki/create.html:41
+#: kuma/wiki/jinja2/wiki/create.html:38
 msgid "URL segment that identifies the page"
 msgstr "Segmento URL que identifica la página"
 
@@ -3226,45 +3466,34 @@ msgstr "Razón por la que se borra"
 msgid "Restore this document"
 msgstr "Restaurar el documento"
 
-#: kuma/wiki/jinja2/wiki/document.html:166
-msgid "Previous Search Result"
-msgstr "Resultado anterior de la búsqueda"
-
-#: kuma/wiki/jinja2/wiki/document.html:166 kuma/wiki/jinja2/wiki/document.html:176
-msgid "No Previous Search Result"
-msgstr "No hay resultados anteriores de la búsqueda"
-
-#: kuma/wiki/jinja2/wiki/document.html:172
-msgid "Your Search Results"
-msgstr "Los resultados de tu búsqueda"
-
-#: kuma/wiki/jinja2/wiki/document.html:176
-msgid "Next Search Result"
-msgstr "Siguiente resultado de la búsqueda"
-
-#: kuma/wiki/jinja2/wiki/document.html:180
+#: kuma/wiki/jinja2/wiki/document.html:171
 msgid "see all contributors"
 msgstr "ver todos los colaboradores"
 
-#: kuma/wiki/jinja2/wiki/document.html:180
+#: kuma/wiki/jinja2/wiki/document.html:171
 msgid "hide contributors"
 msgstr "ocultar colaboradores"
 
-#: kuma/wiki/jinja2/wiki/document.html:184
+#: kuma/wiki/jinja2/wiki/document.html:175
 #, python-format
 msgid "View profile: %(username)s"
 msgstr "Ver perfil: %(username)s"
 
-#: kuma/wiki/jinja2/wiki/document.html:209
+#: kuma/wiki/jinja2/wiki/document.html:200
 msgid "In This Article"
 msgstr "En este artículo"
 
-#: kuma/wiki/jinja2/wiki/document.html:231
+#: kuma/wiki/jinja2/wiki/document.html:215
+#, python-format
+msgid "This document has not yet been rendered, and cannot be rendered while MDN is in <a href=\"%(url)s\">maintenance mode</a>. Please check back when maintenance has concluded."
+msgstr "Este documento no se ha renderizado todavía y no podrá generarse mientras MDN esté en <a href=\"%(url)s\">modo de mantenimiento</a>. Vuelve a consultarlo cuando termine el mantenimiento."
+
+#: kuma/wiki/jinja2/wiki/document.html:226
 #, python-format
 msgid "This document is being rendered for the first time by the system. Please <a href=\"%(url)s\">reload this page</a> in a few minutes to see full content."
 msgstr "Este documento está siendo generado por primera vez por el sistema. Por favor, <a href=\"%(url)s\">recarga esta página</a> dentro de unos minutos para ver el contenido completo."
 
-#: kuma/wiki/jinja2/wiki/document.html:239
+#: kuma/wiki/jinja2/wiki/document.html:234
 #, python-format
 msgid ""
 "An update to this document <abbr title=\"%(started_at)s\">is currently in progress</abbr>. If the content below seems stale or if something is missing, please <a href=\"%(url)s\">reload this "
@@ -3273,7 +3502,7 @@ msgstr ""
 "Una actualización de este documento <abbr title=\"%(started_at)s\">está en proceso en estos momentos</abbr>. Si el contenido aquí debajo parece haberse detenido o si falta algo, por favor, <a "
 "href=\"%(url)s\">recarga esta página</a> dentro de unos minutos."
 
-#: kuma/wiki/jinja2/wiki/document.html:248
+#: kuma/wiki/jinja2/wiki/document.html:243
 #, python-format
 msgid ""
 "An update to this document <abbr title=\"%(scheduled_at)s\">has been scheduled</abbr>. If the content below seems stale or if something is missing, please <a href=\"%(url)s\">reload this page</a> in"
@@ -3282,67 +3511,63 @@ msgstr ""
 "<abbr title=\"%(scheduled_at)s\">Se ha planificado</abbr> una actualización de este documento . Si el contenido que se muestra a continuación no está actualizado o no está completo, <a "
 "href=\"%(url)s\">recarga esta página</a> dentro de unos minutos."
 
-#: kuma/wiki/jinja2/wiki/document.html:266
-#, python-format
-msgid "This article needs a technical review. <a href=\"%(url)s\">How you can help.</a>"
-msgstr "Este articulo necesita una revisión técnica. <a href=\"%(url)s\">Cómo puedes ayudar.</a>"
+#: kuma/wiki/jinja2/wiki/document.html:254
+msgid "This is an experimental page."
+msgstr "Esta es una página experimental."
 
-#: kuma/wiki/jinja2/wiki/document.html:275
-#, python-format
-msgid "This article needs an editorial review. <a href=\"%(url)s\">How you can help.</a>"
-msgstr "Este articulo necesita una revisión editorial. <a href=\"%(url)s\">Cómo puedes ayudar.</a>"
-
-#: kuma/wiki/jinja2/wiki/document.html:283
+#: kuma/wiki/jinja2/wiki/document.html:265
 #, python-format
 msgid "This translation is incomplete. Please help <a href=\"%(translate_url)s\">translate this article</a> from English."
 msgstr "Esta traducción está incompleta. Por favor, ayuda a <a href=\"%(translate_url)s\">traducir este artículo</a> del inglés."
 
-#: kuma/wiki/jinja2/wiki/document.html:288
+#: kuma/wiki/jinja2/wiki/document.html:270
 msgid "This translation is in progress."
 msgstr "Traducción en curso"
 
-#: kuma/wiki/jinja2/wiki/document.html:295
+#: kuma/wiki/jinja2/wiki/document.html:277
 #, python-format
-msgid "Our volunteers haven't translated this article into <bdi>%(locale)s</bdi> yet. <a href=\"%(help_link)s\">Join us and help get the job done!</a>"
-msgstr "Nuestros voluntarios aún no han traducido este artículo al <bdi>%(locale)s</bdi>. <a href=\"%(help_link)s\">Únete a nosotros y ayúdanos a traducirlo</a>"
+msgid ""
+"Our volunteers haven't translated this article into <bdi>%(locale)s</bdi> yet. <a href=\"%(help_link)s\" rel=\"nofollow, noindex\">Join us and help get the job done!</a><br> You can also read the "
+"article in <a href=\"%(doc_abs_url)s\">%(parent_language)s</a>."
+msgstr ""
+"Nuestros voluntarios aún no han traducido este artículo al <bdi>%(locale)s</bdi>. <a href=\"%(help_link)s\">¡Únete a nosotros y ayúdanos a traducirlo!</a><br> También puedes leer el artículo en <a "
+"href=\"%(doc_abs_url)s\">%(parent_language)s</a>."
 
 # 85%
-#: kuma/wiki/jinja2/wiki/document.html:306
+#: kuma/wiki/jinja2/wiki/document.html:289
 msgid "This article doesn't have any content yet."
 msgstr "Este artículo aún no tiene contenido aprobado."
 
-#: kuma/wiki/jinja2/wiki/document.html:309
-#, python-format
-msgid "Search for <a href=\"%(search_link)s\" rel=\"nofollow, noindex\">pages that use %(title)s</a> to see example use cases and how many pages use this macro."
-msgstr "Busca <a href=\"%(search_link)s\" rel=\"nofollow, noindex\">páginas que usen %(title)s</a> para ver ejemplos prácticos y saber el número de páginas que utilizan esta macro."
-
-#: kuma/wiki/jinja2/wiki/document.html:322
+#: kuma/wiki/jinja2/wiki/document.html:298
 msgid "This article doesn't have approved content yet."
 msgstr "Este artículo aún no tiene contenido aprobado."
 
-#: kuma/wiki/jinja2/wiki/document.html:330
+#: kuma/wiki/jinja2/wiki/document.html:303
+msgid "Was this article helpful?"
+msgstr "¿Te resultó útil este artículo?"
+
+#: kuma/wiki/jinja2/wiki/document.html:317
+msgid "Thank you!"
+msgstr "¡Gracias!"
+
+#: kuma/wiki/jinja2/wiki/document.html:327
 msgid "Document Tags and Contributors"
 msgstr "Etiquetas y colaboradores del documento"
 
-#: kuma/wiki/jinja2/wiki/document.html:336
+#: kuma/wiki/jinja2/wiki/document.html:333
 msgid "Contributors to this page:"
 msgstr "Colaboradores en esta página:"
 
-#: kuma/wiki/jinja2/wiki/document.html:342
+#: kuma/wiki/jinja2/wiki/document.html:339
 msgid "Last updated by:"
 msgstr "Última actualización por:"
 
-#: kuma/wiki/jinja2/wiki/edit.html:6
-#, python-format
-msgid "%(title)s | Edit Template"
-msgstr "%(title)s | Editar plantilla"
-
-#: kuma/wiki/jinja2/wiki/edit.html:8
+#: kuma/wiki/jinja2/wiki/edit.html:5
 #, python-format
 msgid "%(title)s | Edit Article"
 msgstr "%(title)s | Editar artículo"
 
-#: kuma/wiki/jinja2/wiki/edit.html:31
+#: kuma/wiki/jinja2/wiki/edit.html:27
 msgid ""
 "Please review the differences between your changes and the changes saved since you started editing. You may save again, but try to resolve any conflicts by hand so that the changes made since you "
 "started are not lost."
@@ -3350,24 +3575,24 @@ msgstr ""
 "Por favor, revisa las diferencias entre los cambios que hiciste y los cambios que se guardaron desde que comenzaste la edición. Puedes volver a guardar, pero intenta resolver cualquier conflicto "
 "manualmente para que no se pierdan los cambios que se hicieron desde que comenzaste."
 
-#: kuma/wiki/jinja2/wiki/edit.html:41
+#: kuma/wiki/jinja2/wiki/edit.html:37
 msgid "Your Changes"
 msgstr "Tus cambios"
 
-#: kuma/wiki/jinja2/wiki/edit.html:43 kuma/wiki/jinja2/wiki/edit.html:55 kuma/wiki/jinja2/wiki/includes/document_macros.html:42 kuma/wiki/jinja2/wiki/includes/document_macros.html:58
+#: kuma/wiki/jinja2/wiki/edit.html:39 kuma/wiki/jinja2/wiki/edit.html:55 kuma/wiki/jinja2/wiki/includes/document_macros.html:38 kuma/wiki/jinja2/wiki/includes/document_macros.html:54
 #, python-format
-msgid "Revision %(id)s by <a href=\"%(user_profile_url)s\">%(user)s</a> on %(date)s"
-msgstr "Revisión %(id)s de <a href=\"%(user_profile_url)s\">%(user)s</a> el %(date)s"
+msgid "Revision %(id)s by <a href=\"%(user_profile_url)s\" %(rel)s>%(user)s</a> on %(date)s"
+msgstr "Revisión %(id)s por <a href=\"%(user_profile_url)s\" %(rel)s>%(user)s</a> el %(date)s"
 
 #: kuma/wiki/jinja2/wiki/edit.html:51
 msgid "Current Revision:"
 msgstr "Revisión actual:"
 
-#: kuma/wiki/jinja2/wiki/edit.html:86
+#: kuma/wiki/jinja2/wiki/edit.html:90
 msgid "Search results summary:"
 msgstr "Resumen de resultados de la búsqueda:"
 
-#: kuma/wiki/jinja2/wiki/edit.html:106
+#: kuma/wiki/jinja2/wiki/edit.html:110
 msgid "Edit Page Title and Properties"
 msgstr "Editar propiedades y título de la página"
 
@@ -3391,7 +3616,7 @@ msgstr "Minutos"
 msgid "Find the translation source with the lookup below and then click \"Publish.\""
 msgstr "Encuentra el original de esta traducción con la búsqueda de abajo y haz clic en \"Publicar\"."
 
-#: kuma/wiki/jinja2/wiki/edit.html:147 kuma/wiki/jinja2/wiki/includes/translate_description.html:62
+#: kuma/wiki/jinja2/wiki/edit.html:147 kuma/wiki/jinja2/wiki/includes/translate_description.html:60
 msgid "Lookup:"
 msgstr "Búsqueda:"
 
@@ -3412,11 +3637,11 @@ msgstr "No tengas miedo a romper algo, siempre puedes revertir tus cambios."
 msgid "Have fun and be proud of your contribution!"
 msgstr "¡Diviértete y enorgullécete de tu colaboración!"
 
-#: kuma/wiki/jinja2/wiki/edit.html:191
+#: kuma/wiki/jinja2/wiki/edit.html:184
 msgid "Learn how to tag an article"
 msgstr "Aprende a etiquetar un artículo"
 
-#: kuma/wiki/jinja2/wiki/edit.html:193 kuma/wiki/jinja2/wiki/translate.html:114
+#: kuma/wiki/jinja2/wiki/edit.html:186 kuma/wiki/jinja2/wiki/translate.html:114
 #, python-format
 msgid "Categorize the article. It will make the article findable under the right filters in the search engine. <a target=\"_blank\" href=\"%(url)s\">Read the Tagging Guide</a>."
 msgstr "Categoriza el artículo. Hará que el artículo se pueda encontrar bajo los filtros apropiados en el buscador. <a target=\"_blank\" href=\"%(url)s\">Lee la guía de etiquetado</a>."
@@ -3517,7 +3742,7 @@ msgstr ""
 "<h1>Está planificado el desplazamiento de esta página</h1> <p>Se desplazará %(old_slug)s a <a href=\"%(new_url)s\">%(new_slug)s</a></p> <p> Recibirás un correo cuando el proceso finalice o si ocurre"
 " algún error durante el desplazamiento.</p>"
 
-#: kuma/wiki/jinja2/wiki/preview.html:13
+#: kuma/wiki/jinja2/wiki/preview.html:14
 msgid "This is a preview of an unsaved document."
 msgstr "Esta es una vista preliminar de un documento no guardado."
 
@@ -3554,15 +3779,15 @@ msgstr "Creador:"
 msgid "Is current revision?"
 msgstr "¿Es la revisión actual?"
 
-#: kuma/wiki/jinja2/wiki/revision.html:61
+#: kuma/wiki/jinja2/wiki/revision.html:60
 msgid "Revision Content"
 msgstr "Contenido de la revisión"
 
-#: kuma/wiki/jinja2/wiki/revision.html:69
+#: kuma/wiki/jinja2/wiki/revision.html:67
 msgid "Revision Source"
 msgstr "Fuente de la revisión"
 
-#: kuma/wiki/jinja2/wiki/revision.html:76 kuma/wiki/jinja2/wiki/list/revisions.html:70
+#: kuma/wiki/jinja2/wiki/revision.html:73 kuma/wiki/jinja2/wiki/list/revisions.html:78
 msgid "Revert to this revision"
 msgstr "Revertir a esta revisión"
 
@@ -3575,22 +3800,13 @@ msgstr "Seleccionar idioma | %(document)s"
 msgid "Select a language to translate to:"
 msgstr "Seleccionar el idioma al que traducir:"
 
-#: kuma/wiki/jinja2/wiki/sphinx.html:32
+#: kuma/wiki/jinja2/wiki/sphinx.html:35
 #, python-format
 msgid ""
-"Content is available under a license specific to this project. &middot; <a href=\"%(about_url)s\">About MDN</a> &middot; <a href=\"//github.com/mozilla/kuma\">Contribute to the code</a> &middot; <a "
-"href=\"//www.mozilla.org/en-US/privacy\">Privacy policy</a>"
+"&copy; 2005-%(this_year)s Mozilla Developer Network and individual contributors<br /> Content is available under a license specific to this project. &middot; <a href=\"%(about_url)s\">About MDN</a> "
+"&middot; <a href=\"//github.com/mozilla/kuma\">Contribute to the code</a> &middot; <a href=\"//www.mozilla.org/en-US/privacy\">Privacy policy</a>"
 msgstr ""
-"El contenido está disponible bajo una licencia específica de este proyecto. &middot; <a href=\"%(about_url)s\">Acerca de MDN</a> &middot; <a href=\"//github.com/mozilla/kuma\">Colaborar en el "
-"código</a> &middot; <a href=\"//www.mozilla.org/en-US/privacy\">Política de privacidad</a>"
-
-#: kuma/wiki/jinja2/wiki/sphinx.html:43
-#, python-format
-msgid ""
-"&copy; 2005-2015 Mozilla Developer Network and individual contributors<br /> Content is available under a license specific to this project. &middot; <a href=\"%(about_url)s\">About MDN</a> &middot; "
-"<a href=\"//github.com/mozilla/kuma\">Contribute to the code</a> &middot; <a href=\"//www.mozilla.org/en-US/privacy\">Privacy policy</a>"
-msgstr ""
-"&copy; 2005-2013 Mozilla Developer Network y colaboradores particulares.<br /> El contenido está disponible según una licencia específica para este proyecto. &middot; <a "
+"&copy; 2005-%(this_year)s Mozilla Developer Network y colaboradores particulares.<br /> El contenido está disponible bajo una licencia específica para este proyecto. &middot; <a "
 "href=\"%(about_url)s\">Acerca de MDN</a> &middot; <a href=\"//github.com/mozilla/kuma\">Colabora con el código</a> &middot; <a href=\"//www.mozilla.org/es-ES/privacy\">Política de privacidad</a>"
 
 #: kuma/wiki/jinja2/wiki/translate.html:7
@@ -3700,57 +3916,67 @@ msgstr "Estás suscrito a las ediciones de %(title)s."
 msgid "This article needs these reviews:"
 msgstr "Este articulo necesita estas revisiones:"
 
+#: kuma/wiki/jinja2/wiki/includes/approvals.html:14
+#, python-format
+msgid "Technical - code samples, APIs, or technologies. <a href=\"%(url)s\">Can you help?</a>"
+msgstr "Técnico - ejemplos de código, API o tecnologías. <a href=\"%(url)s\">¿Nos ayudas?</a>"
+
 #: kuma/wiki/jinja2/wiki/includes/approvals.html:24
+#, python-format
+msgid "Editorial - prose, grammar, or content. <a href=\"%(url)s\">Can you help?</a>"
+msgstr "Editorial: prosa, gramática o contenido. <a href=\"%(url)s\">¿Nos ayudas?</a>"
+
+#: kuma/wiki/jinja2/wiki/includes/approvals.html:32
 msgid "Save"
 msgstr "Guardar"
 
 # 88%
 # 100%
-#: kuma/wiki/jinja2/wiki/includes/buttons.html:19
+#: kuma/wiki/jinja2/wiki/includes/buttons.html:18
 msgid "Languages"
 msgstr "Idiomas"
 
-#: kuma/wiki/jinja2/wiki/includes/buttons.html:29
+#: kuma/wiki/jinja2/wiki/includes/buttons.html:32
 msgid "No translations exist for this article."
 msgstr "No existen traducciones de este articulo."
 
-#: kuma/wiki/jinja2/wiki/includes/buttons.html:33
+#: kuma/wiki/jinja2/wiki/includes/buttons.html:36
 msgid "Add a translation"
 msgstr "Añadir traducción"
 
-#: kuma/wiki/jinja2/wiki/includes/buttons.html:45 kuma/wiki/jinja2/wiki/includes/buttons.html:48
+#: kuma/wiki/jinja2/wiki/includes/buttons.html:51 kuma/wiki/jinja2/wiki/includes/buttons.html:54
 msgid "Watch"
 msgstr "Seguir"
 
-#: kuma/wiki/jinja2/wiki/includes/buttons.html:63
+#: kuma/wiki/jinja2/wiki/includes/buttons.html:69
 msgid "New sub-article"
 msgstr "Nuevo sub-artículo"
 
-#: kuma/wiki/jinja2/wiki/includes/buttons.html:64
+#: kuma/wiki/jinja2/wiki/includes/buttons.html:70
 msgid "Clone this article"
 msgstr "Clonar este artículo"
 
-#: kuma/wiki/jinja2/wiki/includes/buttons.html:67
+#: kuma/wiki/jinja2/wiki/includes/buttons.html:73
 msgid "Move this article"
 msgstr "Mover este artículo"
 
-#: kuma/wiki/jinja2/wiki/includes/buttons.html:70
+#: kuma/wiki/jinja2/wiki/includes/buttons.html:76
 msgid "View in admin"
 msgstr "Ver en administrador"
 
-#: kuma/wiki/jinja2/wiki/includes/buttons.html:78
+#: kuma/wiki/jinja2/wiki/includes/buttons.html:84
 msgid "Delete this article"
 msgstr "Eliminar este artículo"
 
-#: kuma/wiki/jinja2/wiki/includes/buttons.html:83
+#: kuma/wiki/jinja2/wiki/includes/buttons.html:89
 msgid "Manage content zone"
 msgstr "Administrar la zona de contenido"
 
-#: kuma/wiki/jinja2/wiki/includes/buttons.html:86
+#: kuma/wiki/jinja2/wiki/includes/buttons.html:92
 msgid "Convert to content zone"
 msgstr "Convertir a zona de contenido"
 
-#: kuma/wiki/jinja2/wiki/includes/buttons.html:88
+#: kuma/wiki/jinja2/wiki/includes/buttons.html:94
 msgid "Print this article"
 msgstr "Imprimir este artículo"
 
@@ -3766,84 +3992,80 @@ msgstr "Ver también"
 msgid "Change Revisions"
 msgstr "Cambiar revisiones"
 
-#: kuma/wiki/jinja2/wiki/includes/document_macros.html:37 kuma/wiki/jinja2/wiki/includes/document_macros.html:53
+#: kuma/wiki/jinja2/wiki/includes/document_macros.html:34 kuma/wiki/jinja2/wiki/includes/document_macros.html:50
 #, python-format
 msgid "Revision %(num)s:"
 msgstr "Revisión %(num)s:"
 
-#: kuma/wiki/jinja2/wiki/includes/document_macros.html:82 kuma/wiki/jinja2/wiki/includes/revision_diff_table.html:8
+#: kuma/wiki/jinja2/wiki/includes/document_macros.html:88 kuma/wiki/jinja2/wiki/includes/revision_diff_table.html:8
 msgid "The server is rendering the content comparison. Please refresh this page in a few minutes."
 msgstr "El servidor está renderizando la comparación del contenido. Por favor, actualiza la página en unos minutos. "
 
-#: kuma/wiki/jinja2/wiki/includes/document_macros.html:102
-#, python-format
-msgid "Subscribe to %(title)s and all its sub-articles"
-msgstr "Suscríbete a %(title)s y a todos sus subartículos"
+#: kuma/wiki/jinja2/wiki/includes/document_macros.html:108
+msgid "Subscribe to this article and all its sub-articles"
+msgstr "Suscríbete a este artículo y a todos sus subartículos"
 
-#: kuma/wiki/jinja2/wiki/includes/document_macros.html:103
-#, python-format
-msgid "Unsubscribe from %(title)s and all its sub-articles"
-msgstr "Cancelar la suscripción a %(title)s y todos sus subartículos"
+#: kuma/wiki/jinja2/wiki/includes/document_macros.html:109
+msgid "Unsubscribe from this article and all its sub-articles"
+msgstr "Cancelar la suscripción a este artículo y a todos sus subartículos"
 
-#: kuma/wiki/jinja2/wiki/includes/document_macros.html:106
+#: kuma/wiki/jinja2/wiki/includes/document_macros.html:112
 msgid "You are now subscribed to this article and all its sub-articles."
 msgstr "Ya estás suscrito a este artículo y a todos sus subartículos."
 
-#: kuma/wiki/jinja2/wiki/includes/document_macros.html:106
+#: kuma/wiki/jinja2/wiki/includes/document_macros.html:112
 msgid "You have been unsubscribed from this article and all its sub-articles."
 msgstr "Ya no estás suscrito ni a este artículo ni a todos sus subartículos."
 
-#: kuma/wiki/jinja2/wiki/includes/document_macros.html:117
+#: kuma/wiki/jinja2/wiki/includes/document_macros.html:123
 msgid "Updating subscription status"
 msgstr "Actualizando el estado de la suscripción"
 
-#: kuma/wiki/jinja2/wiki/includes/document_macros.html:118
-#, python-format
-msgid "Subscribe to %(title)s"
-msgstr "Suscribirse a %(title)s"
+#: kuma/wiki/jinja2/wiki/includes/document_macros.html:124
+msgid "Subscribe to this article"
+msgstr "Suscribirse a este artículo"
 
-#: kuma/wiki/jinja2/wiki/includes/document_macros.html:119
-#, python-format
-msgid "Unsubscribe from %(title)s"
-msgstr "Cancelar la suscripción a %(title)s"
+#: kuma/wiki/jinja2/wiki/includes/document_macros.html:125
+msgid "Unsubscribe from this article"
+msgstr "Cancelar la suscripción de este artículo"
 
-#: kuma/wiki/jinja2/wiki/includes/document_macros.html:122
+#: kuma/wiki/jinja2/wiki/includes/document_macros.html:128
 #, python-format
 msgid "You are now subscribed to %(title)s."
 msgstr "Te has suscrito a%(title)s."
 
-#: kuma/wiki/jinja2/wiki/includes/document_macros.html:122
+#: kuma/wiki/jinja2/wiki/includes/document_macros.html:128
 #, python-format
 msgid "You have been unsubscribed from %(title)s."
 msgstr "Has cancelado tu suscripción a %(title)s."
 
-#: kuma/wiki/jinja2/wiki/includes/document_macros.html:133
+#: kuma/wiki/jinja2/wiki/includes/document_macros.html:139
 #, python-format
-msgid "Subscribe to <bdi>%(language)s</bdi> version"
-msgstr "Suscríbete a la versión en <bdi>%(language)s</bdi>"
+msgid "Subscribe to the %(language)s version"
+msgstr "Suscribirse a la versión en %(language)s"
 
-#: kuma/wiki/jinja2/wiki/includes/document_macros.html:134
+#: kuma/wiki/jinja2/wiki/includes/document_macros.html:140
 #, python-format
-msgid "Unsubscribe from <bdi>%(language)s</bdi> version"
-msgstr "Cancela tu suscripción a la versión en <bdi>%(language)s</bdi>"
+msgid "Unsubscribe from the %(language)s version"
+msgstr "Cancela tu suscripción a la versión en %(language)s"
 
-#: kuma/wiki/jinja2/wiki/includes/document_macros.html:137
+#: kuma/wiki/jinja2/wiki/includes/document_macros.html:143
 #, python-format
 msgid "You are now subscribed to the %(language)s version of this article."
 msgstr "Te has suscrito a la versión en %(language)s de este artículo."
 
-#: kuma/wiki/jinja2/wiki/includes/document_macros.html:137
+#: kuma/wiki/jinja2/wiki/includes/document_macros.html:143
 #, python-format
 msgid "You have been unsubscribed from the %(language)s version of this article."
 msgstr "Has cancelado tu suscripción a la versión en %(language)s de este artículo."
 
 # 96%
 # 100%
-#: kuma/wiki/jinja2/wiki/includes/document_toc_field.html:2 kuma/wiki/jinja2/wiki/includes/translate_description.html:50
+#: kuma/wiki/jinja2/wiki/includes/document_toc_field.html:2 kuma/wiki/jinja2/wiki/includes/translate_description.html:49
 msgid "Generate table of contents"
 msgstr "Generar índice de contenidos"
 
-#: kuma/wiki/jinja2/wiki/includes/document_toc_field.html:2 kuma/wiki/jinja2/wiki/includes/translate_description.html:50
+#: kuma/wiki/jinja2/wiki/includes/document_toc_field.html:2 kuma/wiki/jinja2/wiki/includes/translate_description.html:49
 msgid "TOC:"
 msgstr "Índice:"
 
@@ -3876,36 +4098,39 @@ msgstr[0] "Más información acerca de este error"
 msgstr[1] "Más información acerca de estos errores"
 
 #: kuma/wiki/jinja2/wiki/includes/kumascript_errors.html:19
-msgid "Anyone with an MDN profile can edit a document to fix an error. Use the <a href=\"/docs/MDN/Kuma/Troubleshooting_KumaScript_errors\">KumaScript troubleshooting guide</a> as a starting point."
+#, python-format
+msgid "Anyone with an MDN profile can edit a document to fix an error. Use the <a href=\"%(troubleshooting_url)s\">KumaScript troubleshooting guide</a> as a starting point."
 msgstr ""
-"Cualquiera que tenga un perfil en MDN puede editar un documento para solucionar un error. Como punto de partida, puedes utilizar la <a href=\"/docs/MDN/Kuma/Troubleshooting_KumaScript_errors\">guía "
-"para solucionar problemas de KumaScript</a>."
+"Cualquiera que tenga un perfil en MDN puede editar un documento para solucionar un error. Como punto de partida, puedes utilizar la <a href=\"%(troubleshooting_url)s\">guía para solucionar problemas"
+" de KumaScript</a>."
 
 #: kuma/wiki/jinja2/wiki/includes/kumascript_errors.html:29
 msgid "Error type:"
 msgstr "Tipo de error:"
 
-#: kuma/wiki/jinja2/wiki/includes/kumascript_errors.html:41
+#: kuma/wiki/jinja2/wiki/includes/kumascript_errors.html:37
 msgid "In macro:"
 msgstr "En la macro:"
 
+# 75%
+# 100%
+#: kuma/wiki/jinja2/wiki/includes/kumascript_errors.html:41
+msgid "Create Macro"
+msgstr "Crear macro"
+
+#: kuma/wiki/jinja2/wiki/includes/kumascript_errors.html:43
+msgid "View Macro"
+msgstr "Ver macro"
+
 #: kuma/wiki/jinja2/wiki/includes/kumascript_errors.html:46
-msgid "Create Template"
-msgstr "Crear plantilla"
-
-#: kuma/wiki/jinja2/wiki/includes/kumascript_errors.html:49
-msgid "Edit Template"
-msgstr "Editar plantilla"
-
-#: kuma/wiki/jinja2/wiki/includes/kumascript_errors.html:52
 msgid "Parsing macro:"
 msgstr "Analizando macro:"
 
-#: kuma/wiki/jinja2/wiki/includes/kumascript_errors.html:60
+#: kuma/wiki/jinja2/wiki/includes/kumascript_errors.html:54
 msgid "Edit Document"
 msgstr "Editar documento"
 
-#: kuma/wiki/jinja2/wiki/includes/kumascript_errors.html:65
+#: kuma/wiki/jinja2/wiki/includes/kumascript_errors.html:59
 msgid "Full text of error:"
 msgstr "Descripción completa del error:"
 
@@ -3917,11 +4142,11 @@ msgstr "Nueva página"
 msgid "Discard changes and create a new document?"
 msgstr "¿Descartar los cambios y crear un nuevo documento?"
 
-#: kuma/wiki/jinja2/wiki/includes/page_buttons.html:23
+#: kuma/wiki/jinja2/wiki/includes/page_buttons.html:24
 msgid "Publish and Keep Editing"
 msgstr "Publicar y continuar editando"
 
-#: kuma/wiki/jinja2/wiki/includes/page_buttons.html:35
+#: kuma/wiki/jinja2/wiki/includes/page_buttons.html:34
 msgid "Discard"
 msgstr "Cancelar"
 
@@ -3945,19 +4170,15 @@ msgstr "Dinos por qué has hecho adiciones y cambios. Es opcional, pero hará qu
 
 #: kuma/wiki/jinja2/wiki/includes/spam_error.html:2
 #, python-format
-msgid ""
-"Your submission includes content that may not be suitable for MDN. Repeated attempts to submit unsuitable material may result in your account being deactivated. See our guide “<a "
-"href=\"%(does_this_belong_url)s\">Does this belong on MDN?</a>” for details on what constitutes appropriate material."
+msgid "Sorry! We weren't able to save your contribution. Please copy and paste your changes into a safe place and <a href=\"%(admin_email)s\"> contact the site administrators</a>."
 msgstr ""
-"Tu envío incluye contenido que puede ser inadecuado para MDN. Tu cuenta puede ser desactivada por intentar repetidamente enviar material inadecuado. Mira nuestra guía “<a "
-"href=\"%(does_this_belong_url)s\">¿Esto pertenece a MDN?</a>” para más detalles sobre el material que se considera adecuado."
+"¡Lo sentimos! No hemos podido guardar tu colaboración. Por favor, copia y pega los cambios en un lugar seguro y <a href=\"%(admin_email)s\">ponte en contacto con los administradores del sitio</a>."
 
-#: kuma/wiki/jinja2/wiki/includes/spam_error.html:11
-#, python-format
-msgid "If you believe you’ve received this message by mistake, please save a draft of your content and <a href=\"%(admin_email)s\"> contact the site administrators</a>."
-msgstr "Si crees que has recibido este mensaje por error, guarda un borrador del contenido y <a href=\"%(admin_email)s\">contacta con los administradores del sitio</a>."
+#: kuma/wiki/jinja2/wiki/includes/spam_error.html:9
+msgid "We'll try to resolve the problem, and after that you will be able to resubmit your contribution."
+msgstr "Intentaremos resolver el problema, y después podrás volver a enviar tu colaboración."
 
-#: kuma/wiki/jinja2/wiki/includes/spam_error.html:19
+#: kuma/wiki/jinja2/wiki/includes/spam_error.html:16
 #, python-format
 msgid "If you are a spam moderator, you can <a href=\"%(akismet_submission_url)s\" target=\"_blank\">mark this submission as ham</a> and try submitting it again."
 msgstr "Si eres un moderador de spam, puedes <a href=\"%(akismet_submission_url)s\" target=\"_blank\">marcar esta petición</a> e intentar presentarla de nuevo."
@@ -3976,7 +4197,7 @@ msgstr "Título en %(locale)s:"
 msgid "Slug in %(locale)s:"
 msgstr "Enlace amigable (slug) en %(locale)s:"
 
-#: kuma/wiki/jinja2/wiki/includes/translate_description.html:66
+#: kuma/wiki/jinja2/wiki/includes/translate_description.html:64
 msgid "Find the translation source with the lookup above and then click \"Save\"."
 msgstr "Busca el texto original de la traducción con la búsqueda de arriba y luego haz clic en \"Guardar\"."
 
@@ -3993,37 +4214,26 @@ msgid "Articles tagged: %(tag)s"
 msgstr "Artículos etiquetados con: %(tag)s"
 
 #: kuma/wiki/jinja2/wiki/list/documents.html:6
-msgid "All templates"
-msgstr "Todas las plantillas"
-
-#: kuma/wiki/jinja2/wiki/list/documents.html:7
-#, python-format
-msgid "Found %(num)s template."
-msgid_plural "Found %(num)s templates"
-msgstr[0] "Se han encontrado %(num)s plantillas."
-msgstr[1] "Se han encontrado %(num)s plantillas."
-
-#: kuma/wiki/jinja2/wiki/list/documents.html:9
 msgid "Documents with errors"
 msgstr "Documentos con errores"
 
-#: kuma/wiki/jinja2/wiki/list/documents.html:11
+#: kuma/wiki/jinja2/wiki/list/documents.html:8
 msgid "Top level documents"
 msgstr "Documentos de nivel superior"
 
-#: kuma/wiki/jinja2/wiki/list/documents.html:13
+#: kuma/wiki/jinja2/wiki/list/documents.html:10
 msgid "Documents with no parent"
 msgstr "Documentos sin padre"
 
-#: kuma/wiki/jinja2/wiki/list/documents.html:15
+#: kuma/wiki/jinja2/wiki/list/documents.html:12
 msgid "All documents"
 msgstr "Todos los documentos"
 
-#: kuma/wiki/jinja2/wiki/list/documents.html:30
+#: kuma/wiki/jinja2/wiki/list/documents.html:28
 msgid "Translation updates needed"
 msgstr "Es necesario actualizar traducciones"
 
-#: kuma/wiki/jinja2/wiki/list/documents.html:55 kuma/wiki/jinja2/wiki/list/needs_review.html:46 kuma/wiki/jinja2/wiki/list/with_localization_tags.html:30
+#: kuma/wiki/jinja2/wiki/list/documents.html:53 kuma/wiki/jinja2/wiki/list/needs_review.html:46 kuma/wiki/jinja2/wiki/list/with_localization_tags.html:30
 msgid "There are no articles."
 msgstr "No hay ningún artículo."
 
@@ -4038,11 +4248,11 @@ msgstr "Documentos para revisión"
 
 #: kuma/wiki/jinja2/wiki/list/needs_review.html:12
 #, python-format
-msgid "Articles in Need of Review Tagged: %(tag)s"
-msgstr "Artículos que necesitan revisión con la etiqueta %(tag)s"
+msgid "Articles in need of review: %(tag)s"
+msgstr "Artículos que necesitan revisión: %(tag)s"
 
 #: kuma/wiki/jinja2/wiki/list/needs_review.html:14
-msgid "All Articles in Need of Review"
+msgid "All articles in need of review"
 msgstr "Todos los artículos que necesitan revisión"
 
 #: kuma/wiki/jinja2/wiki/list/needs_review.html:25
@@ -4065,23 +4275,23 @@ msgstr "Se han encontrado %(count)s documentos."
 msgid "Revision History | %(document)s"
 msgstr "Historial de revisión | %(document)s"
 
-#: kuma/wiki/jinja2/wiki/list/revisions.html:14
+#: kuma/wiki/jinja2/wiki/list/revisions.html:15
 msgid "History of"
 msgstr "Historial de"
 
-#: kuma/wiki/jinja2/wiki/list/revisions.html:17
+#: kuma/wiki/jinja2/wiki/list/revisions.html:18
 msgid "Revision history for:"
 msgstr "Historial de revisiones de:"
 
-#: kuma/wiki/jinja2/wiki/list/revisions.html:42
+#: kuma/wiki/jinja2/wiki/list/revisions.html:43
 msgid "Compare Selected Translations"
 msgstr "Comparara las traducciones seleccionadas"
 
-#: kuma/wiki/jinja2/wiki/list/revisions.html:42
+#: kuma/wiki/jinja2/wiki/list/revisions.html:43
 msgid "Compare Selected Revisions"
 msgstr "Comparar las revisiones seleccionadas"
 
-#: kuma/wiki/jinja2/wiki/list/revisions.html:78
+#: kuma/wiki/jinja2/wiki/list/revisions.html:86
 msgid "This document has no revisions."
 msgstr "Este documento no tiene ninguna revisión."
 
@@ -4132,15 +4342,6 @@ msgstr ""
 "          Los siguientes documentos se eliminarán definitivamente de la base de datos. Esta acción no se puede deshacer. Para cancelarla, pulsa el botón de \"Atrás\" de tu navegador.\n"
 "        "
 
-#: kuma/wiki/templates/admin/wiki/document/change_list.html:8
-msgid "\"Load documents\""
-msgstr "\"Cargar documentos\""
-
-#: kuma/wiki/templates/admin/wiki/document/change_list.html:12
-#, python-format
-msgid "Add %(name)s"
-msgstr "Agregar %(name)s"
-
 #: kuma/wiki/templates/admin/wiki/document/load_data_form.html:4 kuma/wiki/templates/admin/wiki/document/load_data_form.html:25 kuma/wiki/templates/admin/wiki/document/load_data_form.html:30
 msgid "Load documents"
 msgstr "Cargar documentos"
@@ -4167,66 +4368,56 @@ msgstr "Selecciona una entrada Akismet para más detalles"
 
 # 75%
 # 100%
-#: kuma/wiki/templatetags/jinja_helpers.py:101 kuma/wiki/templatetags/jinja_helpers.py:102 kuma/wiki/templatetags/jinja_helpers.py:117 kuma/wiki/templatetags/jinja_helpers.py:118
+#: kuma/wiki/templatetags/jinja_helpers.py:104 kuma/wiki/templatetags/jinja_helpers.py:105 kuma/wiki/templatetags/jinja_helpers.py:120 kuma/wiki/templatetags/jinja_helpers.py:121
 #, python-format
 msgid "Revision %s"
 msgstr "Revisión %s"
 
-#: kuma/wiki/templatetags/jinja_helpers.py:107
+#: kuma/wiki/templatetags/jinja_helpers.py:110
 msgid "There was an error generating the content."
 msgstr "Se ha producido un error al generar el contenido."
 
-#: kuma/wiki/views/delete.py:54
+#: kuma/wiki/views/delete.py:50
 msgid "Document already exists. Note: You cannot revert a document that has been moved until you delete its redirect."
 msgstr "Este documento ya existe. Nota: no puedes eliminar un documento que ha sido movido hasta que no elimines la redirección."
 
-#: kuma/wiki/views/document.py:607
+#: kuma/wiki/views/document.py:656
 #, python-format
 msgid "Redirected from %(url)s"
 msgstr "Redirigido desde %(url)s"
 
-#: kuma/wiki/views/document.py:655
+#: kuma/wiki/views/document.py:710
 #, python-format
 msgid "I learned about %(title)s on MDN."
 msgstr "Aprendí sobre %(title)s en MDN."
 
-#: kuma/wiki/views/document.py:726
+#: kuma/wiki/views/document.py:786
 #, python-format
 msgid "Unsupported content-type: %s"
 msgstr "Content-type no admitido: %s"
 
-#: kuma/wiki/views/document.py:733
+#: kuma/wiki/views/document.py:793
 #, python-format
 msgid "Request parsing error: %s"
 msgstr "Error al procesar la solicitud: %s"
 
-#: kuma/wiki/views/document.py:753
+#: kuma/wiki/views/document.py:811
 msgid "ETag precondition failed"
 msgstr "Condición previa ETag fallida"
 
-#: kuma/wiki/views/edit.py:114
+#: kuma/wiki/views/edit.py:111
 msgid "Sections may only be edited inline."
 msgstr "Las secciones solo se pueden editar en línea."
 
-#: kuma/wiki/views/misc.py:53
+#: kuma/wiki/views/misc.py:50
 msgid "Autosuggest requires a partial title. For a full document index, see the main page."
 msgstr "La sugerencia automática requiere un título parcial. Para acceder a un índice de documento completo, consulta la página principal."
 
-#: kuma/wiki/views/misc.py:106
-#, python-format
-msgid "%(obj_count)d object(s) loaded."
-msgstr "%(obj_count)d objeto(s) cargado(s)."
-
-#: kuma/wiki/views/misc.py:110
-#, python-format
-msgid "Failed to import data: %(error)s"
-msgstr "Fallo al importar datos: %(error)s"
-
-#: kuma/wiki/views/revision.py:140
+#: kuma/wiki/views/revision.py:145
 msgid "Document has been edited; please re-review."
 msgstr "El documento se ha editado. Revisa las modificaciones."
 
-#: kuma/wiki/views/translate.py:72
+#: kuma/wiki/views/translate.py:75
 msgid "You cannot translate this document."
 msgstr "No puedes traducir este documento."
 
@@ -4234,6 +4425,224 @@ msgstr "No puedes traducir este documento."
 #, python-format
 msgid "Elasticsearch server: %(backend)s"
 msgstr "Servidor de Elasticsearch: %(backend)s"
+
+#~ msgid "Github"
+#~ msgstr "Github"
+
+#~ msgid "algorithm"
+#~ msgstr "algoritmo"
+
+#~ msgid "salt"
+#~ msgstr "salt"
+
+#~ msgid "hash"
+#~ msgstr "hash"
+
+#~ msgid "Create Template"
+#~ msgstr "Crear plantilla"
+
+#~ msgid "Edit Template"
+#~ msgstr "Editar plantilla"
+
+#~ msgid "Sign up for our newsletter:"
+#~ msgstr "Subscríbete a nuestro boletín:"
+
+#~ msgid "Previous Search Result"
+#~ msgstr "Resultado anterior de la búsqueda"
+
+#~ msgid "No Previous Search Result"
+#~ msgstr "No hay resultados anteriores de la búsqueda"
+
+#~ msgid "Your Search Results"
+#~ msgstr "Los resultados de tu búsqueda"
+
+#~ msgid "Next Search Result"
+#~ msgstr "Siguiente resultado de la búsqueda"
+
+#~ msgid "Test in Firefox and over 800 browser/OS combos with Mozilla and Sauce Labs"
+#~ msgstr "Prueba en Firefox y en más de 800 combinaciones de navegador/sistema operativo con Mozilla y Sauce Labs"
+
+#~ msgid "Test on Sauce Labs"
+#~ msgstr "Prueba en Sauce Labs"
+
+#~ msgid "Create a New Template"
+#~ msgstr "Crear una nueva plantilla"
+
+#~ msgid "Search for <a href=\"%(search_link)s\" rel=\"nofollow, noindex\">pages that use %(title)s</a> to see example use cases and how many pages use this macro."
+#~ msgstr "Busca <a href=\"%(search_link)s\" rel=\"nofollow, noindex\">páginas que usen %(title)s</a> para ver ejemplos prácticos y saber el número de páginas que utilizan esta macro."
+
+#~ msgid "%(title)s | Edit Template"
+#~ msgstr "%(title)s | Editar plantilla"
+
+#~ msgid "All templates"
+#~ msgstr "Todas las plantillas"
+
+#~ msgid "Found %(num)s template."
+#~ msgid_plural "Found %(num)s templates"
+#~ msgstr[0] "Se han encontrado %(num)s plantillas."
+#~ msgstr[1] "Se han encontrado %(num)s plantillas."
+
+#~ msgid "This article needs a technical review. <a href=\"%(url)s\">How you can help.</a>"
+#~ msgstr "Este articulo necesita una revisión técnica. <a href=\"%(url)s\">Cómo puedes ayudar.</a>"
+
+#~ msgid "This article needs an editorial review. <a href=\"%(url)s\">How you can help.</a>"
+#~ msgstr "Este articulo necesita una revisión editorial. <a href=\"%(url)s\">Cómo puedes ayudar.</a>"
+
+#~ msgid "Unsubscribe from %(title)s"
+#~ msgstr "Cancelar la suscripción a %(title)s"
+
+#~ msgid "Welcome, <span class=\"user\">%(user)s</span>."
+#~ msgstr "Te damos la bienvenida, <span class=\"user\">%(user)s</span>."
+
+#~ msgid "Profile"
+#~ msgstr "Perfil"
+
+#~ msgid "Want to contribute?<br /> <a href=\"%(login_url)s\">Sign in</a>"
+#~ msgstr "¿Quieres colaborar?<br /> <a href=\"%(login_url)s\">Inicia sesión</a>"
+
+#~ msgid "Build Open Web Apps"
+#~ msgstr "Compilar aplicaciones web abiertas"
+
+#~ msgid "Learning"
+#~ msgstr "Aprendizaje"
+
+#~ msgid ""
+#~ "Your submission includes content that may not be suitable for MDN. Repeated attempts to submit unsuitable material may result in your account being deactivated. See our guide “<a "
+#~ "href=\"%(does_this_belong_url)s\">Does this belong on MDN?</a>” for details on what constitutes appropriate material."
+#~ msgstr ""
+#~ "Tu envío incluye contenido que puede ser inadecuado para MDN. Tu cuenta puede ser desactivada por intentar repetidamente enviar material inadecuado. Mira nuestra guía “<a "
+#~ "href=\"%(does_this_belong_url)s\">¿Esto pertenece a MDN?</a>” para más detalles sobre el material que se considera adecuado."
+
+#~ msgid ""
+#~ "You signed in with Persona. On November 1st you will no longer be able to sign in to MDN this way.<br> Please <a href=\"%(persona_info)s\">link your GitHub account to your MDN profile now</a> so you"
+#~ " can continue to sign in to MDN."
+#~ msgstr ""
+#~ "Has iniciado sesión con Persona. A partir del 1 de noviembre no podrás iniciar sesión así en MDN.<br> <a href=\"%(persona_info)s\">Enlaza tu cuenta de GitHub a tu perfil de MDN</a> para que puedas "
+#~ "seguir iniciando sesión en MDN."
+
+#~ msgid "Sign in:"
+#~ msgstr "Iniciar sesión:"
+
+#~ msgid "Why is Persona sign in only?"
+#~ msgstr "¿Por qué solo se inicia sesión con Persona?"
+
+#~ msgid "If you already have a MDN profile sign in:"
+#~ msgstr "Si ya tienes un perfil en MDN, inicia sesión:"
+
+#~ msgid "We are sorry, but you can not create a profile with Persona. <a href=\"%(url)s\">Please try again with a GitHub account</a>."
+#~ msgstr "Lo sentimos, pero no puedes crearte un perfil con Persona. <a href=\"%(url)s\">Vuelve a intentarlo con una cuenta en GitHub</a>."
+
+#~ msgid "Account Connections"
+#~ msgstr "Conexiones de la cuenta"
+
+#~ msgid "Account connections"
+#~ msgstr "Conexiones de la cuenta"
+
+#~ msgid "You can sign in to your profile using any of the following:"
+#~ msgstr "Puedes iniciar sesión en tu perfil utilizando:"
+
+#~ msgid "Disconnect"
+#~ msgstr "Desconectar"
+
+#~ msgid "You have no connected accounts."
+#~ msgstr "No tienes cuentas conectadas."
+
+#~ msgid "A profile already exists with this email address. To connect Persona to your MDN profile, <a href=\"%(connections_url)s\">you need to sign in and visit your social account connections.</a>"
+#~ msgstr ""
+#~ "Ya existe un perfil con esta dirección de correo electrónico. Para conectar Persona con tu perfil de MDN, <a href=\"%(connections_url)s\">debes inicar sesión y comprobar tu conexión a las cuentas "
+#~ "sociales.</a>"
+
+#~ msgid ""
+#~ "A profile already exists with an email address below. Do you already have an MDN profile? <a href=\"%(persona_login_url)s\" class=\"launch-persona-login\" data-next=\"%(persona_next_url)s\">Yes, "
+#~ "connect with my MDN profile</a>"
+#~ msgid_plural ""
+#~ "A profile already exists with one of these email addresses below. Do you already have an MDN profile? <a href=\"%(persona_login_url)s\" class=\"launch-persona-login\" data-"
+#~ "next=\"%(persona_next_url)s\">Yes, connect with my MDN profile</a>"
+#~ msgstr[0] ""
+#~ "Ya existe un perfil con esta dirección de correo electrónico. ¿Ya tienes un perfil en MDN? <a href=\"%(persona_login_url)s\" class=\"launch-persona-login\" data-next=\"%(persona_next_url)s\">Sí, "
+#~ "iniciar sesión en mi perfil MDN</a>"
+#~ msgstr[1] ""
+#~ "Ya existe un perfil con una de estas direcciones de correo electrónico. ¿Ya tienes un perfil en MDN? <a href=\"%(persona_login_url)s\" class=\"launch-persona-login\" data-"
+#~ "next=\"%(persona_next_url)s\">Sí, iniciar sesión en mi perfil MDN</a>"
+
+#~ msgid "Signed in with Persona"
+#~ msgstr "Conectado con Persona"
+
+#~ msgid "Connect with Persona"
+#~ msgstr "Conectar con Persona"
+
+#~ msgid "Sign in with Persona"
+#~ msgstr "Conectar con Mozilla Persona"
+
+#~ msgid "Create MDN profile with GitHub"
+#~ msgstr "Crear un perfil MDN con GitHub"
+
+#~ msgid "Change"
+#~ msgstr "Cambiar"
+
+#~ msgid "Use your Persona account to sign in."
+#~ msgstr "Utiliza tu cuenta Persona para iniciar sesión."
+
+#~ msgid "You signed in with Persona. <a href=\"%(persona_info)s\">Persona is being turned off. Read more.</a>"
+#~ msgstr "Has iniciado sesión con Persona.<a href=\"%(persona_info)s\">Persona está siendo desactivado. Descubre más.</a>"
+
+#~ msgid "Web Platform"
+#~ msgstr "Plataforma web"
+
+#~ msgid "Learn the Web"
+#~ msgstr "Aprende más sobre la Web"
+
+#~ msgid "Firefox Marketplace"
+#~ msgstr "Firefox Marketplace"
+
+#~ msgid "Persona"
+#~ msgstr "Mozilla Persona"
+
+#~ msgid "Web<br />Platform"
+#~ msgstr "Plataforma<br />web"
+
+#~ msgid "HTML5"
+#~ msgstr "HTML5"
+
+#~ msgid "CSS3"
+#~ msgstr "CSS3"
+
+#~ msgid "Mozilla<br> Docs"
+#~ msgstr "Documentos<br> de Mozilla"
+
+#~ msgid "App Center"
+#~ msgstr "Centro de Aps"
+
+#~ msgid "Connect"
+#~ msgstr "Conectar"
+
+#~ msgid "Get Web technology news from Mozilla, get help from other developers, and more!"
+#~ msgstr "¡Recibe noticias de Mozilla sobre tecnología, obtén ayuda de otros desarrolladores y mucho más!"
+
+#~ msgid "Learn more and sign up!"
+#~ msgstr "¡Descubre más e inscríbete!"
+
+#~ msgid "This document was modified while you were editing it."
+#~ msgstr "Este documento se modificó mientras que estabas editándolo."
+
+#~ msgid ""
+#~ "Content is available under a license specific to this project. &middot; <a href=\"%(about_url)s\">About MDN</a> &middot; <a href=\"//github.com/mozilla/kuma\">Contribute to the code</a> &middot; <a "
+#~ "href=\"//www.mozilla.org/en-US/privacy\">Privacy policy</a>"
+#~ msgstr ""
+#~ "El contenido está disponible bajo una licencia específica de este proyecto. &middot; <a href=\"%(about_url)s\">Acerca de MDN</a> &middot; <a href=\"//github.com/mozilla/kuma\">Colaborar en el "
+#~ "código</a> &middot; <a href=\"//www.mozilla.org/en-US/privacy\">Política de privacidad</a>"
+
+#~ msgid "\"Load documents\""
+#~ msgstr "\"Cargar documentos\""
+
+#~ msgid "Add %(name)s"
+#~ msgstr "Agregar %(name)s"
+
+#~ msgid "%(obj_count)d object(s) loaded."
+#~ msgstr "%(obj_count)d objeto(s) cargado(s)."
+
+#~ msgid "Failed to import data: %(error)s"
+#~ msgstr "Fallo al importar datos: %(error)s"
 
 #~ msgid "Revert Revisions"
 #~ msgstr "Deshacer Revisiones"
@@ -4300,9 +4709,6 @@ msgstr "Servidor de Elasticsearch: %(backend)s"
 
 #~ msgid "Subscribe for periodic news about Firefox OS, Firefox Marketplace and the Open Web apps ecosystem."
 #~ msgstr "Suscríbete a las noticias periódicas de Firefox OS, Firefox Marketplace y al ecosistema de aplicaciones Open Web."
-
-#~ msgid "to the <a href=\"%(privacy_url)s\">Privacy Policy</a>"
-#~ msgstr "a la <a href=\"%(privacy_url)s\">Política de privacidad</a>"
 
 #~ msgid "You must agree to the privacy policy."
 #~ msgstr "Debes aceptar la política de privacidad."
@@ -5492,9 +5898,6 @@ msgstr "Servidor de Elasticsearch: %(backend)s"
 #~ msgid "Launch"
 #~ msgstr "Iniciar"
 
-#~ msgid "Search demos"
-#~ msgstr "Buscar demos"
-
 #~ msgid "<b>or</b>"
 #~ msgstr "<b>o</b>"
 
@@ -5615,9 +6018,6 @@ msgstr "Servidor de Elasticsearch: %(backend)s"
 #~ msgstr ""
 #~ "<p>Comparte con la comunidad MDN tus intereses y áreas en las que eres un experto desarrollador. Podremos ofrecerte una experiencia mejor y más personalizada, y tendrás un lugar donde mostrar el "
 #~ "trabajo tan increíble que haces.</p>"
-
-#~ msgid "Go to your profile"
-#~ msgstr "Ir a tu perfil"
 
 #~ msgid ""
 #~ "<p>Whether you are creating an amazing new way to experience the Web or just experimenting with the latest technologies, we invite you to submit your own demos to share with (or show off to) other "
@@ -6257,9 +6657,6 @@ msgstr "Servidor de Elasticsearch: %(backend)s"
 #~ "línea a través de la <a href=\"https://p2pu.org/en/schools/school-of-webcraft\">Escuela de creación web</a> de la Universidad Peer-to-Peer<span title=\"Peer-to-Peer University\"></span>. Comparte "
 #~ "tus descubrimientos, luchas y victorias con otros que están aprendiendo las mismas cosas.</p>"
 
-#~ msgid "Learn CSS"
-#~ msgstr "Aprender CSS"
-
 #~ msgid "Back to Home"
 #~ msgstr "Volver a inicio"
 
@@ -6420,9 +6817,6 @@ msgstr "Servidor de Elasticsearch: %(backend)s"
 #~ "<p>Estos recursos lo crean empresas y desarrolladores web innovadores que apoyan los estándares abiertos y las buenas prácticas en el desarrollo web. Si piensas que nos hemos olvidado de algún "
 #~ "recurso importante, por favor, <a href=\"%(feedback_url)s\">comunícanoslo</a>. Queremos compartir estos recursos con nuestra comunidad internacional, por lo que preferimos aquellos que ofrezcan o "
 #~ "permitan traducciones, a través de una licencia de contenido abierto como <a href=\"http://creativecommons.org\" rel=\"external\">Creative Commons</a>.</p>"
-
-#~ msgid "Learn HTML"
-#~ msgstr "Aprender HTML"
 
 #~ msgid ""
 #~ "<p class=\"intro\">HTML (<strong>HyperText Markup Language</strong>) is the core syntax for putting information on the worldwide web. If you want to create or modify web pages, it's best if you "
@@ -6586,9 +6980,6 @@ msgstr "Servidor de Elasticsearch: %(backend)s"
 #~ "En este sitio se habla de <strong>HTML5</strong>, la próxima versión del estándar. Muchas características de HTML5 son compatibles con los navegadores modernos, pero muchos usuarios aún tienen "
 #~ "navegadores antiguos y por eso no pueden beneficiarse de ella."
 
-#~ msgid "Learn JavaScript"
-#~ msgstr "Aprender JavaScript"
-
 #~ msgid ""
 #~ "<p class=\"intro\"><strong>JavaScript</strong> (JS for short) is the programming language that enables web pages to respond to user interaction beyond the basic level provided by HTML links and "
 #~ "forms.</p> <p>The links on this page lead to a variety of JavaScript tutorials and JavaScript training materials. Whether you are just starting out, wanting to learn JS basics, or are an old hand, "
@@ -6603,9 +6994,6 @@ msgstr "Servidor de Elasticsearch: %(backend)s"
 
 #~ msgid "Codecademy is the easiest way to learn how to code JavaScript. It's interactive, fun, and you can do it with your friends."
 #~ msgstr "Codecademy es la manera más fácil de aprender cómo programar en JavaScript. Es interactivo, divertido y puedes hacerlo con tus amigos."
-
-#~ msgid "Getting Started with JavaScript"
-#~ msgstr "Introducción a JavaScript"
 
 #~ msgid "What is JavaScript and how can it help you?"
 #~ msgstr "¿Qué es JavaScript y cómo puede ayudarte?"
@@ -6925,9 +7313,6 @@ msgstr "Servidor de Elasticsearch: %(backend)s"
 #~ msgid "Log In"
 #~ msgstr "Conectar"
 
-#~ msgid "Log in"
-#~ msgstr "Conectar"
-
 #~ msgid "Login Problems?"
 #~ msgstr "¿Problemas al intentar conectar?"
 
@@ -6936,9 +7321,6 @@ msgstr "Servidor de Elasticsearch: %(backend)s"
 
 #~ msgid "My account is inactive."
 #~ msgstr "Mi cuenta no está activa."
-
-#~ msgid "{user} | Profile"
-#~ msgstr "{user} | Perfil"
 
 #~ msgid "{city}, {country}"
 #~ msgstr "{city}, {country}"
@@ -6991,9 +7373,6 @@ msgstr "Servidor de Elasticsearch: %(backend)s"
 #~ msgid "We've sent an email to any account using this address. Please follow the link in the email to reset your password."
 #~ msgstr "Hemos enviado un correo a todas las cuentas que usan esta dirección. Por favor, sigue el vínculo del correo para restablecer tu contraseña."
 
-#~ msgid "Thank you for registering!"
-#~ msgstr "¡Gracias por registrarte!"
-
 #~ msgid "Thank you for being awesome!"
 #~ msgstr "¡Gracias por ser alucinante!"
 
@@ -7020,9 +7399,6 @@ msgstr "Servidor de Elasticsearch: %(backend)s"
 
 #~ msgid "Could not find email for <strong>%(username)s</strong>. Please <a href=\"%(bug_url)s\">file a bug</a> to restore your account."
 #~ msgstr "No se pudo encontrar el correo electrónico para <strong>%(username)s</strong>. <a href=\"%(bug_url)s\">Informa del error</a> para restaurar tu cuenta."
-
-#~ msgid "Reminder email sent."
-#~ msgstr "Correo recordatorio enviado."
 
 #~ msgid "We've sent a reminder email to the address registered for <strong>%(username)s</strong>."
 #~ msgstr "Hemos enviado un correo recordatorio a la dirección registrada de <strong>%(username)s</strong>."
@@ -7164,9 +7540,6 @@ msgstr "Servidor de Elasticsearch: %(backend)s"
 
 #~ msgid "Awarded to"
 #~ msgstr "Otorgado a"
-
-#~ msgid "(That's you!)"
-#~ msgstr "(¡Eres tú!)"
 
 #~ msgid "Awarded by"
 #~ msgstr "Otorgado por"
@@ -7435,9 +7808,6 @@ msgstr "Servidor de Elasticsearch: %(backend)s"
 #~ msgid "This Page"
 #~ msgstr "Esta página"
 
-#~ msgid "Was this article helpful?"
-#~ msgstr "¿Te resultó útil este artículo?"
-
 #~ msgid "Please wait..."
 #~ msgstr "Espera, por favor..."
 
@@ -7678,9 +8048,6 @@ msgstr "Servidor de Elasticsearch: %(backend)s"
 #~ msgid "AMO Developer Hub"
 #~ msgstr "Centro de desarrolladores de AMO"
 
-#~ msgid "Extensions"
-#~ msgstr "Extensiones"
-
 #~ msgid "Plugins"
 #~ msgstr "Plugins"
 
@@ -7704,9 +8071,6 @@ msgstr "Servidor de Elasticsearch: %(backend)s"
 
 #~ msgid "Quality Assurance"
 #~ msgstr "Garantía de calidad"
-
-#~ msgid "Most Active Docs"
-#~ msgstr "Documentos más activos"
 
 #~ msgid "Last edited by:"
 #~ msgstr "Última edición por:"
@@ -7843,9 +8207,6 @@ msgstr "Servidor de Elasticsearch: %(backend)s"
 
 #~ msgid "Thank you for signing up for the Apps & Hacks newsletter!"
 #~ msgstr "¡Gracias por suscribirte al boletín de noticias Apps & Hacks!"
-
-#~ msgid "Learning"
-#~ msgstr "Aprendizaje"
 
 #~ msgid "Forums"
 #~ msgstr "Foros"
@@ -8056,9 +8417,6 @@ msgstr "Servidor de Elasticsearch: %(backend)s"
 
 #~ msgid "See examples of the awesomeness you can achieve with HTML5 & friends"
 #~ msgstr "Mira ejemplos de las cosas alucinantes que puedes lograr con HTML5 y amigos"
-
-#~ msgid "MDN Docs"
-#~ msgstr "Documentación en MDN"
 
 #~ msgid "Community docs of HTML5 features and related technologies"
 #~ msgstr "Documentación de la comunidad sobre características de HTML5 y otras tecnologías relacionadas"
@@ -9204,9 +9562,6 @@ msgstr "Servidor de Elasticsearch: %(backend)s"
 #~ msgid "Contribute"
 #~ msgstr "Colaborar"
 
-#~ msgid "Newsletter"
-#~ msgstr "Boletín"
-
 #~ msgid ""
 #~ "Is MDN helpful to you? Please <a href=\"%(feedback_url)s\">share your feedback</a> with us. Or join our <a id=\"dev-mdc-link\" href=\"https://lists.mozilla.org/listinfo/dev-mdc\">mailing list about "
 #~ "improving MDN content</a>."
@@ -9293,9 +9648,6 @@ msgstr "Servidor de Elasticsearch: %(backend)s"
 #~ msgid "Developer Hub"
 #~ msgstr "Centro de desarrolladores"
 
-#~ msgid "About"
-#~ msgstr "Acerca de"
-
 #~ msgid "Participate"
 #~ msgstr "Participar"
 
@@ -9310,9 +9662,6 @@ msgstr "Servidor de Elasticsearch: %(backend)s"
 
 #~ msgid "Legal"
 #~ msgstr "Legal"
-
-#~ msgid "Contact Us"
-#~ msgstr "Contáctanos"
 
 #~ msgid "Core Developer, MooTools JavaScript Framework"
 #~ msgstr "Programador central, MooTools JavaScript Framework"
@@ -9378,9 +9727,6 @@ msgstr "Servidor de Elasticsearch: %(backend)s"
 #~ msgid "<p>The Mozilla Marketplace lets you build app experiences powered by Web standards like HTML5, CSS3, JavaScript and related APIs.</p>"
 #~ msgstr "<p>El Mozilla Marketplace te permite crear experiencias de aplicaciones desarrolladas con estándares web como HTML5, CSS3, JavaScript y API relacionadas.</p>"
 
-#~ msgid "Learn more"
-#~ msgstr "Saber más"
-
 #~ msgid "Submit Your Apps"
 #~ msgstr "Envía tus aplicaciones"
 
@@ -9404,20 +9750,11 @@ msgstr "Servidor de Elasticsearch: %(backend)s"
 #~ msgid "https://wiki.mozilla.org/Apps"
 #~ msgstr "https://wiki.mozilla.org/Apps"
 
-#~ msgid "Sign up for the newsletter"
-#~ msgstr "Suscríbete al boletín"
-
 #~ msgid "<p>Mozilla unlocks the power of the Web as the world's largest marketplace. Learn more about the Web Apps platform.</p>"
 #~ msgstr "<p>Mozilla descubre todo el poder de la Web en el mayor mercado de aplicaciones del mundo. Conoce más sobre la plataforma de Aplicaciones web.</p>"
 
 #~ msgid "<p>Mozilla unlocks the power of the Web as the world's largest marketplace. Learn more about Open Web apps.</p>"
 #~ msgstr "<p>Mozilla descubre todo el poder de la Web en el mayor mercado de aplicaciones del mundo. Conoce más sobre las aplicaciones para la Web abierta.</p>"
-
-#~ msgid "Sign up now"
-#~ msgstr "Suscribirse"
-
-#~ msgid "Resources for App Developers"
-#~ msgstr "Recursos para desarrolladores de aplicaciones"
 
 #~ msgid "Web technologies for building build cross-browser, cross-device app experiences."
 #~ msgstr "Tecnologías web para crear experiencias con aplicaciones compatibles con cualquier navegador o dispositivo."
@@ -9461,9 +9798,6 @@ msgstr "Servidor de Elasticsearch: %(backend)s"
 #~ msgstr ""
 #~ "Somos una comunidad abierta de desarrolladores que crea recursos para mejorar la Web, sin importar la marca, el navegador o la plataforma. Cualquiera puede contribuir y cada persona nos hace más "
 #~ "fuertes. Juntos podemos llevar la innovación a la Web para servir al bien común. Todo empieza aquí, contigo."
-
-#~ msgid "Learn"
-#~ msgstr "Aprende"
 
 #~ msgid "Our collection of resources shows you how to use the technologies that power the Web."
 #~ msgstr "Nuestra colección de recursos muestra como usar las tecnologías que potencian la Web."
@@ -10279,9 +10613,6 @@ msgstr "Servidor de Elasticsearch: %(backend)s"
 #~ msgid "August 2012 Dev Derby Challenge - ??"
 #~ msgstr "Desafío para desarrolladores de agosto 2012 - ¿¿??"
 
-#~ msgid "Delete comment"
-#~ msgstr "Eliminar comentario"
-
 #~ msgid ""
 #~ "<p>Entries will be reviewed by a panel of qualified judges, including members of the Mozilla team and outside experts. We will rate the demos across 4 dimensions:</p> <ul class=\"prose\"> "
 #~ "<li><strong>Technology</strong> &ndash; Does the demo showcase the power of open Web technologies?</li> <li><strong>Originality</strong> &ndash; How innovative and unique is the demo?</li> "
@@ -11089,9 +11420,6 @@ msgstr "Servidor de Elasticsearch: %(backend)s"
 
 #~ msgid "Show us what you can do with CSS animations"
 #~ msgstr "Muéstranos qué puedes hacer con la animaciones de CSS"
-
-#~ msgid "Make the Web move"
-#~ msgstr "Haz que la Web se mueva"
 
 #~ msgid "Touch"
 #~ msgstr "Táctil"

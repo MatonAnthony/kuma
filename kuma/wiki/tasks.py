@@ -9,21 +9,21 @@ from datetime import datetime, timedelta
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.sitemaps import GenericSitemap
-from django.core.mail import EmailMessage, mail_admins, send_mail
+from django.core.mail import mail_admins, send_mail
 from django.db import connection, transaction
 from django.template.loader import render_to_string
 from django.utils.encoding import smart_str
 
 from celery import chord, task
-from constance import config
 from djcelery_transactions import task as transaction_task
 from lxml import etree
 
 from kuma.core.cache import memcache
+from kuma.core.decorators import skip_in_maintenance_mode
 from kuma.core.utils import MemcacheLock, chord_flow, chunked
 from kuma.search.models import Index
 
-from .events import context_dict
+from .events import first_edit_email
 from .exceptions import PageMoveError, StaleDocumentsRenderingInProgress
 from .models import Document, DocumentSpamAttempt, Revision, RevisionIP
 from .search import WikiDocumentType
@@ -36,6 +36,7 @@ render_lock = MemcacheLock('render-stale-documents-lock', expires=60 * 60)
 
 
 @task(rate_limit='60/m')
+@skip_in_maintenance_mode
 def render_document(pk, cache_control, base_url, force=False):
     """Simple task wrapper for the render() method of the Document model"""
     document = Document.objects.get(pk=pk)
@@ -51,6 +52,7 @@ def render_document(pk, cache_control, base_url, force=False):
 
 
 @task
+@skip_in_maintenance_mode
 def email_render_document_progress(percent_complete, total):
     """
     Task to send email for render_document progress notification.
@@ -64,6 +66,7 @@ def email_render_document_progress(percent_complete, total):
 
 
 @task
+@skip_in_maintenance_mode
 def render_document_chunk(pks, cache_control='no-cache', base_url=None,
                           force=False):
     """
@@ -84,6 +87,7 @@ def render_document_chunk(pks, cache_control='no-cache', base_url=None,
 
 
 @task(throws=(StaleDocumentsRenderingInProgress,))
+@skip_in_maintenance_mode
 def acquire_render_lock():
     """
     A task to acquire the render document lock
@@ -96,6 +100,7 @@ def acquire_render_lock():
 
 
 @task
+@skip_in_maintenance_mode
 def release_render_lock():
     """
     A task to release the render document lock
@@ -104,6 +109,7 @@ def release_render_lock():
 
 
 @task
+@skip_in_maintenance_mode
 def render_stale_documents(log=None):
     """Simple task wrapper for rendering stale documents"""
     stale_docs = Document.objects.get_by_stale_rendering().distinct()
@@ -128,6 +134,7 @@ def render_stale_documents(log=None):
 
 
 @task
+@skip_in_maintenance_mode
 def build_json_data_for_document(pk, stale):
     """Force-refresh cached JSON data after rendering."""
     document = Document.objects.get(pk=pk)
@@ -141,15 +148,15 @@ def build_json_data_for_document(pk, stale):
 
 
 @task
-def move_page(locale, slug, new_slug, email):
+@skip_in_maintenance_mode
+def move_page(locale, slug, new_slug, user_id):
     transaction.set_autocommit(False)
     User = get_user_model()
     try:
-        user = User.objects.get(email=email)
+        user = User.objects.get(id=user_id)
     except User.DoesNotExist:
         transaction.rollback()
-        logging.error('Page move failed: no user with email address %s' %
-                      email)
+        logging.error('Page move failed: no user with id %s' % user_id)
         return
 
     try:
@@ -251,6 +258,7 @@ def move_page(locale, slug, new_slug, email):
 
 
 @task
+@skip_in_maintenance_mode
 def update_community_stats():
     cursor = connection.cursor()
     try:
@@ -293,25 +301,17 @@ def update_community_stats():
 
 
 @task
+@skip_in_maintenance_mode
 def delete_old_revision_ips(days=30):
     RevisionIP.objects.delete_old(days=days)
 
 
 @transaction_task
+@skip_in_maintenance_mode
 def send_first_edit_email(revision_pk):
     """ Make an 'edited' notification email for first-time editors """
     revision = Revision.objects.get(pk=revision_pk)
-    user, doc = revision.creator, revision.document
-    subject = (u"[MDN] %(user)s made their first edit, to: %(doc)s" %
-               {'user': user.username, 'doc': doc.title})
-    message = render_to_string('wiki/email/edited.ltxt',
-                               context_dict(revision))
-    doc_url = absolutify(doc.get_absolute_url())
-    email = EmailMessage(subject, message, settings.DEFAULT_FROM_EMAIL,
-                         to=[config.EMAIL_LIST_SPAM_WATCH],
-                         headers={'X-Kuma-Document-Url': doc_url,
-                                  'X-Kuma-Editor-Username': user.username})
-    email.send()
+    first_edit_email(revision).send()
 
 
 class WikiSitemap(GenericSitemap):
@@ -393,16 +393,16 @@ def build_index_sitemap(results):
 def build_sitemaps():
     """
     Build and save sitemap files for every MDN language and as a
-    callback save the sitempa index file as well.
+    callback save the sitemap index file as well.
     """
-    tasks = [build_locale_sitemap.si(locale)
-             for locale in settings.MDN_LANGUAGES]
+    tasks = [build_locale_sitemap.si(lang[0]) for lang in settings.LANGUAGES]
     post_task = build_index_sitemap.s()
     # we retry the chord unlock 300 times, so 5 mins with an interval of 1s
     chord(header=tasks, body=post_task).apply_async(max_retries=300, interval=1)
 
 
 @task
+@skip_in_maintenance_mode
 def index_documents(ids, index_pk, reraise=False):
     """
     Index a list of documents into the provided index.
@@ -441,6 +441,7 @@ def index_documents(ids, index_pk, reraise=False):
 
 
 @task
+@skip_in_maintenance_mode
 def unindex_documents(ids, index_pk):
     """
     Delete a list of documents from the provided index.
@@ -456,6 +457,7 @@ def unindex_documents(ids, index_pk):
 
 
 @task(rate_limit='120/m')
+@skip_in_maintenance_mode
 def tidy_revision_content(pk, refresh=True):
     """
     Run tidy over the given revision's content and save it to the
@@ -482,6 +484,7 @@ def tidy_revision_content(pk, refresh=True):
 
 
 @task
+@skip_in_maintenance_mode
 def delete_old_documentspamattempt_data(days=30):
     """Delete old DocumentSpamAttempt.data, which contains PII.
 

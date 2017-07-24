@@ -1,35 +1,44 @@
 import collections
 import json
 import operator
+import uuid
 from datetime import datetime, timedelta
 
 from allauth.account.adapter import get_adapter
 from allauth.account.models import EmailAddress
 from allauth.socialaccount import helpers
 from allauth.socialaccount.models import SocialAccount
+from allauth.socialaccount.views import ConnectionsView
 from allauth.socialaccount.views import SignupView as BaseSignupView
 from constance import config
 from django import forms
 from django.conf import settings
-from django.contrib.auth import get_user_model
+from django.contrib.auth import authenticate, get_user_model, login
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.models import Group
+from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
+from django.core.validators import validate_email, ValidationError
 from django.db import IntegrityError, transaction
 from django.db.models import Q
 from django.http import HttpResponseBadRequest, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 from django.views.decorators.http import require_POST
+from django.views.generic import TemplateView
+from django.utils.encoding import force_text
 from django.utils.translation import ugettext_lazy as _
+from django.utils.http import urlsafe_base64_decode
 from honeypot.decorators import verify_honeypot_value
 from taggit.utils import parse_tags
 
-from kuma.core.decorators import login_required
+
+from kuma.core.decorators import (
+    login_required, never_cache, redirect_in_maintenance_mode)
 from kuma.wiki.forms import RevisionAkismetSubmissionSpamForm
 from kuma.wiki.models import Document, DocumentDeletionLog, Revision, RevisionAkismetSubmission
 
-from .forms import UserBanForm, UserEditForm
+from .forms import UserBanForm, UserEditForm, UserRecoveryEmailForm
 from .models import User, UserBan
 # we have to import the signup form here due to allauth's odd form subclassing
 # that requires providing a base form class (see ACCOUNT_SIGNUP_FORM_CLASS)
@@ -352,9 +361,8 @@ def user_detail(request, username):
     """
     detail_user = get_object_or_404(User, username=username)
 
-    if (detail_user.active_ban and not request.user.is_superuser):
-        return render(request, '403.html',
-                      {'reason': 'bannedprofile'}, status=403)
+    if (detail_user.active_ban and not request.user.has_perm('users.add_userban')):
+        return render(request, '404.html', {"reason": "banneduser"}, status=404)
 
     context = {'detail_user': detail_user}
     return render(request, 'users/user_detail.html', context)
@@ -370,6 +378,7 @@ def my_edit_page(request):
     return redirect('users.user_edit', request.user.username)
 
 
+@redirect_in_maintenance_mode
 def user_edit(request, username):
     """
     View and edit user profile
@@ -423,7 +432,7 @@ def user_edit(request, username):
             # Update tags from form fields
             for field, tag_ns in field_to_tag_ns:
                 field_value = user_form.cleaned_data.get(field, '')
-                tags = [tag.lower() for tag in parse_tags(field_value)]
+                tags = parse_tags(field_value)
                 new_user.tags.set_ns(tag_ns, *tags)
 
             return redirect(edit_user)
@@ -434,6 +443,17 @@ def user_edit(request, username):
         'INTEREST_SUGGESTIONS': INTEREST_SUGGESTIONS,
     }
     return render(request, 'users/user_edit.html', context)
+
+
+@redirect_in_maintenance_mode
+def user_delete(request, username):
+
+    edit_user = get_object_or_404(User, username=username)
+
+    if not edit_user.allows_editing_by(request.user):
+        return HttpResponseForbidden()
+
+    return render(request, 'users/user_delete.html')
 
 
 class SignupView(BaseSignupView):
@@ -454,6 +474,7 @@ class SignupView(BaseSignupView):
         form.fields['email'].label = _('Email address')
         self.matching_user = None
         initial_username = form.initial.get('username', None)
+
         # For GitHub users, see if we can find matching user by username
         assert self.sociallogin.account.provider == 'github'
         User = get_user_model()
@@ -465,10 +486,18 @@ class SignupView(BaseSignupView):
             pass
 
         email = self.sociallogin.account.extra_data.get('email') or None
-        extra_email_addresses = (self.sociallogin
-                                     .account
-                                     .extra_data
-                                     .get('email_addresses')) or []
+        email_data = (self.sociallogin.account.extra_data.get(
+                      'email_addresses')) or []
+
+        # Discard email addresses that won't validate
+        extra_email_addresses = []
+        for data in email_data:
+            try:
+                validate_email(data['email'])
+            except ValidationError:
+                pass
+            else:
+                extra_email_addresses.append(data)
 
         # if we didn't get any extra email addresses from the provider
         # but the default email is available, simply hide the form widget
@@ -494,14 +523,11 @@ class SignupView(BaseSignupView):
                 }
             choices = []
             verified_emails = []
-            for email_address in self.email_addresses.values():
-                if email_address['verified']:
-                    label = _('%(email)s <b>Verified</b>')
-                    verified_emails.append(email_address['email'])
-                else:
-                    label = _('%(email)s Unverified')
-                next_email = email_address['email']
-                choices.append((next_email, label % {'email': next_email}))
+            for email_data in self.email_addresses.values():
+                email_address = email_data['email']
+                if email_data['verified']:
+                    verified_emails.append(email_address)
+                choices.append((email_address, email_address))
             if extra_email_addresses:
                 choices.append((form.other_email_value, _('Other:')))
             else:
@@ -515,7 +541,7 @@ class SignupView(BaseSignupView):
 
     def form_valid(self, form):
         """
-        We use the selected email here and reset the social loging list of
+        We use the selected email here and reset the social logging list of
         email addresses before they get created.
 
         We send our welcome email via celery during complete_signup.
@@ -523,25 +549,26 @@ class SignupView(BaseSignupView):
         """
         selected_email = form.cleaned_data['email']
         if form.other_email_used:
-            email_address = {
+            data = {
                 'email': selected_email,
                 'verified': False,
                 'primary': True,
             }
         else:
-            email_address = self.email_addresses.get(selected_email, None)
+            data = self.email_addresses.get(selected_email, None)
 
-        if email_address:
-            email_address['primary'] = True
-            primary_email_address = EmailAddress(**email_address)
+        if data:
+            primary_email_address = EmailAddress(email=data['email'],
+                                                 verified=data['verified'],
+                                                 primary=True)
             form.sociallogin.email_addresses = \
                 self.sociallogin.email_addresses = [primary_email_address]
-            if email_address['verified']:
+            if data['verified']:
                 # we have to stash the selected email address here
                 # so that no email verification is sent again
                 # this is done by adding the email address to the session
                 get_adapter().stash_verified_email(self.request,
-                                                   email_address['email'])
+                                                   data['email'])
 
         with transaction.atomic():
             form.save(self.request)
@@ -550,19 +577,20 @@ class SignupView(BaseSignupView):
 
     def get_context_data(self, **kwargs):
         context = super(SignupView, self).get_context_data(**kwargs)
-        or_query = []
-        # For GitHub users, find matching Persona social accounts by emails
+
+        # For GitHub users, find matching legacy Persona social accounts
         assert self.sociallogin.account.provider == 'github'
+        or_query = []
         for email_address in self.email_addresses.values():
             if email_address['verified']:
                 or_query.append(Q(uid=email_address['email']))
-
         if or_query:
             reduced_or_query = reduce(operator.or_, or_query)
             matching_accounts = (SocialAccount.objects
                                               .filter(reduced_or_query))
         else:
             matching_accounts = SocialAccount.objects.none()
+
         context.update({
             'email_addresses': self.email_addresses,
             'matching_user': self.matching_user,
@@ -577,4 +605,53 @@ class SignupView(BaseSignupView):
         return super(SignupView, self).dispatch(request, *args, **kwargs)
 
 
-signup = SignupView.as_view()
+signup = redirect_in_maintenance_mode(SignupView.as_view())
+
+
+@require_POST
+@redirect_in_maintenance_mode
+def send_recovery_email(request):
+    """
+    Send a recovery email to a user.
+    """
+    form = UserRecoveryEmailForm(data=request.POST)
+    if form.is_valid():
+        form.save(request=request)
+        return redirect('users.recovery_email_sent')
+    else:
+        return HttpResponseBadRequest('Invalid request.')
+
+
+@redirect_in_maintenance_mode
+def recover(request, uidb64=None, token=None):
+    """
+    Login via an account recovery link.
+
+    Modeled on django.contrib.auth.views.password_reset_confirm, but resets
+    the password to an unusable password instead of prompting for a new
+    password.
+    """
+    UserModel = get_user_model()
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = UserModel._default_manager.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, UserModel.DoesNotExist):
+        user = None
+    if user and default_token_generator.check_token(user, token):
+        temp_pwd = uuid.uuid4().hex
+        user.set_password(temp_pwd)
+        user.save()
+        user = authenticate(username=user.username, password=temp_pwd)
+        user.set_unusable_password()
+        user.save()
+        login(request, user)
+        return redirect('users.recover_done')
+    return render(request, 'users/recover_failed.html')
+
+
+recovery_email_sent = TemplateView.as_view(
+    template_name='users/recovery_email_sent.html')
+
+
+recover_done = login_required(never_cache(ConnectionsView.as_view(
+    template_name='users/recover_done.html')))

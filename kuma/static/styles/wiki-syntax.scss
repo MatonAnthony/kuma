@@ -1,0 +1,9 @@
+@import 'includes-blue/vars';
+@import 'includes-blue/mixins';
+
+/* Styling for displaying blocks of code in wiki articles */
+
+@import 'components-blue/syntax/base';
+@import 'components-blue/syntax/syntaxbox';
+@import 'components-blue/syntax/error';
+@import 'components-blue/syntax/example';

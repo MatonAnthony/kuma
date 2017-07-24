@@ -19,6 +19,7 @@ from elasticsearch_dsl.mapping import Mapping
 from elasticsearch_dsl.search import Search
 
 from kuma.core.utils import chord_flow, chunked
+from .constants import EXPERIMENT_TITLE_PREFIX
 
 
 log = logging.getLogger('kuma.wiki.search')
@@ -27,7 +28,7 @@ log = logging.getLogger('kuma.wiki.search')
 class WikiDocumentType(document.DocType):
     excerpt_fields = ['summary', 'content']
     exclude_slugs = ['Talk:', 'User:', 'User_talk:', 'Template_talk:',
-                     'Project_talk:']
+                     'Project_talk:', EXPERIMENT_TITLE_PREFIX]
 
     boost = field.Float(null_value=1.0)
     content = field.String(analyzer='kuma_content',
@@ -52,7 +53,7 @@ class WikiDocumentType(document.DocType):
 
     class Meta(object):
         mapping = Mapping('wiki_document')
-        mapping.meta('_all', enalbed=False)
+        mapping.meta('_all', enabled=False)
 
     @classmethod
     def get_connection(cls, alias='default'):
@@ -240,9 +241,7 @@ class WikiDocumentType(document.DocType):
             excludes.append(Q(slug__icontains=exclude))
 
         qs = (model.objects
-                   .filter(is_template=False,
-                           is_redirect=False,
-                           deleted=False)
+                   .filter(is_redirect=False, deleted=False)
                    .exclude(reduce(operator.or_, excludes)))
 
         percent = percent / 100
@@ -260,9 +259,7 @@ class WikiDocumentType(document.DocType):
         WARNING: This *must* mirror the logic of the ``get_indexable``
                  method above!
         """
-        return (not obj.is_template and
-                not obj.is_redirect and
-                not obj.deleted and
+        return (not obj.is_redirect and not obj.deleted and
                 not any([exclude in obj.slug
                          for exclude in cls.exclude_slugs]))
 

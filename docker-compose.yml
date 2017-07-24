@@ -1,10 +1,9 @@
-# Configuration for multi-container development environment
-
-version: '2'
+version: '2.1'
 services:
   worker: &worker
     image: quay.io/mozmar/kuma_base
     command: ./manage.py celery worker --events --beat --autoreload --concurrency=4 -Q mdn_purgeable,mdn_search,mdn_emails,mdn_wiki,celery
+    user: ${UID:-33}
     volumes:
       - ./:/app
     depends_on:
@@ -16,12 +15,12 @@ services:
     environment:
       # Django settings overrides:
       - ACCOUNT_DEFAULT_HTTP_PROTOCOL=http
-      - ALLOWED_HOSTS=localhost,localhost:8000
+      - ALLOWED_HOSTS=*
       - BROKER_URL=redis://redis:6379/0
       - CELERY_ALWAYS_EAGER=False
       - CSRF_COOKIE_SECURE=False
-      - DATABASE_URL=mysql://root:kuma@mysql:3306/developer_mozilla_org
-      - DEBUG=True
+      - DATABASE_URL=mysql://${DATABASE_USER:-root}:${DATABASE_PASSWORD:-kuma}@mysql:3306/developer_mozilla_org
+      - DEBUG=${DEBUG:-True}
       - DOMAIN=localhost
       - ES_URLS=elasticsearch:9200
       - KUMASCRIPT_URL_TEMPLATE=http://kumascript:9080/docs/{path}
@@ -30,22 +29,22 @@ services:
       - PROTOCOL=http://
       - SESSION_COOKIE_SECURE=False
       - SITE_URL=http://localhost:8000
-      # Celery environment overrides:
-      - C_FORCE_ROOT=1  # TODO: switch to non-root user
       # Other environment overrides
       - PYTHONDONTWRITEBYTECODE=1
+      - PYTHONUNBUFFERED=True
+      - MAINTENANCE_MODE=${MAINTENANCE_MODE:-False}
 
   # Web is based on worker b/c you cannot clear the "ports" with docker-compose.
   web:
     <<: *worker
-    command: gunicorn -w 4 --bind 0.0.0.0:8000 --timeout=120 kuma.wsgi:application
+    command: gunicorn -w 4 --bind 0.0.0.0:8000 --access-logfile=- --timeout=120 --worker-class=meinheld.gmeinheld.MeinheldWorker kuma.wsgi:application
     ports:
       - "8000:8000"
 
   # API is used by KumaScript for content and metadata
   api:
     <<: *worker
-    command: gunicorn -w 4 --bind 0.0.0.0:8000 --timeout=120 kuma.wsgi:application
+    command: gunicorn -w 4 --bind 0.0.0.0:8000 --access-logfile=- --timeout=120 kuma.wsgi:application
     depends_on:
       - memcached
       - mysql
@@ -69,10 +68,6 @@ services:
 
   mysql:
     build: ./docker/images/mysql
-    entrypoint:
-      - docker-entrypoint.sh
-      - --character-set-server=utf8
-      - --collation-server=utf8_general_ci
     environment:
       - MYSQL_USER=kuma
       - MYSQL_PASSWORD=kuma
@@ -81,7 +76,7 @@ services:
       - mysqlvolume:/var/lib/mysql
 
   elasticsearch:
-    image: elasticsearch:1.7
+    image: elasticsearch:2.4
 
   redis:
     image: redis
@@ -95,12 +90,11 @@ services:
     environment:
       - log__console=true
       - log__file=
+      - server__template_root_dir=macros
       - server__document_url_template=http://api:8000/en-US/docs/{path}?raw=1
-      - server__template_url_template=http://api:8000/en-US/docs/Template:{name}?raw=1
       - server__memcache__server=memcached:11211
       - server__template_class=EJSTemplate
       - server__autorequire__mdn=MDN:Common
-      - server__autorequire__Date=DekiScript:Date
       - server__autorequire__Page=DekiScript:Page
       - server__autorequire__String=DekiScript:String
       - server__autorequire__Uri=DekiScript:Uri

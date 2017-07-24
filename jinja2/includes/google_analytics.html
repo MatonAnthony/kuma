@@ -18,6 +18,11 @@
         {% if request.user.is_beta_tester %}
             ga('set', 'dimension2', 'Yes');
         {% endif %}
+
+        {%- if request.user.is_staff %}
+            // dimension18 == "Staff"
+            ga('set', 'dimension18', 'Yes');
+        {% endif %}
     {% endif %}
 
     // dimension9 == "Section editing"
@@ -26,8 +31,22 @@
     {% endif %}
 
     {%- if analytics_page_revision %}
-        // dimension12 == 'Page Revision"
+        // dimension12 == 'Page Revision'
         ga('set', 'dimension12', '{{ analytics_page_revision }}');
+    {%- endif %}
+
+    {%- if not request.user.is_authenticated() and
+           content_experiment and
+           content_experiment.selection_is_valid %}
+        // dimension15 == “a/b test variation”, user scope
+        ga('set', 'dimension15', '{{ content_experiment.ga_name }}:{{ content_experiment.selected }}');
+        // dimension16 == "Original Path", hit scope
+        ga('set', 'dimension16', '{{ content_experiment.original_path }}');
+    {%- endif %}
+
+    {%- if analytics_en_slug %}
+        // dimension17 == 'English Slug'
+        ga('set', 'dimension17', '{{analytics_en_slug}}');
     {%- endif %}
 
     (function() {

@@ -51,7 +51,6 @@ def update_locales(ctx):
 @task
 def update_assets(ctx):
     with ctx.lcd(settings.SRC_DIR):
-        ctx.local("./scripts/compile-stylesheets")
         ctx.local("python2.7 manage.py compilejsi18n")
         ctx.local("python2.7 manage.py collectstatic --noinput")
 
@@ -67,32 +66,30 @@ def checkin_changes(ctx):
     ctx.local(settings.DEPLOY_SCRIPT)
 
 
-@hostgroups(settings.WEB_HOSTGROUP, remote_kwargs={'ssh_key': settings.SSH_KEY})
+@hostgroups(settings.KUMA_HOSTGROUP, remote_kwargs={'ssh_key': settings.SSH_KEY})
 def deploy_app(ctx):
     ctx.remote(settings.REMOTE_UPDATE_SCRIPT)
+
+
+@hostgroups(settings.KUMA_HOSTGROUP, remote_kwargs={'ssh_key': settings.SSH_KEY})
+def restart_web(ctx):
     ctx.remote("service httpd restart")
 
 
 @hostgroups(settings.KUMA_HOSTGROUP, remote_kwargs={'ssh_key': settings.SSH_KEY})
-def deploy_kumascript(ctx):
+def restart_kumascript(ctx):
     ctx.remote("/usr/bin/supervisorctl stop all; /usr/bin/killall nodejs; /usr/bin/supervisorctl start all")
 
 
-@hostgroups(settings.WEB_HOSTGROUP, remote_kwargs={'ssh_key': settings.SSH_KEY})
-def prime_app(ctx):
-    for http_port in range(80, 82):
-        ctx.remote("for i in {1..10}; do curl -so /dev/null -H 'Host: %s' -I http://localhost:%s/ & sleep 1; done" % (settings.REMOTE_HOSTNAME, http_port))
-
-
 @hostgroups(settings.CELERY_HOSTGROUP, remote_kwargs={'ssh_key': settings.SSH_KEY})
-def update_celery(ctx):
-    ctx.remote(settings.REMOTE_UPDATE_SCRIPT)
+def restart_celery(ctx):
     ctx.remote('/usr/bin/supervisorctl mrestart celery\*')
 
 
 # As far as I can tell, Chief does not pass the username to commander,
 # so I can't give a username here: (
 # also doesn't pass ref at this point... we have to backdoor that too!
+# TODO: Update to the v2 API
 @task
 def ping_newrelic(ctx):
     f = open(settings.SRC_DIR + "/media/revision.txt", "r")
@@ -111,6 +108,8 @@ def update_info(ctx):
         ctx.local("git submodule status")
         ctx.local("python2.7 ./manage.py migrate --list")
         ctx.local("git rev-parse HEAD > media/revision.txt")
+    with ctx.lcd(os.path.join(settings.SRC_DIR, 'kumascript')):
+        ctx.local("git rev-parse HEAD > ../media/kumascript-revision.txt")
 
 
 @task
@@ -138,6 +137,14 @@ def setup_dependencies(ctx):
         with ctx.lcd(settings.VENV_DIR):
             ctx.local('ln -s lib lib64')
 
+    # And now for node.js node_modules
+    with ctx.lcd(os.path.join(settings.SRC_DIR, 'kumascript')):
+        ctx.local('rm -rf node_modules')
+        ctx.local('npm install --production')
+        # Update any top-level npm packages listed in package.json,
+        # as allowed by each package's given "semver".
+        ctx.local('npm update --production')
+
 
 @task
 def pre_update(ctx, ref=settings.UPDATE_REF):
@@ -160,10 +167,10 @@ def update(ctx):
 def deploy(ctx):
     checkin_changes()
     deploy_app()
-    deploy_kumascript()
-    ping_newrelic()
-#    prime_app()
-    update_celery()
+    restart_web()
+    restart_kumascript()
+    restart_celery()
+    # ping_newrelic()
 
 
 @task

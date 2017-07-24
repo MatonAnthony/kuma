@@ -10,10 +10,11 @@ SERVER_EMAIL = 'mdn-stage-noreply@mozilla.com'
 
 DOMAIN = STAGING_DOMAIN
 SITE_URL = STAGING_URL
-SOCIALACCOUNT_PROVIDERS['persona']['AUDIENCE'] = STAGING_URL
 
 CELERY_ALWAYS_EAGER = False
 CELERYD_MAX_TASKS_PER_CHILD = 3000
 
 ES_INDEX_PREFIX = 'mdnstage'
 ES_LIVE_INDEX = True
+
+enable_candidate_languages()

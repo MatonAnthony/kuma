@@ -15,14 +15,13 @@ Contents:
    development
    troubleshooting
    tests
-   feature-toggles
+   tests-ui
+   tests-performance
 
+   feature-toggles
    celery
    elasticsearch
    localization
    ckeditor
+   data
    documentation
-
-   installation-vagrant
-   tests-ui
-   tests-performance

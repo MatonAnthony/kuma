@@ -12,7 +12,8 @@ TEST ?= test #other options in docker-compose.test.yml
 DEIS_PROFILE ?= dev-usw
 DEIS_APP ?= mdn-dev
 DEIS_BIN ?= deis
-WORKERS ?= 1
+WORKER_SCALE ?= 1
+API_SCALE ?= 1
 DB_PASS ?= kuma # default for ephemeral demo DBs
 
 target = kuma
@@ -33,34 +34,24 @@ coveragetesthtml: coveragetest
 locust:
 	locust -f tests/performance/smoke.py --host=https://developer.allizom.org
 
-compilecss:
-	@ echo "## Compiling Stylus files to CSS ##"
-	@ ./scripts/compile-stylesheets
-
 compilejsi18n:
 	@ echo "## Generating JavaScript translation catalogs ##"
 	@ mkdir -p build/locale
 	@ python manage.py compilejsi18n
 
 collectstatic:
-	@ echo "## Collecting and building static files ##"
-	@ mkdir -p build/assets
+	@ echo "## Compiling (Sass), collecting, and building static files ##"
 	@ python manage.py collectstatic --noinput
 
-build-static: compilecss compilejsi18n collectstatic
+build-static: compilejsi18n collectstatic
 
 install:
 	@ echo "## Installing $(requirements) ##"
 	@ pip install $(requirements)
 
-# Note: this target should be run from the host machine with selenium running
-intern:
-	pushd tests/ui ; ./node_modules/.bin/intern-runner config=intern-local d=developer.allizom.org b=firefox; popd
-
 clean:
 	rm -rf .coverage build/
-	find kuma -name '*.pyc' -exec rm {} \;
-	mkdir -p build/assets
+	find . \( -name \*.pyc -o -name \*.pyo -o -name __pycache__ \) -delete
 	mkdir -p build/locale
 
 locale:
@@ -79,7 +70,7 @@ localeextract:
 	python manage.py merge
 
 localecompile:
-	cd locale; ./compile-mo.sh . ; cd --
+	cd locale; ./compile-mo.sh .
 
 localerefresh: localeextract localetest localecompile compilejsi18n collectstatic
 	@echo
@@ -117,22 +108,39 @@ push-kuma:
 push: push-base push-kuma
 
 deis-create:
-	DEIS_PROFILE=${DEIS_PROFILE} ${DEIS_BIN} create ${DEIS_APP} --no-remote && \
-	sleep 5 && ${DEIS_BIN} config:push -p .env-dist -a ${DEIS_APP} || \
+	DEIS_PROFILE=${DEIS_PROFILE} ${DEIS_BIN} create ${DEIS_APP} --no-remote || \
 	${DEIS_BIN} apps | grep -q ${DEIS_APP}
+
+deis-config:
+	DEIS_PROFILE=${DEIS_PROFILE} ${DEIS_BIN} config:set -a ${DEIS_APP} $(shell cat .env-dist.deis) || true
+
+deis-create-and-or-config:
+	make deis-create || echo already created
+	sleep 5
+	make deis-config
 
 deis-pull:
 	DEIS_PROFILE=${DEIS_PROFILE} ${DEIS_BIN} pull ${KUMA_IMAGE} -a ${DEIS_APP}
 
-deis-scale-worker:
-	DEIS_PROFILE=${DEIS_PROFILE} ${DEIS_BIN} ps:scale worker=${WORKERS} -a ${DEIS_APP}
+deis-scale-api-and-worker:
+	DEIS_PROFILE=${DEIS_PROFILE} ${DEIS_BIN} ps:scale \
+	    api=${API_SCALE} worker=${WORKER_SCALE} -a ${DEIS_APP}
+
+demo-db-import:
+	Jenkinsfiles/import-demo-db.sh
 
 k8s-migrate:
 	kubectl --namespace ${DEIS_APP} exec \
 	$(shell kubectl --namespace ${DEIS_APP} get pods | grep ${DEIS_APP}-cmd | awk '{print $$1}') \
 	python manage.py migrate
 
-deis-migrate:
+render-k8s-templates:
+	k8s/api-svc.yaml.template.sh ${DEIS_APP} > k8s/api-svc.yaml
+
+wait-mysql:
+	bash -c "if ! kubectl -n ${DEIS_APP} get pods | grep mysql | grep -q Running; then sleep 2; make wait-mysql; fi"
+
+deis-migrate: wait-mysql
 	DEIS_PROFILE=${DEIS_PROFILE} ${DEIS_BIN} run -a ${DEIS_APP} python manage.py migrate
 
 tag-latest:
@@ -147,14 +155,20 @@ up:
 	docker-compose up -d
 
 bash: up
-	docker exec -it kuma_web_1 bash
+	docker-compose exec web bash
 
 shell_plus: up
-	docker exec -it kuma_web_1 ./manage.py shell_plus
+	docker-compose exec web ./manage.py shell_plus
 
 compose-test:
 	docker-compose -f docker-compose.yml -f docker-compose.test.yml run $(TEST)
 	docker-compose -f docker-compose.yml -f docker-compose.test.yml stop
 
+create-demo:
+	@ ./Jenkinsfiles/create_demo_instance.sh
+
+lint:
+	flake8 kuma docs tests
+
 # Those tasks don't have file targets
-.PHONY: test coveragetest intern locust clean locale install compilecss compilejsi18n collectstatic localetest localeextract localecompile localerefresh
+.PHONY: test coveragetest locust clean locale install compilejsi18n collectstatic localetest localeextract localecompile localerefresh

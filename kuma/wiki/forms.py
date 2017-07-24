@@ -26,7 +26,7 @@ from .constants import (DOCUMENT_PATH_RE, INVALID_DOC_SLUG_CHARS_RE,
                         RESERVED_SLUGS_RES, REVIEW_FLAG_TAGS,
                         SLUG_CLEANSING_RE, SPAM_EXEMPTED_FLAG,
                         SPAM_OTHER_HEADERS, SPAM_SUBMISSION_REVISION_FIELDS,
-                        SPAM_TRAINING_FLAG, TEMPLATE_TITLE_PREFIX)
+                        SPAM_TRAINING_FLAG)
 from .events import EditDocumentEvent
 from .models import (Document, DocumentSpamAttempt, DocumentTag, Revision,
                      RevisionIP, RevisionAkismetSubmission, valid_slug_parent)
@@ -40,6 +40,8 @@ TITLE_LONG = _(u'Please keep the length of the title to %(limit_value)s '
                u'characters or less. It is currently %(show_value)s '
                u'characters.')
 TITLE_PLACEHOLDER = _(u'Name Your Article')
+TAGS_LONG = _(u'The tags field is too long (%(show_value)s characters). '
+              u'Keep the total length to %(limit_value)s characters.')
 SLUG_REQUIRED = _(u'Please provide a slug.')
 SLUG_INVALID = _(u'The slug provided is not valid.')
 SLUG_SHORT = _(u'The slug is too short (%(show_value)s characters). '
@@ -430,7 +432,11 @@ class RevisionForm(AkismetCheckFormMixin, forms.ModelForm):
 
     tags = StrippedCharField(
         required=False,
+        max_length=255,
         label=_(u'Tags:'),
+        error_messages={
+            'max_length': TAGS_LONG,
+        }
     )
 
     keywords = StrippedCharField(
@@ -516,13 +522,12 @@ class RevisionForm(AkismetCheckFormMixin, forms.ModelForm):
                 self.initial['slug'] = self.instance.document.slug
 
             content = self.instance.content
-            if not self.instance.document.is_template:
-                parsed_content = kuma.wiki.content.parse(content)
-                parsed_content.injectSectionIDs()
-                if self.section_id:
-                    parsed_content.extractSection(self.section_id)
-                parsed_content.filterEditorSafety()
-                content = parsed_content.serialize()
+            parsed_content = kuma.wiki.content.parse(content)
+            parsed_content.injectSectionIDs()
+            if self.section_id:
+                parsed_content.extractSection(self.section_id)
+            parsed_content.filterEditorSafety()
+            content = parsed_content.serialize()
             self.initial['content'] = content
 
             self.initial['review_tags'] = list(self.instance
@@ -534,7 +539,6 @@ class RevisionForm(AkismetCheckFormMixin, forms.ModelForm):
 
         if self.section_id:
             self.fields['toc_depth'].required = False
-        self.is_template = None
 
     def clean_slug(self):
         # Since this form can change the URL of the page on which the editing
@@ -579,7 +583,6 @@ class RevisionForm(AkismetCheckFormMixin, forms.ModelForm):
             # No existing document for this value, so we're good here.
             pass
 
-        self.is_template = slug.startswith(TEMPLATE_TITLE_PREFIX)
         return slug
 
     def clean_tags(self):
@@ -684,13 +687,11 @@ class RevisionForm(AkismetCheckFormMixin, forms.ModelForm):
 
     def akismet_enabled(self):
         """
-        Adds two ways that Akismet checks could be disabled:
-        * Edit is to a KumaScript template
-        * User has the SPAM_EXEMPTED_FLAG
+        Disables Akismet for users with SPAM_EXEMPTED_FLAG
         """
         client_ready = super(RevisionForm, self).akismet_enabled()
         user_exempted = waffle.flag_is_active(self.request, SPAM_EXEMPTED_FLAG)
-        return client_ready and not user_exempted and not self.is_template
+        return client_ready and not user_exempted
 
     @property
     def akismet_error_message(self):
@@ -769,6 +770,17 @@ class RevisionForm(AkismetCheckFormMixin, forms.ModelForm):
         parameters = self._akismet_data.parameters.copy()
         parameters.update(self.akismet_parameter_overrides())
         return parameters
+
+    def akismet_call(self, parameters):
+        """
+        Skip Akismet check if the content is the same.
+
+        This happens if the edit is to a non-content field, such as
+        setting or clearing the technical review flag.
+        """
+        if not parameters['comment_content']:
+            return False  # No content change, not spam
+        return super(RevisionForm, self).akismet_call(parameters)
 
     def save(self, document, **kwargs):
         """

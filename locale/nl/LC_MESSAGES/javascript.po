@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MDN 2016.0\n"
 "Report-Msgid-Bugs-To: dev-mdn@lists.mozilla.org\n"
-"POT-Creation-Date: 2016-08-08 13:21-0700\n"
-"PO-Revision-Date: 2016-06-27 23:46+0000\n"
+"POT-Creation-Date: 2017-06-20 07:47-0700\n"
+"PO-Revision-Date: 2017-06-07 16:20+0000\n"
 "Last-Translator: Ton <tonnes.mb@gmail.com>\n"
 "Language-Team: Dutch https://pontoon.mozilla.org/nl/\n"
 "Language: nl\n"
@@ -20,73 +20,52 @@ msgstr ""
 msgid "Close submenu"
 msgstr "Submenu sluiten"
 
-#: kuma/static/js/components.js:542
+#: kuma/static/js/components.js:543
 msgid "Close notification"
 msgstr "Melding sluiten"
 
-#: kuma/static/js/helpfulness.js:32
-msgid "Did this page help you?"
-msgstr "Heeft deze pagina geholpen?"
+#: kuma/static/js/dashboard.js:12
+msgid "Revert"
+msgstr "Terugzetten"
 
-#: kuma/static/js/helpfulness.js:34
-msgid "Yes"
-msgstr "Ja"
+#: kuma/static/js/dashboard.js:13
+msgid "View Page"
+msgstr "Pagina weergeven"
 
-#: kuma/static/js/helpfulness.js:36
-msgid "No"
-msgstr "Nee"
+#: kuma/static/js/dashboard.js:14
+msgid "Edit Page"
+msgstr "Pagina bewerken"
 
-#: kuma/static/js/helpfulness.js:38
-msgid "Never ask me again"
-msgstr "Nooit meer vragen"
+#: kuma/static/js/dashboard.js:15
+msgid "History"
+msgstr "Geschiedenis"
 
-#: kuma/static/js/helpfulness.js:45
-msgid "Thanks for your feedback!"
-msgstr "Bedankt voor uw feedback!"
+#: kuma/static/js/dashboard.js:115
+msgid "Hang on! Updating filters…"
+msgstr "Moment! Filters worden bijgewerkt…"
 
-#: kuma/static/js/helpfulness.js:54
-msgid "We won't bug you again."
-msgstr "We zullen u niet meer lastigvallen."
+#: kuma/static/js/dashboard.js:122
+msgid "Updated filters."
+msgstr "Filters zijn bijgewerkt."
 
-#: kuma/static/js/helpfulness.js:59
-msgid "Translate it into my language"
-msgstr "Vertaal hem naar mijn taal"
+#: kuma/static/js/dashboard.js:139
+msgid "Submitting..."
+msgstr "Indienen..."
 
-#: kuma/static/js/helpfulness.js:60
-msgid "Make explanations clearer"
-msgstr "Maak instructies duidelijker"
+#: kuma/static/js/dashboard.js:147
+#, python-format
+msgid "Submitted as %(submission_type)s"
+msgstr "Ingediend als %(submission_type)s"
 
-#: kuma/static/js/helpfulness.js:61
-msgid "Add more details"
-msgstr "Voeg meer details toe"
+#: kuma/static/js/dashboard.js:148
+#, python-format
+msgid "%(sent_date)s by %(user)s"
+msgstr "op %(sent_date)s door %(user)s"
 
-#: kuma/static/js/helpfulness.js:62
-msgid "Fix incorrect information"
-msgstr "Maak onjuiste info in orde"
-
-#: kuma/static/js/helpfulness.js:63
-msgid "Add or improve examples"
-msgstr "Voeg voorbeelden toe of verbeter ze"
-
-#: kuma/static/js/helpfulness.js:64
-msgid "My search should have led to a different article"
-msgstr "Mijn zoekopdracht zou naar een ander artikel moeten leiden"
-
-#: kuma/static/js/helpfulness.js:65
-msgid "Something else"
-msgstr "Iets anders"
-
-#: kuma/static/js/helpfulness.js:69
-msgid "Choose one..."
-msgstr "Kies er een…"
-
-#: kuma/static/js/helpfulness.js:83
-msgid "Uh oh. What would make it better?"
-msgstr "O, o. Wat zou het beter kunnen maken?"
-
-#: kuma/static/js/helpfulness.js:86
-msgid "Thanks! We'll fix it."
-msgstr "Bedankt! We maken het in orde."
+#: kuma/static/js/dashboard.js:158
+#, python-format
+msgid "Error submitting as %(type)s"
+msgstr "Fout bij indienen als %(type)s"
 
 #: kuma/static/js/moz-jquery-plugins.js:107
 msgid "No selection"
@@ -96,105 +75,90 @@ msgstr "Geen selectie"
 msgid "Selected: "
 msgstr "Geselecteerd: "
 
-#: kuma/static/js/users.js:108
+#: kuma/static/js/users.js:107
 msgid "New interest..."
 msgstr "Nieuwe interesse…"
 
-#: kuma/static/js/wiki-compat-tables.js:23
-msgid "Open implementation notes"
-msgstr "Implementatieopmerkingen openen"
-
-#: kuma/static/js/wiki-compat-tables.js:23
-msgid "Open"
-msgstr "Openen"
-
-#: kuma/static/js/wiki-compat-tables.js:25
-msgid "Return to compatibility table."
-msgstr "Terug naar compatibiliteitstabel"
-
-#: kuma/static/js/wiki-compat-tables.js:25
-msgid "Close"
-msgstr "Sluiten"
-
-#: kuma/static/js/wiki-compat-tables.js:108
-msgid "New compatibility tables are in beta "
-msgstr "Nieuwe compatibiliteitstabellen zijn in bèta "
-
-#: kuma/static/js/wiki-compat-tables.js:112
-msgid "More about the beta."
-msgstr "Meer over de bèta."
-
-#: kuma/static/js/wiki-compat-tables.js:115
-msgid "Take the survey"
-msgstr "De enquête starten"
-
-#: kuma/static/js/wiki-compat-tables.js:118
-msgid "Report an error."
-msgstr "Een fout melden"
-
-#: kuma/static/js/wiki-compat-tables.js:124
-msgid "Reported. Thanks!"
-msgstr "Gemeld. Bedankt!"
-
-#: kuma/static/js/wiki-compat-tables.js:128
-msgid "Show old table."
-msgstr "Oude tabel tonen"
-
-#: kuma/static/js/wiki-edit.js:401
-msgid "Save Draft"
-msgstr "Concept opslaan"
-
-#: kuma/static/js/wiki-edit.js:406
-msgid "Enable autosave."
-msgstr "Automatisch opslaan inschakelen."
-
-#: kuma/static/js/wiki-edit.js:414
+#: kuma/static/js/wiki-edit-draft.js:76
 msgid "an unknown date"
 msgstr "een onbekende datum"
 
-#: kuma/static/js/wiki-edit.js:415
-msgid "You have a draft from:"
-msgstr "U hebt een concept van:"
+#: kuma/static/js/wiki-edit-draft.js:77
+msgid "View draft."
+msgstr "Concept weergeven"
 
-#: kuma/static/js/wiki-edit.js:416
-msgid "Restore the draft content"
-msgstr "De conceptinhoud herstellen"
+#: kuma/static/js/wiki-edit-draft.js:78
+msgid "Restore draft."
+msgstr "Concept terugzetten"
 
-#: kuma/static/js/wiki-edit.js:417
-msgid "Discard the draft"
-msgstr "Het concept verwijderen"
+#: kuma/static/js/wiki-edit-draft.js:79
+msgid "Discard draft."
+msgstr "Concept verwijderen"
 
-#: kuma/static/js/wiki-edit.js:442
-msgid "restored"
-msgstr "hersteld"
+#: kuma/static/js/wiki-edit-draft.js:101
+msgid "A newer version of this article has been published since this draft was saved. You can restore the draft to view the content, but you will not be able to submit it for publishing."
+msgstr "Er is een nieuwere versie van dit artikel gepubliceerd nadat dit concept is opgeslagen. U kunt het concept terugzetten om de inhoud te zien, maar het niet indienen voor publicatie."
 
-#: kuma/static/js/wiki-edit.js:571
-msgid "Draft"
-msgstr "Concept"
+#: kuma/static/js/wiki-edit-draft.js:102 kuma/static/js/wiki-edit-draft.js:117
+msgid "Revision history."
+msgstr "Revisiegeschiedenis"
 
-#: kuma/static/js/wiki-edit.js:590
-msgid "saved"
-msgstr "opgeslagen"
+#: kuma/static/js/wiki-edit-draft.js:103
+msgid "Published version"
+msgstr "Gepubliceerde versie"
 
-#: kuma/static/js/wiki-edit.js:609
-msgid "autosaved"
-msgstr "automatisch opgeslagen"
+#: kuma/static/js/wiki-edit-draft.js:116
+msgid "Compare this date to the latest revision date to ensure you're not overwriting later changes."
+msgstr "Vergelijk deze datum met de laatste revisie om zeker te zijn dat u geen latere wijzigingen overschrijft."
 
-#: kuma/static/js/wiki-edit.js:618
-msgid "published"
-msgstr "gepubliceerd"
+#: kuma/static/js/wiki-edit-draft.js:126
+#, python-format
+msgid "You have a draft from: %(time)s."
+msgstr "U hebt een concept van: %(time)s."
 
-#: kuma/static/js/wiki-edit.js:622
-msgid "discarded"
-msgstr "verworpen"
+#: kuma/static/js/wiki-edit-draft.js:152
+msgid "Viewing old draft. This draft cannot be published."
+msgstr "U bekijkt een oud concept. Dit concept kan niet worden gepubliceerd."
 
-#: kuma/static/js/wiki-edit.js:660
+#: kuma/static/js/wiki-edit-draft.js:171
+msgid "Draft restored."
+msgstr "Concept teruggezet."
+
+#: kuma/static/js/wiki-edit-draft.js:188
+msgid "Draft discarded."
+msgstr "Concept verwijderd."
+
+#: kuma/static/js/wiki-edit-draft.js:222
+msgid "Draft published:"
+msgstr "Concept gepubliceerd:"
+
+#: kuma/static/js/wiki-edit-draft.js:224
+msgid "Draft discarded:"
+msgstr "Concept verwijderd:"
+
+#: kuma/static/js/wiki-edit-draft.js:226
+msgid "Draft autosaved:"
+msgstr "Concept automatisch opgeslagen:"
+
+#: kuma/static/js/wiki-edit-draft.js:407
 msgid "Autosave enabled."
 msgstr "Automatisch opslaan ingeschakeld."
 
-#: kuma/static/js/wiki-edit.js:667
-msgid "Autosave disabled."
-msgstr "Automatisch opslaan uitgeschakeld."
+#: kuma/static/js/wiki-edit.js:346
+msgid "Publishing changes…"
+msgstr "Wijzigingen publiceren…"
+
+#: kuma/static/js/wiki-edit.js:385
+msgid "Publishing failed. You are not currently signed in. Please use a new tab to sign in and try publishing again."
+msgstr "Publiceren is mislukt. U bent momenteel niet aangemeld. Gebruik een nieuw tabblad om u aan te melden en probeer opnieuw te publiceren."
+
+#: kuma/static/js/wiki-edit.js:388
+msgid "Changes saved."
+msgstr "Wijzigingen opgeslagen."
+
+#: kuma/static/js/wiki-edit.js:417
+msgid "Publishing failed. Please copy and paste your changes into a safe place and try submitting the form using the \"Publish\" button."
+msgstr "Publiceren is mislukt. Kopieer en plak uw wijzigingen naar een veilige plek en probeer het formulier in te dienen met behulp van de knop ‘Publiceren’."
 
 #: kuma/static/js/wiki-samples.js:99
 #, python-format
@@ -205,19 +169,19 @@ msgstr "Openen in %(site)s"
 msgid "New tag..."
 msgstr "Nieuw label…"
 
-#: kuma/static/js/wiki.js:200
+#: kuma/static/js/wiki.js:184
 msgid "How to read CSS syntax."
 msgstr "CSS-syntaxis lezen."
 
-#: kuma/static/js/wiki.js:570
+#: kuma/static/js/wiki.js:476
 msgid "Search Stack Overflow"
 msgstr "Zoeken bij Stack Overflow"
 
-#: kuma/static/js/wiki.js:677
+#: kuma/static/js/wiki.js:583
 msgid "Your browser does not support MathML. A CSS fallback has been used instead."
 msgstr "Uw browser ondersteunt geen MathML. Daarom is een CSS-terugvalversie gebruikt."
 
-#: kuma/static/js/wiki.js:892
+#: kuma/static/js/wiki.js:798
 msgid "Details"
 msgstr "Details"
 
@@ -278,30 +242,34 @@ msgid "What should the sample title be?"
 msgstr "Wat zou de voorbeeldtitel moeten zijn?"
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:23
-msgid "HTML Content"
-msgstr "HTML-inhoud"
+msgid "HTML"
+msgstr "HTML"
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:24
 msgid "Sample HTML Content"
 msgstr "Voorbeeld van HTML-inhoud"
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:27
-msgid "CSS Content"
-msgstr "CSS-inhoud"
+msgid "CSS"
+msgstr "CSS"
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:28
 msgid "Sample CSS Content"
 msgstr "Voorbeeld van CSS-inhoud"
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:31
-msgid "JavaScript Content"
-msgstr "JavaScript-inhoud"
+msgid "JavaScript"
+msgstr "JavaScript"
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:32
 msgid "Sample JavaScript Content"
 msgstr "Voorbeeld van JavaScript-inhoud"
 
-#: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:52
+#: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:35
+msgid "Result"
+msgstr "Resultaat"
+
+#: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:53
 msgid "Insert Code Sample Template"
 msgstr "Codevoorbeeldsjabloon invoegen"
 
@@ -340,6 +308,105 @@ msgstr "De URL die u hebt ingevoerd lijkt niet geldig te zijn"
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-youtube/plugin.js:33
 msgid "Default"
 msgstr "Standaard"
+
+#~ msgid "Did this page help you?"
+#~ msgstr "Heeft deze pagina geholpen?"
+
+#~ msgid "Yes"
+#~ msgstr "Ja"
+
+#~ msgid "No"
+#~ msgstr "Nee"
+
+#~ msgid "Never ask me again"
+#~ msgstr "Nooit meer vragen"
+
+#~ msgid "Thanks for your feedback!"
+#~ msgstr "Bedankt voor uw feedback!"
+
+#~ msgid "We won't bug you again."
+#~ msgstr "We zullen u niet meer lastigvallen."
+
+#~ msgid "Translate it into my language"
+#~ msgstr "Vertaal hem naar mijn taal"
+
+#~ msgid "Make explanations clearer"
+#~ msgstr "Maak instructies duidelijker"
+
+#~ msgid "Add more details"
+#~ msgstr "Voeg meer details toe"
+
+#~ msgid "Fix incorrect information"
+#~ msgstr "Maak onjuiste info in orde"
+
+#~ msgid "Add or improve examples"
+#~ msgstr "Voeg voorbeelden toe of verbeter ze"
+
+#~ msgid "My search should have led to a different article"
+#~ msgstr "Mijn zoekopdracht zou naar een ander artikel moeten leiden"
+
+#~ msgid "Something else"
+#~ msgstr "Iets anders"
+
+#~ msgid "Choose one..."
+#~ msgstr "Kies er een…"
+
+#~ msgid "Uh oh. What would make it better?"
+#~ msgstr "O, o. Wat zou het beter kunnen maken?"
+
+#~ msgid "Thanks! We'll fix it."
+#~ msgstr "Bedankt! We maken het in orde."
+
+#~ msgid "Save Draft"
+#~ msgstr "Concept opslaan"
+
+#~ msgid "Enable autosave."
+#~ msgstr "Automatisch opslaan inschakelen."
+
+#~ msgid "Draft"
+#~ msgstr "Concept"
+
+#~ msgid "saved"
+#~ msgstr "opgeslagen"
+
+#~ msgid "Autosave disabled."
+#~ msgstr "Automatisch opslaan uitgeschakeld."
+
+#~ msgid "Open implementation notes"
+#~ msgstr "Implementatieopmerkingen openen"
+
+#~ msgid "Open"
+#~ msgstr "Openen"
+
+#~ msgid "Return to compatibility table."
+#~ msgstr "Terug naar compatibiliteitstabel"
+
+#~ msgid "Close"
+#~ msgstr "Sluiten"
+
+#~ msgid "New compatibility tables are in beta "
+#~ msgstr "Nieuwe compatibiliteitstabellen zijn in bèta "
+
+#~ msgid "More about the beta."
+#~ msgstr "Meer over de bèta."
+
+#~ msgid "Take the survey"
+#~ msgstr "De enquête starten"
+
+#~ msgid "Report an error."
+#~ msgstr "Een fout melden"
+
+#~ msgid "Reported. Thanks!"
+#~ msgstr "Gemeld. Bedankt!"
+
+#~ msgid "Show old table."
+#~ msgstr "Oude tabel tonen"
+
+#~ msgid "HTML Content"
+#~ msgstr "HTML-inhoud"
+
+#~ msgid "CSS Content"
+#~ msgstr "CSS-inhoud"
 
 #~ msgid "Demo Studio"
 #~ msgstr "Demo Studio"

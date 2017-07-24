@@ -1,22 +1,21 @@
 ======================
-The Kuma Test Suite
+The Kuma test suite
 ======================
 
 Kuma has a fairly comprehensive Python test suite. Changes should not break
 tests. Only change a test if there is a good reason to change the expected
 behavior. New code should come with tests.
 
-Commands should be run inside the development environment, after ``make bash``
-with Docker, or ``vagrant ssh`` with Vagrant.
+Commands should be run inside the development environment, after ``make bash``.
 
 Setup
 =====
 
 Before you run the tests, you have to build assets::
 
-    make compilejsi18n collectstatic
+    make build-static
 
-Running the Test Suite
+Running the test suite
 ======================
 If you followed the steps in :doc:`the installation docs <installation>`,
 then all you should need to do to run the test suite is::
@@ -92,7 +91,7 @@ To generate an HTML coverage report, use::
 
     make coveragetesthtml
 
-The Test Database
+The test database
 -----------------
 The test suite will create a new database named ``test_%s`` where ``%s`` is
 whatever value you have for ``settings.DATABASES['default']['NAME']``. Make
@@ -124,9 +123,9 @@ To use a marker, add a decorator to the class or function. Examples::
             ...
 
 
-Adding Tests
+Adding tests
 ============
-Code should be written so it can be tested, and then there should be tests for
+Code should be written so that it can be tested, and then there should be tests for
 it.
 
 When adding code to an app, tests should be added in that app that cover the
@@ -138,14 +137,14 @@ If you're expecting ``reverse`` to return locales in the URL
 (``/en-US/docs/Mozilla`` versus ``/docs/Mozilla``), use ``LocalizingClient``
 instead of the default client for the ``TestCase`` class.
 
-Changing Tests
+Changing tests
 ==============
 Unless the current behavior, and thus the test that verifies that behavior is
 correct, is demonstrably wrong, don't change tests. Tests may be refactored as
-long as its clear that the result is the same.
+long as it's clear that the result is the same.
 
 
-Removing Tests
+Removing tests
 ==============
 On those rare, wonderful occasions when we get to remove code, we should remove
 the tests for it, as well.

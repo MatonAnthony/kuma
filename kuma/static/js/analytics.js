@@ -3,6 +3,17 @@
 
     // Adding to globally available mdn object
     var analytics = mdn.analytics = {
+        /**
+         * Handles postMessage events from the interactive editor, passing of
+         * the data to `trackEvent` if the origin of the message is what we expect.
+         * @param {Object} event - The event Object received from the postMessage
+         */
+        interactiveExamplesEvent: function(event) {
+            if (event.origin !== 'https://mdn.github.io') {
+                return false;
+            }
+            mdn.analytics.trackEvent(event.data);
+        },
         /*
             Tracks generic events passed to the method
         */
@@ -70,15 +81,15 @@
             $(target).on('click', 'a', function (e) {
                 var $this = $(this);
 
-                // If we explicitly say not to track something, don't
-                if($this.hasClass('no-track')) {
-                    return;
-                }
-
                 // bug 1222864 - prevent links to data: uris
                 if (this.href.toLowerCase().indexOf('data') === 0) {
                     e.preventDefault();
                     analytics.trackError('XSS Attempt', 'data href');
+                    return;
+                }
+
+                // If we explicitly say not to track something, don't
+                if($this.hasClass('no-track')) {
                     return;
                 }
 
@@ -171,4 +182,6 @@
             });
         }
     };
+    // add event listener for postMessages from the interactive editor
+    win.addEventListener('message', analytics.interactiveExamplesEvent, false);
 })(window, document, jQuery);

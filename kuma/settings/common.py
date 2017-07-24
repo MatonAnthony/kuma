@@ -45,6 +45,9 @@ PRODUCTION_URL = SITE_URL
 STAGING_DOMAIN = 'developer.allizom.org'
 STAGING_URL = PROTOCOL + STAGING_DOMAIN
 
+MAINTENANCE_MODE = config('MAINTENANCE_MODE', default=False, cast=bool)
+ALLOW_ROBOTS = config('ALLOW_ROBOTS', default=False, cast=bool)
+
 MANAGERS = ADMINS
 
 DEFAULT_DATABASE = config('DATABASE_URL',
@@ -125,67 +128,75 @@ LANGUAGE_CODE = 'en-US'
 
 # Accepted locales
 MDN_LANGUAGES = (
-    'en-US',
-    'af',
-    'ar',
-    'az',
-    'bm',
-    'bn-BD',
-    'bn-IN',
-    'ca',
-    'cs',
-    'de',
-    'ee',
-    'el',
-    'es',
-    'fa',
-    'ff',
-    'fi',
-    'fr',
-    'fy-NL',
-    'ga-IE',
-    'ha',
-    'he',
-    'hi-IN',
-    'hr',
-    'hu',
-    'id',
-    'ig',
-    'it',
-    'ja',
-    'ka',
-    'ko',
-    'ln',
-    'mg',
-    'ml',
-    'ms',
-    'my',
-    'nl',
-    'pl',
-    'pt-BR',
-    'pt-PT',
-    'ro',
-    'ru',
-    'son',
-    'sq',
-    'sr',
-    'sr-Latn',
-    'sv-SE',
-    'sw',
-    'ta',
-    'th',
-    'tl',
-    'tn',
-    'tr',
-    'uk',
-    'vi',
-    'wo',
-    'xh',
-    'yo',
-    'zh-CN',
-    'zh-TW',
-    'zu',
+    'en-US',    # English
+    'af',       # Akrikaans
+    'ar',       # Arabic
+    'az',       # Azerbaijani
+    'bg',       # Bulgarian
+    'bm',       # Bambara
+    'bn-BD',    # Bengali (Bangladesh)
+    'bn-IN',    # Bengali (India)
+    'ca',       # Catalan
+    'cs',       # Czech
+    'de',       # German
+    'ee',       # Ewe
+    'el',       # Greek
+    'es',       # Spanish
+    'fa',       # Persian
+    'ff',       # Fulah
+    'fi',       # Finnish
+    'fr',       # French
+    'fy-NL',    # Frisian (Netherlands)
+    'ga-IE',    # Irish (Ireland)
+    'ha',       # Hausa
+    'he',       # Hebrew
+    'hi-IN',    # Hindi (India)
+    'hr',       # Croatian *** not in Pontoon
+    'hu',       # Hungarian
+    'id',       # Indonesian
+    'ig',       # Igbo
+    'it',       # Italian
+    'ja',       # Japanese
+    'ka',       # Georgian
+    'kab',      # Kabyle
+    'ko',       # Korean
+    'ln',       # Lingala
+    'mg',       # Malagasy
+    'ml',       # Malayalam
+    'ms',       # Malay
+    'my',       # Burmese
+    'nl',       # Dutch
+    'pl',       # Polish
+    'pt-BR',    # Portuguese (Brazil)
+    'pt-PT',    # Portuguese (Portugal)
+    'ro',       # Romanian
+    'ru',       # Russian
+    'son',      # Songhay
+    'sq',       # Albanian
+    'sr',       # Serbian
+    'sr-Latn',  # Serbian (Latin)
+    'sv-SE',    # Swedish (Sweden)
+    'sw',       # Swahili
+    'ta',       # Tamil
+    'th',       # Thai
+    'tl',       # Tagalog
+    'tn',       # Tswana *** not in Pontoon
+    'tr',       # Turkish
+    'uk',       # Ukranian
+    'vi',       # Vietnamese
+    'wo',       # Wolof
+    'xh',       # Xhosa
+    'yo',       # Yoruba
+    'zh-CN',    # Chinese (China)
+    'zh-TW',    # Chinese (Taiwan, Province of China)
+    'zu',       # Zulu
 )
+
+# Locales being considered for MDN. This makes the UI strings available for
+# localization in Pontoon, but pages can not be translated into this language.
+# https://developer.mozilla.org/en-US/docs/MDN/Contribute/Localize/Starting_a_localization
+CANDIDATE_LANGUAGES = [
+]
 
 RTL_LANGUAGES = (
     'ar',
@@ -248,8 +259,23 @@ def _get_locales():
         locales[locale] = _Language(meta['English'], meta['native'])
     return locales
 
+
 LOCALES = _get_locales()
 LANGUAGES = [(locale, LOCALES[locale].native) for locale in MDN_LANGUAGES]
+
+
+def enable_candidate_languages():
+    # Enable candidate languages for display and translation
+    for locale in CANDIDATE_LANGUAGES:
+        LANGUAGE_URL_MAP[locale.lower()] = locale
+        LANGUAGES.append((locale, LOCALES[locale].native))
+
+
+ENABLE_CANDIDATE_LANGUAGES = config('ENABLE_CANDIDATE_LANGUAGES',
+                                    default=DEBUG,
+                                    cast=bool)
+if ENABLE_CANDIDATE_LANGUAGES:
+    enable_candidate_languages()
 
 # List of MindTouch locales mapped to Kuma locales.
 #
@@ -343,6 +369,8 @@ SERVE_MEDIA = False
 
 # Paths that don't require a locale prefix.
 LANGUAGE_URL_IGNORED_PATHS = (
+    'healthz',
+    'readiness',
     'media',
     'admin',
     'robots.txt',
@@ -354,7 +382,6 @@ LANGUAGE_URL_IGNORED_PATHS = (
     '@api',
     '__debug__',
     '.well-known',
-    'users/persona/',
     'users/github/login/callback/',
 )
 
@@ -379,19 +406,29 @@ _CONTEXT_PROCESSORS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    # must come before LocaleURLMiddleware
+    'redirect_urls.middleware.RedirectsMiddleware',
     # LocaleURLMiddleware must be before any middleware that uses
     # kuma.core.urlresolvers.reverse() to add locale prefixes to URLs:
     'kuma.core.middleware.SetRemoteAddrFromForwardedFor',
-    'django.contrib.sessions.middleware.SessionMiddleware',
+    ('kuma.core.middleware.ForceAnonymousSessionMiddleware'
+     if MAINTENANCE_MODE else
+     'django.contrib.sessions.middleware.SessionMiddleware'),
     'kuma.core.middleware.LocaleURLMiddleware',
     'kuma.wiki.middleware.DocumentZoneMiddleware',
     'kuma.wiki.middleware.ReadOnlyMiddleware',
     'kuma.core.middleware.Forbidden403Middleware',
     'django.middleware.common.CommonMiddleware',
     'kuma.core.middleware.RemoveSlashMiddleware',
-    'commonware.middleware.NoVarySessionMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+)
+
+if not MAINTENANCE_MODE:
+    # We don't want this in maintence mode, as it adds "Cookie"
+    # to the Vary header, which in turn, kills caching.
+    MIDDLEWARE_CLASSES += ('django.middleware.csrf.CsrfViewMiddleware',)
+
+MIDDLEWARE_CLASSES += (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'kuma.core.anonymous.AnonymousIdentityMiddleware',
@@ -404,15 +441,6 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 AUTH_USER_MODEL = 'users.User'
-
-
-PASSWORD_HASHERS = (
-    'kuma.users.backends.Sha256Hasher',
-    'django.contrib.auth.hashers.SHA1PasswordHasher',
-    'django.contrib.auth.hashers.MD5PasswordHasher',
-    'django.contrib.auth.hashers.UnsaltedMD5PasswordHasher',
-)
-
 USER_AVATAR_PATH = 'uploads/avatars/'
 DEFAULT_AVATAR = STATIC_URL + 'img/avatar.png'
 AVATAR_SIZES = [  # in pixels
@@ -427,16 +455,18 @@ MAX_AVATAR_FILE_SIZE = 131072  # 100k, in bytes
 ROOT_URLCONF = 'kuma.urls'
 
 STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'pipeline.finders.CachedFileFinder',
     'pipeline.finders.PipelineFinder',
 )
 
-STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
+STATICFILES_STORAGE = ('pipeline.storage.NonPackagingPipelineStorage'
+                       if DEBUG else
+                       'kuma.core.pipeline.storage.ManifestPipelineStorage')
 
 STATICFILES_DIRS = (
     path('kuma', 'static'),
-    path('build', 'assets'),
     path('build', 'locale'),
 )
 
@@ -460,6 +490,8 @@ INSTALLED_APPS = (
     'kuma.core',
     'kuma.feeder',
     'kuma.landing',
+    'kuma.redirects',
+    'kuma.scrape',
     'kuma.search',
     'kuma.users',
     'kuma.wiki',
@@ -467,7 +499,6 @@ INSTALLED_APPS = (
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'kuma.users.providers.persona',
     'kuma.users.providers.github',
 
     # util
@@ -494,6 +525,7 @@ INSTALLED_APPS = (
 
     # other
     'kuma.humans',
+    'redirect_urls',
 )
 
 # Feed fetcher config
@@ -547,6 +579,7 @@ TEMPLATES = [
 ]
 
 PUENTE = {
+    'VERSION': '2017.13',
     'BASE_DIR': ROOT,
     'TEXT_DOMAIN': 'django',
     # Tells the extract script what files to look for l10n in and what function
@@ -566,7 +599,6 @@ PUENTE = {
         ],
     },
     'PROJECT': 'MDN',
-    'VERSION': '2016.0',
     'MSGID_BUGS_ADDRESS': 'dev-mdn@lists.mozilla.org',
 }
 
@@ -576,11 +608,34 @@ STATICI18N_DOMAIN = 'javascript'
 # Cache non-versioned static files for one week
 WHITENOISE_MAX_AGE = 60 * 60 * 24 * 7
 
+
+def pipeline_scss(output, sources):
+    """Define a CSS file generated from multiple SCSS files."""
+    definition = {
+        'source_filenames': tuple('styles/%s.scss' % src for src in sources),
+        'output_filename': 'build/styles/%s.css' % output
+    }
+    return definition
+
+
+def pipeline_one_scss(slug):
+    """Define a CSS file that shares the name with the one input SCSS."""
+    return pipeline_scss(slug, [slug])
+
+
 PIPELINE_CSS = {
+    'mdn-blue': {
+        'source_filenames': (
+            'styles/font-awesome.scss',
+            'styles/main-blue.scss',
+        ),
+        'output_filename': 'build/styles/mdn-blue.css',
+        'variant': 'datauri',
+    },
     'mdn': {
         'source_filenames': (
-            'css/font-awesome.css',
-            'css/main.css',
+            'styles/font-awesome.scss',
+            'styles/main.scss',
         ),
         'output_filename': 'build/styles/mdn.css',
         'variant': 'datauri',
@@ -589,40 +644,46 @@ PIPELINE_CSS = {
         'source_filenames': (
             'js/libs/jquery-ui-1.10.3.custom/css/ui-lightness/jquery-ui-1.10.3.custom.min.css',
             'styles/libs/jqueryui/moz-jquery-plugins.css',
-            'css/jquery-ui-customizations.css',
+            'css/jquery-ui-customizations.scss',
         ),
         'output_filename': 'build/styles/jquery-ui.css',
     },
     'gaia': {
         'source_filenames': (
-            'css/gaia.css',
+            'styles/gaia.scss',
         ),
         'output_filename': 'build/styles/gaia.css',
     },
+    'home-blue': {
+        'source_filenames': (
+            'styles/home-blue.scss',
+        ),
+        'output_filename': 'build/styles/home-blue.css',
+        'variant': 'datauri',
+    },
     'home': {
         'source_filenames': (
-            'css/home.css',
+            'styles/home.scss',
         ),
         'output_filename': 'build/styles/home.css',
         'variant': 'datauri',
     },
     'search': {
         'source_filenames': (
-            'css/search.css',
+            'styles/search.scss',
         ),
         'output_filename': 'build/styles/search.css',
     },
     'search-suggestions': {
         'source_filenames': (
-            'css/search-suggestions.css',
+            'styles/search-suggestions.scss',
         ),
         'output_filename': 'build/styles/search-suggestions.css',
     },
-    'wiki': {
+    'wiki-blue': {
         'source_filenames': (
-            'css/wiki.css',
-            'css/zones.css',
-            'css/diff.css',
+            'styles/wiki-blue.scss',
+            'styles/diff.scss',
 
             # Custom build of our Prism theme
             'styles/libs/prism/prism.css',
@@ -630,39 +691,113 @@ PIPELINE_CSS = {
             'styles/libs/prism/prism-line-numbers.css',
 
             'js/prism-mdn/components/prism-json.css',
-            'css/wiki-syntax.css',
+            'styles/wiki-syntax.scss',
+        ),
+        'output_filename': 'build/styles/wiki-blue.css',
+    },
+    'wiki': {
+        'source_filenames': (
+            'styles/wiki.scss',
+            'styles/diff.scss',
+
+            # Custom build of our Prism theme
+            'styles/libs/prism/prism.css',
+            'styles/libs/prism/prism-line-highlight.css',
+            'styles/libs/prism/prism-line-numbers.css',
+
+            'js/prism-mdn/components/prism-json.css',
+            'styles/wiki-syntax.scss',
         ),
         'output_filename': 'build/styles/wiki.css',
     },
     'wiki-revisions': {
         'source_filenames': (
-            'css/wiki-revisions.css',
+            'styles/wiki-revisions.scss',
         ),
         'output_filename': 'build/styles/wiki-revisions.css',
     },
     'wiki-edit': {
         'source_filenames': (
-            'css/wiki-edit.css',
+            'styles/wiki-edit.scss',
         ),
         'output_filename': 'build/styles/wiki-edit.css',
     },
-    'wiki-compat-tables': {
+    'zone-addons': {
         'source_filenames': (
-            'css/wiki-compat-tables.css',
+            'styles/zone-addons.scss',
         ),
-        'output_filename': 'build/styles/wiki-compat-tables.css',
-        'template_name': 'pipeline/javascript-array.jinja',
+        'output_filename': 'build/styles/zone-addons.css',
+    },
+    'zone-apps': {
+        'source_filenames': (
+            'styles/zone-apps.scss',
+        ),
+        'output_filename': 'build/styles/zone-apps.css',
+    },
+    'zone-archive': {
+        'source_filenames': (
+            'styles/zone-archive.scss',
+        ),
+        'output_filename': 'build/styles/zone-archive.css',
+    },
+    'zone-b2g': {
+        'source_filenames': (
+            'styles/zone-b2g.scss',
+        ),
+        'output_filename': 'build/styles/zone-b2g.css',
+    },
+    'zone-connect': {
+        'source_filenames': (
+            'styles/zone-connect.scss',
+        ),
+        'output_filename': 'build/styles/zone-connect.css',
+    },
+    'zone-firefox': {
+        'source_filenames': (
+            'styles/zone-firefox.scss',
+        ),
+        'output_filename': 'build/styles/zone-firefox.css',
+    },
+    'zone-games': {
+        'source_filenames': (
+            'styles/zone-games.scss',
+        ),
+        'output_filename': 'build/styles/zone-games.css',
+    },
+    'zone-learn': {
+        'source_filenames': (
+            'styles/zone-learn.scss',
+        ),
+        'output_filename': 'build/styles/zone-learn.css',
+    },
+    'zone-marketplace': {
+        'source_filenames': (
+            'styles/zone-marketplace.scss',
+        ),
+        'output_filename': 'build/styles/zone-marketplace.css',
+    },
+    'zone-ten': {
+        'source_filenames': (
+            'styles/zone-ten.scss',
+        ),
+        'output_filename': 'build/styles/zone-ten.css',
+    },
+    'zones': {
+        'source_filenames': (
+            'styles/zones.scss',
+        ),
+        'output_filename': 'build/styles/zones.css',
     },
     'sphinx': {
         'source_filenames': (
-            'css/wiki.css',
-            'css/sphinx.css',
+            'styles/wiki.scss',
+            'styles/sphinx.scss',
         ),
         'output_filename': 'build/styles/sphinx.css',
     },
     'users': {
         'source_filenames': (
-            'css/users.css',
+            'styles/users.scss',
         ),
         'output_filename': 'build/styles/users.css',
     },
@@ -674,68 +809,149 @@ PIPELINE_CSS = {
     },
     'promote': {
         'source_filenames': (
-            'css/promote.css',
+            'styles/promote.scss',
         ),
         'output_filename': 'build/styles/promote.css',
     },
     'error': {
         'source_filenames': (
-            'css/error.css',
+            'styles/error.scss',
         ),
         'output_filename': 'build/styles/error.css',
     },
     'error-404': {
         'source_filenames': (
-            'css/error.css',
-            'css/error-404.css',
+            'styles/error.scss',
+            'styles/error-404.scss',
         ),
         'output_filename': 'build/styles/error-404.css',
     },
     'dashboards': {
         'source_filenames': (
-            'css/dashboards.css',
-            'css/diff.css',
+            'styles/dashboards.scss',
+            'styles/diff.scss',
         ),
         'output_filename': 'build/styles/dashboards.css',
     },
     'submission': {
         'source_filenames': (
-            'css/submission.css',
+            'styles/submission.scss',
         ),
         'output_filename': 'build/styles/submission.css',
     },
     'user-banned': {
         'source_filenames': (
-            'css/user-banned.css',
+            'styles/user-banned.scss',
         ),
         'output_filename': 'build/styles/user-banned.css',
     },
     'error-403-alternate': {
         'source_filenames': (
-            'css/error-403-alternate.css',
+            'styles/error-403-alternate.scss',
         ),
         'output_filename': 'build/styles/error-403-alternate.css',
     },
     'fellowship': {
         'source_filenames': (
-            'css/fellowship.css',
+            'styles/fellowship.scss',
         ),
         'output_filename': 'build/styles/fellowship.css',
     },
     'editor-content': {
         'source_filenames': (
-            'css/main.css',
-            'css/wiki.css',
-            'css/wiki-wysiwyg.css',
-            'css/wiki-syntax.css',
+            'styles/main.scss',
+            'styles/wiki.scss',
+            'styles/wiki-wysiwyg.scss',
+            'styles/wiki-syntax.scss',
             'styles/libs/font-awesome/css/font-awesome.min.css',
         ),
         'output_filename': 'build/styles/editor-content.css',
         'template_name': 'pipeline/javascript-array.jinja',
     },
+    'editor-content-blue': {
+        'source_filenames': (
+            'styles/main-blue.scss',
+            'styles/wiki-blue.scss',
+            'styles/wiki-wysiwyg.scss',
+            'styles/wiki-syntax.scss',
+            'styles/libs/font-awesome/css/font-awesome.min.css',
+        ),
+        'output_filename': 'build/styles/editor-content-blue.css',
+        'template_name': 'pipeline/javascript-array.jinja',
+    },
+    # for maintenance mode page
+    'maintenance-mode': {
+        'source_filenames': (
+            'styles/maintenance-mode.scss',
+        ),
+        'output_filename': 'build/styles/maintenance-mode.css',
+    },
+    # global maintenance-mode-styles
+    'maintenance-mode-global': {
+        'source_filenames': (
+            'styles/maintenance-mode-global.scss',
+        ),
+        'output_filename': 'build/styles/maintenance-mode-global.css',
+    },
+    # embeded iframe for live samples
+    'samples': {
+        'source_filenames': (
+            'styles/samples.scss',
+        ),
+        'output_filename': 'build/styles/samples.css',
+    },
+    'locale-ar': pipeline_one_scss('locales/ar'),
+    'locale-az': pipeline_one_scss('locales/az'),
+    'locale-ca': pipeline_one_scss('locales/ca'),
+    'locale-cs': pipeline_one_scss('locales/cs'),
+    'locale-de': pipeline_one_scss('locales/de'),
+    'locale-ee': pipeline_one_scss('locales/ee'),
+    'locale-en-US': pipeline_one_scss('locales/en-US'),
+    'locale-es': pipeline_one_scss('locales/es'),
+    'locale-fa': pipeline_one_scss('locales/fa'),
+    'locale-ff': pipeline_one_scss('locales/ff'),
+    'locale-fi': pipeline_one_scss('locales/fi'),
+    'locale-fr': pipeline_one_scss('locales/fr'),
+    'locale-fy-NL': pipeline_one_scss('locales/fy-NL'),
+    'locale-ga-IE': pipeline_one_scss('locales/ga-IE'),
+    'locale-ha': pipeline_one_scss('locales/ha'),
+    'locale-hr': pipeline_one_scss('locales/hr'),
+    'locale-hu': pipeline_one_scss('locales/hu'),
+    'locale-id': pipeline_one_scss('locales/id'),
+    'locale-ig': pipeline_one_scss('locales/ig'),
+    'locale-it': pipeline_one_scss('locales/it'),
+    'locale-ja': pipeline_one_scss('locales/ja'),
+    'locale-kab': pipeline_one_scss('locales/kab'),
+    'locale-ko': pipeline_one_scss('locales/ko'),
+    'locale-ln': pipeline_one_scss('locales/ln'),
+    'locale-mg': pipeline_one_scss('locales/mg'),
+    'locale-ms': pipeline_one_scss('locales/ms'),
+    'locale-nl': pipeline_one_scss('locales/nl'),
+    'locale-pl': pipeline_one_scss('locales/pl'),
+    'locale-pt-BR': pipeline_one_scss('locales/pt-BR'),
+    'locale-pt-PT': pipeline_one_scss('locales/pt-PT'),
+    'locale-ro': pipeline_one_scss('locales/ro'),
+    'locale-sq': pipeline_one_scss('locales/sq'),
+    'locale-sv-SE': pipeline_one_scss('locales/sv-SE'),
+    'locale-sw': pipeline_one_scss('locales/sw'),
+    'locale-tl': pipeline_one_scss('locales/tl'),
+    'locale-zh-CN': pipeline_one_scss('locales/zh-CN'),
+    'locale-zh-TW': pipeline_one_scss('locales/zh-TW')
 }
 
 PIPELINE_JS = {
+    'font-check': {
+        'source_filenames': (
+            'js/font-check.js',
+        ),
+        'output_filename': 'build/js/font-check.js',
+    },
+    'font-check-blue': {
+        'source_filenames': (
+            'js/font-check-blue.js',
+        ),
+        'output_filename': 'build/js/font-check-blue.js',
+    },
     'main': {
         'source_filenames': (
             'js/libs/jquery/jquery.js',
@@ -743,7 +959,10 @@ PIPELINE_JS = {
             'js/analytics.js',
             'js/main.js',
             'js/auth.js',
-            'js/libs/fontfaceobserver/fontfaceobserver.js',
+            'js/redesign.js',
+            'js/highlight.js',
+            # FFO lib contains Promise polyfill
+            'js/libs/fontfaceobserver/fontfaceobserver.2.0.7.js',
             'js/fonts.js',
         ),
         'output_filename': 'build/js/main.js',
@@ -759,6 +978,15 @@ PIPELINE_JS = {
             'async': True,
         },
     },
+    'dashboard': {
+        'source_filenames': (
+            'js/dashboard.js',
+        ),
+        'output_filename': 'build/js/dashboard.js',
+        'extra_context': {
+            'async': True,
+        },
+    },
     'jquery-ui': {
         'source_filenames': (
             'js/libs/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js',
@@ -769,7 +997,6 @@ PIPELINE_JS = {
     'search': {
         'source_filenames': (
             'js/search.js',
-            'js/search-navigator.js',
         ),
         'output_filename': 'build/js/search.js',
         'extra_context': {
@@ -809,9 +1036,9 @@ PIPELINE_JS = {
     },
     'wiki': {
         'source_filenames': (
-            'js/search-navigator.js',
             'js/wiki.js',
             'js/wiki-samples.js',
+            'js/wiki-helpful-survey.js',
         ),
         'output_filename': 'build/js/wiki.js',
         'extra_context': {
@@ -821,6 +1048,7 @@ PIPELINE_JS = {
     'wiki-edit': {
         'source_filenames': (
             'js/wiki-edit.js',
+            'js/wiki-edit-draft.js',
             'js/libs/tag-it.js',
             'js/wiki-tags-edit.js',
         ),
@@ -835,27 +1063,20 @@ PIPELINE_JS = {
             'async': True,
         },
     },
-    'wiki-compat-tables': {
-        'source_filenames': (
-            'js/wiki-compat-tables.js',
-        ),
-        'output_filename': 'build/js/wiki-compat-tables.js',
-        'template_name': 'pipeline/javascript-array.jinja',
-    },
-    'helpfulness': {
-        'source_filenames': (
-            'js/helpfulness.js',
-        ),
-        'output_filename': 'build/js/helpfulness.js',
-        'extra_context': {
-            'async': True,
-        },
-    },
     'task-completion': {
         'source_filenames': (
             'js/task-completion.js',
         ),
         'output_filename': 'build/js/task-completion.js',
+        'extra_context': {
+            'async': True,
+        },
+    },
+    'newsletter': {
+        'source_filenames': (
+            'js/newsletter.js',
+        ),
+        'output_filename': 'build/js/newsletter.js',
         'extra_context': {
             'async': True,
         },
@@ -895,21 +1116,21 @@ PIPELINE_JS = {
         ),
         'output_filename': 'build/js/selectivizr.js',
     },
-    'ace': {
-        'source_filenames': (
-            'js/libs/ace/ace.js',
-            'js/libs/ace/mode-javascript.js',
-            'js/libs/ace/theme-dreamweaver.js',
-            'js/libs/ace/worker-javascript.js',
-        ),
-        'output_filename': 'build/js/ace.js',
-    },
 }
 
 PIPELINE = {
     'STYLESHEETS': PIPELINE_CSS,
     'JAVASCRIPT': PIPELINE_JS,
     'DISABLE_WRAPPER': True,
+    'SHOW_ERRORS_INLINE': False,  # django-pipeline issue #614
+    'COMPILERS': (
+        ('kuma.core.pipeline.sass.DebugSassCompiler'
+            if DEBUG else
+            'pipeline.compilers.sass.SASSCompiler'),
+    ),
+    'SASS_BINARY': config('PIPELINE_SASS_BINARY',
+                          default='/usr/bin/env node-sass'),
+    'SASS_ARGUMENTS': config('PIPELINE_SASS_ARGUMENTS', default=''),
     'CSS_COMPRESSOR': config('PIPELINE_CSS_COMPRESSOR',
                              default='kuma.core.pipeline.cleancss.CleanCSSCompressor'),
     'JS_COMPRESSOR': config('PIPELINE_JS_COMPRESSOR',
@@ -989,8 +1210,23 @@ CELERY_TRACK_STARTED = True
 CELERYD_LOG_LEVEL = logging.INFO
 CELERYD_CONCURRENCY = config('CELERYD_CONCURRENCY', default=4, cast=int)
 
-CELERY_RESULT_BACKEND = 'djcelery.backends.database:DatabaseBackend'
-CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
+if MAINTENANCE_MODE:
+    # In maintenance mode, we're going to avoid using the database, and
+    # use Celery's default beat-scheduler as well as memcached for storing
+    # any results. In both normal and maintenance mode we use djcelery's
+    # loader (see djcelery.setup_loader() above) so we, among other things,
+    # acquire the Celery settings from among Django's settings.
+    CELERYBEAT_SCHEDULER = 'celery.beat.PersistentScheduler'
+    CELERY_RESULT_BACKEND = (
+        'cache+memcached://' + ';'.join(
+            config('MEMCACHE_SERVERS',
+                   default='127.0.0.1:11211',
+                   cast=Csv())
+        )
+    )
+else:
+    CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
+    CELERY_RESULT_BACKEND = 'djcelery.backends.database:DatabaseBackend'
 
 CELERY_ACCEPT_CONTENT = ['pickle']
 
@@ -1103,7 +1339,9 @@ WIKI_DEFAULT_LANGUAGE = LANGUAGE_CODE
 TIDINGS_FROM_ADDRESS = 'notifications@developer.mozilla.org'
 TIDINGS_CONFIRM_ANONYMOUS_WATCHES = True
 
-CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
+CONSTANCE_BACKEND = ('kuma.core.backends.ReadOnlyConstanceDatabaseBackend'
+                     if MAINTENANCE_MODE else
+                     'constance.backends.database.DatabaseBackend')
 # must be an entry in the CACHES setting!
 CONSTANCE_DATABASE_CACHE_BACKEND = 'memcache'
 
@@ -1137,13 +1375,6 @@ CONSTANCE_CONFIG = dict(
         'kumascript. Passed along in a Cache-Control: max-age={value} header, '
         'which tells kumascript whether or not to serve up a cached response.'
     ),
-    KUMA_CUSTOM_SAMPLE_CSS_PATH=(
-        '/en-US/docs/Template:CustomSampleCSS',
-        'Path to a wiki document whose raw content will be loaded as a CSS '
-        'stylesheet for live sample template. Will also cause the ?raw '
-        'parameter for this path to send a Content-Type: text/css header. Empty '
-        'value disables the feature altogether.',
-    ),
     DIFF_CONTEXT_LINES=(
         0,
         'Number of lines of context to show in diff display.',
@@ -1162,11 +1393,19 @@ CONSTANCE_CONFIG = dict(
         "are removed from the file storage"
     ),
     KUMA_WIKI_HREF_BLOCKED_PROTOCOLS=(
-        '(?i)^(data\:?)',
-        'Regex for protocols that are blocked for A HREFs'
+        '(?i)^\s*(data\:?)',
+        '(Deprecated) Regex for protocols that are blocked for A HREFs'
     ),
     KUMA_WIKI_IFRAME_ALLOWED_HOSTS=(
-        '^https?\:\/\/(developer-local.allizom.org|developer.allizom.org|mozillademos.org|testserver|localhost\:8000|(www.)?youtube.com\/embed\/(\.*))',
+        ('^https?\:\/\/('
+         'developer.allizom.org|'  # Staging demos
+         'mdn.mozillademos.org|'   # Production demos
+         'testserver|'             # Unit test demos
+         'localhost\:8000|'        # Docker development demos
+         'rpm.newrelic.com\/public\/charts\/.*|'  # MDN/Kuma/Server_charts
+         '(www.)?youtube.com\/embed\/(\.*)|'  # Embedded videos
+         'jsfiddle.net\/.*embedded.*|'  # Embedded samples
+         'mdn.github.io)'),        # Embedded samples
         'Regex comprised of domain names that are allowed for IFRAME SRCs'
     ),
     GOOGLE_ANALYTICS_ACCOUNT=(
@@ -1180,24 +1419,6 @@ CONSTANCE_CONFIG = dict(
     OPTIMIZELY_PROJECT_ID=(
         '',
         'The ID value for optimizely Project Code script'
-    ),
-    BLEACH_ALLOWED_TAGS=(
-        json.dumps([
-            'a', 'p', 'div',
-        ]),
-        "JSON array of tags allowed through Bleach",
-    ),
-    BLEACH_ALLOWED_ATTRIBUTES=(
-        json.dumps({
-            '*': ['id', 'class', 'style', 'lang'],
-        }),
-        "JSON object associating tags with lists of allowed attributes",
-    ),
-    BLEACH_ALLOWED_STYLES=(
-        json.dumps([
-            'font-size', 'text-align',
-        ]),
-        "JSON array listing CSS styles allowed on tags",
     ),
     WIKI_DOCUMENT_TAG_SUGGESTIONS=(
         json.dumps([
@@ -1330,6 +1551,7 @@ def get_user_url(user):
     from kuma.core.urlresolvers import reverse
     return reverse('users.user_detail', args=[user.username])
 
+
 ABSOLUTE_URL_OVERRIDES = {
     'users.user': get_user_url
 }
@@ -1351,7 +1573,6 @@ ACCOUNT_DEFAULT_HTTP_PROTOCOL = config('ACCOUNT_DEFAULT_HTTP_PROTOCOL',
                                        default='https')
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_USERNAME_MIN_LENGTH = 3
 ACCOUNT_ADAPTER = 'kuma.users.adapters.KumaAccountAdapter'
 ACCOUNT_SIGNUP_FORM_CLASS = None
@@ -1362,17 +1583,6 @@ SOCIALACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 SOCIALACCOUNT_EMAIL_REQUIRED = True
 SOCIALACCOUNT_AUTO_SIGNUP = False  # forces the use of the signup view
 SOCIALACCOUNT_QUERY_EMAIL = True  # used by the custom github provider
-SOCIALACCOUNT_PROVIDERS = {
-    'persona': {
-        'AUDIENCE': 'https://developer.mozilla.org',
-        'REQUEST_PARAMETERS': {
-            'siteName': 'Mozilla Developer Network',
-            'siteLogo': STATIC_URL + 'img/opengraph-logo.png',
-        }
-    }
-}
-PERSONA_VERIFIER_URL = 'https://verifier.login.persona.org/verify'
-PERSONA_INCLUDE_URL = 'https://login.persona.org/include.js'
 
 HONEYPOT_FIELD_NAME = 'website'
 
@@ -1404,3 +1614,17 @@ if SENTRY_DSN:
 # Tell django-recaptcha we want to use "No CAPTCHA".
 # Note: The API keys are located in Django constance.
 NOCAPTCHA = True  # Note: Using No Captcha implies SSL.
+
+# Tell django-taggit to use case-insensitive search for existing tags
+TAGGIT_CASE_INSENSITIVE = True
+
+# Content Experiments
+# Must be kept up to date with PIPELINE_JS setting and the JS client-side
+#  configuration. The 'id' should be a key in PIPELINE_JS, that loads
+#  Traffic Cop and a client-side configuration like
+#  kuma/static/js/experiment-wiki-content.js
+# Only one experiment should be active for a given locale and slug.
+#
+ce_path = path('kuma', 'settings', 'content_experiments.json')
+with open(ce_path, 'r') as ce_file:
+    CONTENT_EXPERIMENTS = json.load(ce_file)

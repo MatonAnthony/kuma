@@ -7,26 +7,27 @@ except ImportError:
     from StringIO import StringIO
 
 import newrelic.agent
-from constance import config
 from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
 from django.http import (Http404, HttpResponse, HttpResponseBadRequest,
-                         HttpResponsePermanentRedirect, JsonResponse)
+                         HttpResponseRedirect, HttpResponsePermanentRedirect,
+                         JsonResponse)
 from django.http.multipartparser import MultiPartParser
 from django.shortcuts import get_object_or_404, redirect, render
-from django.utils.http import urlunquote_plus
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import (condition, require_GET,
                                           require_http_methods, require_POST)
+from django.contrib.staticfiles.templatetags.staticfiles import static
 from pyquery import PyQuery as pq
 
 import kuma.wiki.content
 from kuma.authkeys.decorators import accepts_auth_key
 from kuma.core.decorators import (block_user_agents, login_required,
-                                  permission_required, superuser_required)
+                                  permission_required, superuser_required,
+                                  redirect_in_maintenance_mode)
 from kuma.core.urlresolvers import reverse
 from kuma.core.utils import urlparams
 from kuma.search.store import get_search_url_from_referer
@@ -45,42 +46,40 @@ from .utils import document_last_modified, split_slug
 
 def _get_html_and_errors(request, doc, rendering_params):
     """
-    Get the initial HTML for a Document, including determining whether
-    to use kumascript to render it.
+    Get HTML and rendering errors for a Document.
 
+    Return is a tuple:
+    * The HTML
+    * A list of KumaScript errors encountered during rendering
+    * True if rendered content was requested but not available
+
+    If rendering_params['use_rendered'] is True, then KumaScript rendering is
+    attempted. If False, pre-rendered content is returned, if any.
     """
-    doc_html, ks_errors = doc.html, None
-    render_raw_fallback = False
+    doc_html, ks_errors, render_raw_fallback = doc.html, None, False
+    if not rendering_params['use_rendered']:
+        return doc_html, ks_errors, render_raw_fallback
+
+    # A logged-in user can schedule a full re-render with Shift-Reload
+    cache_control = None
+    if request.user.is_authenticated():
+        # Shift-Reload sends Cache-Control: no-cache
+        ua_cc = request.META.get('HTTP_CACHE_CONTROL')
+        if ua_cc == 'no-cache':
+            cache_control = 'no-cache'
+
     base_url = request.build_absolute_uri('/')
-
-    if rendering_params['use_rendered']:
-        if (request.GET.get('bleach_new', False) is not False and
-                request.user.is_authenticated()):
-            # Temporary bleach_new query option to switch to Constance-based
-            # Bleach whitelists, uses KumaScript POST for temporary rendering
-            doc_html, ks_errors = kumascript.post(request, doc_html,
-                                                  request.LANGUAGE_CODE, True)
-
-        else:
-            # A logged-in user can schedule a full re-render with Shift-Reload
-            cache_control = None
-            if request.user.is_authenticated():
-                # Shift-Reload sends Cache-Control: no-cache
-                ua_cc = request.META.get('HTTP_CACHE_CONTROL')
-                if ua_cc == 'no-cache':
-                    cache_control = 'no-cache'
-
-            try:
-                r_body, r_errors = doc.get_rendered(cache_control, base_url)
-                if r_body:
-                    doc_html = r_body
-                if r_errors:
-                    ks_errors = r_errors
-            except DocumentRenderedContentNotAvailable:
-                # There was no rendered content available, and we were unable
-                # to render it on the spot. So, fall back to presenting raw
-                # content
-                render_raw_fallback = True
+    try:
+        r_body, r_errors = doc.get_rendered(cache_control, base_url)
+        if r_body:
+            doc_html = r_body
+        if r_errors:
+            ks_errors = r_errors
+    except DocumentRenderedContentNotAvailable:
+        # There was no rendered content available, and we were unable
+        # to render it on the spot. So, fall back to presenting raw
+        # content
+        render_raw_fallback = True
 
     return doc_html, ks_errors, render_raw_fallback
 
@@ -157,8 +156,7 @@ def _filter_doc_html(request, doc, doc_html, rendering_params):
     # If this user can edit the document, inject section editing links.
     # TODO: Rework so that this happens on the client side?
     if ((rendering_params['edit_links'] or not rendering_params['raw']) and
-            request.user.is_authenticated() and
-            doc.allows_revision_by(request.user)):
+            request.user.is_authenticated()):
         tool.injectSectionEditingLinks(doc.slug, doc.locale)
 
     doc_html = tool.serialize()
@@ -243,6 +241,55 @@ def _get_doc_and_fallback_reason(document_locale, document_slug):
     return doc, fallback_reason
 
 
+def _apply_content_experiment(request, doc):
+    """
+    Get Document and rendering parameters changed by the content experiment.
+
+    If the page is under a content experiment and the selected variant is
+    valid, the return is (the variant Document, the experiment params).
+
+    If the page is under a content experiment but the variant is invalid or
+    not selected, the return is (original Document, the experiment params).
+
+    If the page is not under a content experiment, the return is
+    (original Document, None).
+    """
+    key = u"%s:%s" % (doc.locale, doc.slug)
+    for experiment in settings.CONTENT_EXPERIMENTS:
+        if key in experiment['pages']:
+            # This page is under a content experiment
+            variants = experiment['pages'][key]
+            exp_params = {
+                'id': experiment['id'],
+                'ga_name': experiment['ga_name'],
+                'param': experiment['param'],
+                'original_path': request.path,
+                'variants': variants,
+                'selected': None,
+                'selection_is_valid': None,
+            }
+
+            # Which variant was selected?
+            selected = request.GET.get(experiment['param'])
+            if selected:
+                exp_params['selection_is_valid'] = False
+                for variant, variant_slug in variants.items():
+                    if selected == variant:
+                        try:
+                            content_doc = Document.objects.get(
+                                locale=doc.locale,
+                                slug=variant_slug)
+                        except Document.DoesNotExist:
+                            pass
+                        else:
+                            # Valid variant selected
+                            exp_params['selected'] = selected
+                            exp_params['selection_is_valid'] = True
+                            return content_doc, exp_params
+            return doc, exp_params  # No (valid) variant selected
+    return doc, None  # Not a content experiment
+
+
 @block_user_agents
 @require_GET
 @allow_CORS_GET
@@ -302,7 +349,7 @@ def move(request, document_slug, document_locale):
                 })
             move_page.delay(document_locale, document_slug,
                             form.cleaned_data['slug'],
-                            request.user.email)
+                            request.user.id)
             return render(request, 'wiki/move_requested.html', {
                 'form': form,
                 'document': doc
@@ -322,8 +369,8 @@ def move(request, document_slug, document_locale):
 
 @block_user_agents
 @process_document_path
-@check_readonly
 @superuser_required
+@check_readonly
 def repair_breadcrumbs(request, document_slug, document_locale):
     doc = get_object_or_404(Document,
                             locale=document_locale,
@@ -409,12 +456,19 @@ def as_json(request, document_slug=None, document_locale=None):
 @prevent_indexing
 def styles(request, document_slug=None, document_locale=None):
     """
-    Return the Document zone stylsheet.
+    This is deprecated, and only exists temporarily to serve old
+    document pages that request zone CSS via this endpoint.
     """
-    kwargs = {'slug': document_slug, 'locale': document_locale}
-    document = get_object_or_404(Document, **kwargs)
-    zone = get_object_or_404(DocumentZone, document=document)
-    return HttpResponse(zone.styles, content_type='text/css')
+    # These queries are here simply to make sure the document
+    # exists and might have had some legacy custom zone CSS.
+    document = get_object_or_404(
+        Document,
+        slug=document_slug,
+        locale=document_locale
+    )
+    get_object_or_404(DocumentZone, document=document)
+    # All of the legacy custom zone CSS has been rolled into "zones.css".
+    return HttpResponseRedirect(static('build/styles/zones.css'))
 
 
 @block_user_agents
@@ -474,8 +528,10 @@ def _document_redirect_to_create(document_slug, document_locale, slug_dict):
     if slug_dict['length'] > 1:
         parent_doc = get_object_or_404(Document,
                                        locale=document_locale,
-                                       slug=slug_dict['parent'],
-                                       is_template=0)
+                                       slug=slug_dict['parent'])
+        if parent_doc.is_redirect:
+            parent_doc = parent_doc.get_redirect_document(id_only=True)
+
         url = urlparams(url, parent=parent_doc.id,
                         slug=slug_dict['specific'])
     else:
@@ -511,19 +567,12 @@ def _document_raw(request, doc, doc_html, rendering_params):
     response = HttpResponse(doc_html)
     response['X-Frame-Options'] = 'Allow'
     response['X-Robots-Tag'] = 'noindex'
-    absolute_url = urlunquote_plus(doc.get_absolute_url())
-
-    if absolute_url in (config.KUMA_CUSTOM_SAMPLE_CSS_PATH):
-        response['Content-Type'] = 'text/css; charset=utf-8'
-    elif doc.is_template:
-        # Treat raw, un-bleached template source as plain text, not HTML.
-        response['Content-Type'] = 'text/plain; charset=utf-8'
-
     return _set_common_headers(doc, rendering_params['section'], response)
 
 
 @csrf_exempt
 @require_http_methods(['GET', 'PUT', 'HEAD'])
+@redirect_in_maintenance_mode(methods=['PUT'])
 @allow_CORS_GET
 @accepts_auth_key
 @process_document_path
@@ -615,42 +664,48 @@ def document(request, document_slug, document_locale):
         rendering_params[param] = request.GET.get(param, False) is not False
     rendering_params['section'] = request.GET.get('section', None)
     rendering_params['render_raw_fallback'] = False
-    rendering_params['use_rendered'] = kumascript.should_use_rendered(doc, request.GET)
+
+    # Are we in a content experiment?
+    original_doc = doc
+    doc, exp_params = _apply_content_experiment(request, doc)
+    rendering_params['experiment'] = exp_params
 
     # Get us some HTML to play with.
+    rendering_params['use_rendered'] = (
+        kumascript.should_use_rendered(doc, request.GET))
     doc_html, ks_errors, render_raw_fallback = _get_html_and_errors(
         request, doc, rendering_params)
     rendering_params['render_raw_fallback'] = render_raw_fallback
-    toc_html = None
 
     # Start parsing and applying filters.
-    if not doc.is_template:
-        if doc.show_toc and not rendering_params['raw']:
-            toc_html = doc.get_toc_html()
-        else:
-            toc_html = None
-        doc_html = _filter_doc_html(request, doc, doc_html, rendering_params)
+    if doc.show_toc and not rendering_params['raw']:
+        toc_html = doc.get_toc_html()
+    else:
+        toc_html = None
+    doc_html = _filter_doc_html(request, doc, doc_html, rendering_params)
 
     # If we're doing raw view, bail out to that now.
     if rendering_params['raw']:
         return _document_raw(request, doc, doc_html, rendering_params)
 
     # Get the SEO summary
-    seo_summary = ''
-    if not doc.is_template:
-        seo_summary = doc.get_summary_text()
+    seo_summary = doc.get_summary_text()
 
     # Get the additional title information, if necessary.
     seo_parent_title = _get_seo_parent_title(slug_dict, document_locale)
 
     # Retrieve pre-parsed content hunks
-    if doc.is_template:
-        quick_links_html, zone_subnav_html = None, None
-        body_html = doc_html
+    quick_links_html = doc.get_quick_links_html()
+    zone_subnav_html = doc.get_zone_subnav_html()
+    body_html = doc.get_body_html()
+
+    # Record the English slug in Google Analytics, to associate translations
+    if original_doc.locale == 'en-US':
+        en_slug = original_doc.slug
+    elif original_doc.parent and original_doc.parent.locale == 'en-US':
+        en_slug = original_doc.parent.slug
     else:
-        quick_links_html = doc.get_quick_links_html()
-        zone_subnav_html = doc.get_zone_subnav_html()
-        body_html = doc.get_body_html()
+        en_slug = ''
 
     share_text = ugettext(
         'I learned about %(title)s on MDN.') % {"title": doc.title}
@@ -661,7 +716,7 @@ def document(request, document_slug, document_locale):
 
     # Bundle it all up and, finally, return.
     context = {
-        'document': doc,
+        'document': original_doc,
         'document_html': doc_html,
         'toc_html': toc_html,
         'quick_links_html': quick_links_html,
@@ -673,12 +728,17 @@ def document(request, document_slug, document_locale):
         'has_contributors': has_contributors,
         'fallback_reason': fallback_reason,
         'kumascript_errors': ks_errors,
+        'macro_sources': (kumascript.macro_sources(force_lowercase_keys=True)
+                          if ks_errors else
+                          None),
         'render_raw_fallback': rendering_params['render_raw_fallback'],
         'seo_summary': seo_summary,
         'seo_parent_title': seo_parent_title,
         'share_text': share_text,
         'search_url': get_search_url_from_referer(request) or '',
         'analytics_page_revision': doc.current_revision_id,
+        'analytics_en_slug': en_slug,
+        'content_experiment': rendering_params['experiment'],
     }
     response = render(request, 'wiki/document.html', context)
     return _set_common_headers(doc, rendering_params['section'], response)
@@ -737,8 +797,6 @@ def _document_PUT(request, document_slug, document_locale):
         # Look for existing document to edit:
         doc = Document.objects.get(locale=document_locale,
                                    slug=document_slug)
-        if not doc.allows_revision_by(request.user):
-            raise PermissionDenied
         section_id = request.GET.get('section', None)
         is_new = False
 
@@ -754,10 +812,6 @@ def _document_PUT(request, document_slug, document_locale):
                 return resp
 
     except Document.DoesNotExist:
-        # No existing document, so this is an attempt to create a new one...
-        if not Document.objects.allows_add_by(request.user, document_slug):
-            raise PermissionDenied
-
         # TODO: There should be a model utility for creating a doc...
 
         # Let's see if this slug path implies a parent...

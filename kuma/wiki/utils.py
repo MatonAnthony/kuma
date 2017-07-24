@@ -3,13 +3,18 @@ import json
 
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
+from django.core.urlresolvers import resolve, Resolver404
 import tidylib
 
 from apiclient.discovery import build
 from httplib2 import Http
 from oauth2client.service_account import ServiceAccountCredentials
+from urlparse import urlparse
 
 from constance import config
+
+from kuma.core.urlresolvers import split_path
+from kuma.wiki.exceptions import NotDocumentView
 
 
 def locale_and_slug_from_path(path, request=None, path_locale=None):
@@ -18,8 +23,7 @@ def locale_and_slug_from_path(path, request=None, path_locale=None):
     redirect to a more canonical path. In any case, produce a locale and
     slug derived from the given path."""
     locale, slug, needs_redirect = '', path, False
-    mdn_languages_lower = dict((x.lower(), x)
-                               for x in settings.MDN_LANGUAGES)
+    mdn_locales = {lang[0].lower(): lang[0] for lang in settings.LANGUAGES}
 
     # If there's a slash in the path, then the first segment could be a
     # locale. And, that locale could even be a legacy MindTouch locale.
@@ -33,10 +37,10 @@ def locale_and_slug_from_path(path, request=None, path_locale=None):
             locale = settings.MT_TO_KUMA_LOCALE_MAP[l_locale]
             slug = maybe_slug
 
-        elif l_locale in mdn_languages_lower:
+        elif l_locale in mdn_locales:
             # The first segment looks like an MDN locale, redirect.
             needs_redirect = True
-            locale = mdn_languages_lower[l_locale]
+            locale = mdn_locales[l_locale]
             slug = maybe_slug
 
     # No locale yet? Try the locale detected by the request or in path
@@ -51,6 +55,33 @@ def locale_and_slug_from_path(path, request=None, path_locale=None):
         locale = getattr(settings, 'WIKI_DEFAULT_LANGUAGE', 'en-US')
 
     return (locale, slug, needs_redirect)
+
+
+def get_doc_components_from_url(url, required_locale=None, check_host=True):
+    """Return (locale, path, slug) if URL is a Document, False otherwise.
+    If URL doesn't even point to the document view, raise _NotDocumentView.
+    """
+    # Extract locale and path from URL:
+    parsed = urlparse(url)  # Never has errors AFAICT
+    if check_host and parsed.netloc:
+        return False
+    locale, path = split_path(parsed.path)
+    if required_locale and locale != required_locale:
+        return False
+    path = '/' + path
+
+    try:
+        view, view_args, view_kwargs = resolve(path)
+    except Resolver404:
+        return False
+
+    # View imports Model, Model imports utils, utils import Views.
+    from kuma.wiki.views.document import document as document_view
+
+    if view != document_view:
+        raise NotDocumentView
+
+    return locale, path, view_kwargs['document_path']
 
 
 def tidy_content(content):

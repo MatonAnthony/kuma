@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MDN 2016.0\n"
 "Report-Msgid-Bugs-To: dev-mdn@lists.mozilla.org\n"
-"POT-Creation-Date: 2016-08-08 13:21-0700\n"
-"PO-Revision-Date: 2016-06-24 20:11+0000\n"
+"POT-Creation-Date: 2017-06-20 07:47-0700\n"
+"PO-Revision-Date: 2017-06-07 16:51+0000\n"
 "Last-Translator: Kohei Yoshino <kohei.yoshino@gmail.com>\n"
 "Language-Team: Japanese https://pontoon.mozilla.org/ja/\n"
 "Language: ja\n"
@@ -19,73 +19,52 @@ msgstr ""
 msgid "Close submenu"
 msgstr "サブメニューを閉じる"
 
-#: kuma/static/js/components.js:542
+#: kuma/static/js/components.js:543
 msgid "Close notification"
 msgstr "通知を閉じる"
 
-#: kuma/static/js/helpfulness.js:32
-msgid "Did this page help you?"
-msgstr "このページはお役に立ちましたか？"
+#: kuma/static/js/dashboard.js:12
+msgid "Revert"
+msgstr "元に戻す"
 
-#: kuma/static/js/helpfulness.js:34
-msgid "Yes"
-msgstr "はい"
+#: kuma/static/js/dashboard.js:13
+msgid "View Page"
+msgstr "ページを表示"
 
-#: kuma/static/js/helpfulness.js:36
-msgid "No"
-msgstr "いいえ"
+#: kuma/static/js/dashboard.js:14
+msgid "Edit Page"
+msgstr "ページを編集"
 
-#: kuma/static/js/helpfulness.js:38
-msgid "Never ask me again"
-msgstr "再度表示しない"
+#: kuma/static/js/dashboard.js:15
+msgid "History"
+msgstr "履歴"
 
-#: kuma/static/js/helpfulness.js:45
-msgid "Thanks for your feedback!"
-msgstr "フィードバックを送っていただきありがとうございます！"
+#: kuma/static/js/dashboard.js:115
+msgid "Hang on! Updating filters…"
+msgstr "しばらくお待ちください。フィルターを更新しています..."
 
-#: kuma/static/js/helpfulness.js:54
-msgid "We won't bug you again."
-msgstr "あなたを再び悩ませることのないようにします。"
+#: kuma/static/js/dashboard.js:122
+msgid "Updated filters."
+msgstr "フィルターを更新しました。"
 
-#: kuma/static/js/helpfulness.js:59
-msgid "Translate it into my language"
-msgstr "自分の言語に翻訳"
+#: kuma/static/js/dashboard.js:139
+msgid "Submitting..."
+msgstr "送信中..."
 
-#: kuma/static/js/helpfulness.js:60
-msgid "Make explanations clearer"
-msgstr "説明をより明確にする"
+#: kuma/static/js/dashboard.js:147
+#, python-format
+msgid "Submitted as %(submission_type)s"
+msgstr "%(submission_type)s で送信されました"
 
-#: kuma/static/js/helpfulness.js:61
-msgid "Add more details"
-msgstr "さらなる詳細を追加する"
+#: kuma/static/js/dashboard.js:148
+#, python-format
+msgid "%(sent_date)s by %(user)s"
+msgstr "%(sent_date)s / %(user)s"
 
-#: kuma/static/js/helpfulness.js:62
-msgid "Fix incorrect information"
-msgstr "間違った情報を訂正する"
-
-#: kuma/static/js/helpfulness.js:63
-msgid "Add or improve examples"
-msgstr "例を追加もしくは改善する"
-
-#: kuma/static/js/helpfulness.js:64
-msgid "My search should have led to a different article"
-msgstr "検索結果から別の記事にたどり着きました"
-
-#: kuma/static/js/helpfulness.js:65
-msgid "Something else"
-msgstr "その他"
-
-#: kuma/static/js/helpfulness.js:69
-msgid "Choose one..."
-msgstr "ひとつ選択してください..."
-
-#: kuma/static/js/helpfulness.js:83
-msgid "Uh oh. What would make it better?"
-msgstr "申し訳ありません。どうしたら改善できるでしょうか？"
-
-#: kuma/static/js/helpfulness.js:86
-msgid "Thanks! We'll fix it."
-msgstr "ありがとうございます。この問題を修正します。"
+#: kuma/static/js/dashboard.js:158
+#, python-format
+msgid "Error submitting as %(type)s"
+msgstr "%(type)s で送信中に問題が発生しました"
 
 #: kuma/static/js/moz-jquery-plugins.js:107
 msgid "No selection"
@@ -95,105 +74,90 @@ msgstr "選択なし"
 msgid "Selected: "
 msgstr "選択済み: "
 
-#: kuma/static/js/users.js:108
+#: kuma/static/js/users.js:107
 msgid "New interest..."
 msgstr "新たな興味..."
 
-#: kuma/static/js/wiki-compat-tables.js:23
-msgid "Open implementation notes"
-msgstr "実装メモを開く"
-
-#: kuma/static/js/wiki-compat-tables.js:23
-msgid "Open"
-msgstr "開く"
-
-#: kuma/static/js/wiki-compat-tables.js:25
-msgid "Return to compatibility table."
-msgstr "互換性の表へ戻る"
-
-#: kuma/static/js/wiki-compat-tables.js:25
-msgid "Close"
-msgstr "閉じる"
-
-#: kuma/static/js/wiki-compat-tables.js:108
-msgid "New compatibility tables are in beta "
-msgstr "新しい互換性の表はベータ版です "
-
-#: kuma/static/js/wiki-compat-tables.js:112
-msgid "More about the beta."
-msgstr "ベータ版に関する詳細"
-
-#: kuma/static/js/wiki-compat-tables.js:115
-msgid "Take the survey"
-msgstr "アンケートに答える"
-
-#: kuma/static/js/wiki-compat-tables.js:118
-msgid "Report an error."
-msgstr "問題を報告"
-
-#: kuma/static/js/wiki-compat-tables.js:124
-msgid "Reported. Thanks!"
-msgstr "報告が送信されました。ありがとうございます！"
-
-#: kuma/static/js/wiki-compat-tables.js:128
-msgid "Show old table."
-msgstr "古い表を表示"
-
-#: kuma/static/js/wiki-edit.js:401
-msgid "Save Draft"
-msgstr "草稿を保存"
-
-#: kuma/static/js/wiki-edit.js:406
-msgid "Enable autosave."
-msgstr "自動保存を有効化"
-
-#: kuma/static/js/wiki-edit.js:414
+#: kuma/static/js/wiki-edit-draft.js:76
 msgid "an unknown date"
 msgstr "不明な日時"
 
-#: kuma/static/js/wiki-edit.js:415
-msgid "You have a draft from:"
-msgstr "この日時に保存された草稿があります:"
+#: kuma/static/js/wiki-edit-draft.js:77
+msgid "View draft."
+msgstr "下書きを表示"
 
-#: kuma/static/js/wiki-edit.js:416
-msgid "Restore the draft content"
-msgstr "草稿の内容を復元"
+#: kuma/static/js/wiki-edit-draft.js:78
+msgid "Restore draft."
+msgstr "下書きを復元"
 
-#: kuma/static/js/wiki-edit.js:417
-msgid "Discard the draft"
-msgstr "草稿を削除"
+#: kuma/static/js/wiki-edit-draft.js:79
+msgid "Discard draft."
+msgstr "下書きを破棄"
 
-#: kuma/static/js/wiki-edit.js:442
-msgid "restored"
-msgstr "復元された内容"
+#: kuma/static/js/wiki-edit-draft.js:101
+msgid "A newer version of this article has been published since this draft was saved. You can restore the draft to view the content, but you will not be able to submit it for publishing."
+msgstr "この下書きが保存された後、この記事のより新しいバージョンが公開されています。下書きを復元してその内容を見ることもできますが、それを送信して公開することはできません。"
 
-#: kuma/static/js/wiki-edit.js:571
-msgid "Draft"
-msgstr "草稿"
+#: kuma/static/js/wiki-edit-draft.js:102 kuma/static/js/wiki-edit-draft.js:117
+msgid "Revision history."
+msgstr "リビジョン履歴"
 
-#: kuma/static/js/wiki-edit.js:590
-msgid "saved"
-msgstr "保存済み"
+#: kuma/static/js/wiki-edit-draft.js:103
+msgid "Published version"
+msgstr "公開済みバージョン"
 
-#: kuma/static/js/wiki-edit.js:609
-msgid "autosaved"
-msgstr "自動保存済み"
+#: kuma/static/js/wiki-edit-draft.js:116
+msgid "Compare this date to the latest revision date to ensure you're not overwriting later changes."
+msgstr "この日付と最新のリビジョン日時を比較して、より新しい変更を上書きしていないことを確かめてください。"
 
-#: kuma/static/js/wiki-edit.js:618
-msgid "published"
-msgstr "公開済み"
+#: kuma/static/js/wiki-edit-draft.js:126
+#, python-format
+msgid "You have a draft from: %(time)s."
+msgstr "%(time)s に保存された下書きがあります。"
 
-#: kuma/static/js/wiki-edit.js:622
-msgid "discarded"
-msgstr "破棄されました"
+#: kuma/static/js/wiki-edit-draft.js:152
+msgid "Viewing old draft. This draft cannot be published."
+msgstr "古い下書きを表示しています。この下書きは公開できません。"
 
-#: kuma/static/js/wiki-edit.js:660
+#: kuma/static/js/wiki-edit-draft.js:171
+msgid "Draft restored."
+msgstr "下書きが復元されました。"
+
+#: kuma/static/js/wiki-edit-draft.js:188
+msgid "Draft discarded."
+msgstr "下書きが破棄されました。"
+
+#: kuma/static/js/wiki-edit-draft.js:222
+msgid "Draft published:"
+msgstr "下書きが公開されました:"
+
+#: kuma/static/js/wiki-edit-draft.js:224
+msgid "Draft discarded:"
+msgstr "下書きが破棄されました:"
+
+#: kuma/static/js/wiki-edit-draft.js:226
+msgid "Draft autosaved:"
+msgstr "下書きが自動保存されました:"
+
+#: kuma/static/js/wiki-edit-draft.js:407
 msgid "Autosave enabled."
 msgstr "自動保存が有効化されました。"
 
-#: kuma/static/js/wiki-edit.js:667
-msgid "Autosave disabled."
-msgstr "自動保存が無効化されました。"
+#: kuma/static/js/wiki-edit.js:346
+msgid "Publishing changes…"
+msgstr "変更点を公開しています..."
+
+#: kuma/static/js/wiki-edit.js:385
+msgid "Publishing failed. You are not currently signed in. Please use a new tab to sign in and try publishing again."
+msgstr "公開できませんでした。あなたは現在ログインしていません。新しいタブを使ってログインし、再度公開を試してください。"
+
+#: kuma/static/js/wiki-edit.js:388
+msgid "Changes saved."
+msgstr "変更が保存されました。"
+
+#: kuma/static/js/wiki-edit.js:417
+msgid "Publishing failed. Please copy and paste your changes into a safe place and try submitting the form using the \"Publish\" button."
+msgstr "公開できませんでした。変更点を安全な所へコピー＆ペーストしてから「公開」ボタンを使ってフォームの送信を試してください。"
 
 #: kuma/static/js/wiki-samples.js:99
 #, python-format
@@ -204,19 +168,19 @@ msgstr "%(site)s で開く"
 msgid "New tag..."
 msgstr "新しいタグ..."
 
-#: kuma/static/js/wiki.js:200
+#: kuma/static/js/wiki.js:184
 msgid "How to read CSS syntax."
 msgstr "CSS 構文の読み方"
 
-#: kuma/static/js/wiki.js:570
+#: kuma/static/js/wiki.js:476
 msgid "Search Stack Overflow"
 msgstr "Stack Overflow を検索"
 
-#: kuma/static/js/wiki.js:677
+#: kuma/static/js/wiki.js:583
 msgid "Your browser does not support MathML. A CSS fallback has been used instead."
-msgstr "お使いのブラウザは MathML に対応していません。代わりに CSS フォールバックを表示します。"
+msgstr "お使いのブラウザーは MathML に対応していません。代わりに CSS フォールバックを表示します。"
 
-#: kuma/static/js/wiki.js:892
+#: kuma/static/js/wiki.js:798
 msgid "Details"
 msgstr "詳細"
 
@@ -262,7 +226,7 @@ msgstr "コードサンプルの iFrame を挿入"
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sample-finder/dialogs/mdn-sample-finder.js:5
 msgid "Sample Finder"
-msgstr "サンプルファインダー"
+msgstr "サンプル検索"
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sample-finder/dialogs/mdn-sample-finder.js:20
 msgid "Select a section"
@@ -274,33 +238,37 @@ msgstr "ドキュメント内のセクション"
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:12
 msgid "What should the sample title be?"
-msgstr "サンプルのタイトルを記入してください。"
+msgstr "サンプルのタイトルを入力してください。"
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:23
-msgid "HTML Content"
-msgstr "HTML コンテンツ"
+msgid "HTML"
+msgstr "HTML"
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:24
 msgid "Sample HTML Content"
 msgstr "サンプル HTML コンテンツ"
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:27
-msgid "CSS Content"
-msgstr "CSS コンテンツ"
+msgid "CSS"
+msgstr "CSS"
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:28
 msgid "Sample CSS Content"
 msgstr "サンプル CSS コンテンツ"
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:31
-msgid "JavaScript Content"
-msgstr "JavaScript コンテンツ"
+msgid "JavaScript"
+msgstr "JavaScript"
 
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:32
 msgid "Sample JavaScript Content"
 msgstr "サンプル JavaScript コンテンツ"
 
-#: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:52
+#: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:35
+msgid "Result"
+msgstr "結果"
+
+#: kuma/static/js/libs/ckeditor/source/plugins/mdn-sampler/plugin.js:53
 msgid "Insert Code Sample Template"
 msgstr "コードサンプルテンプレートを挿入"
 
@@ -339,6 +307,105 @@ msgstr "入力された URL が正しくないようです"
 #: kuma/static/js/libs/ckeditor/source/plugins/mdn-youtube/plugin.js:33
 msgid "Default"
 msgstr "既定値"
+
+#~ msgid "Did this page help you?"
+#~ msgstr "このページはお役に立ちましたか？"
+
+#~ msgid "Yes"
+#~ msgstr "はい"
+
+#~ msgid "No"
+#~ msgstr "いいえ"
+
+#~ msgid "Never ask me again"
+#~ msgstr "再度表示しない"
+
+#~ msgid "Thanks for your feedback!"
+#~ msgstr "フィードバックを送っていただきありがとうございます！"
+
+#~ msgid "We won't bug you again."
+#~ msgstr "あなたを再び悩ませることのないようにします。"
+
+#~ msgid "Translate it into my language"
+#~ msgstr "自分の言語に翻訳"
+
+#~ msgid "Make explanations clearer"
+#~ msgstr "説明をより明確にする"
+
+#~ msgid "Add more details"
+#~ msgstr "さらなる詳細を追加"
+
+#~ msgid "Fix incorrect information"
+#~ msgstr "間違った情報を訂正"
+
+#~ msgid "Add or improve examples"
+#~ msgstr "例を追加もしくは改善"
+
+#~ msgid "My search should have led to a different article"
+#~ msgstr "検索結果から別の記事にたどり着きました"
+
+#~ msgid "Something else"
+#~ msgstr "その他"
+
+#~ msgid "Choose one..."
+#~ msgstr "ひとつ選択してください..."
+
+#~ msgid "Uh oh. What would make it better?"
+#~ msgstr "申し訳ありません。どうしたら改善できるでしょうか？"
+
+#~ msgid "Thanks! We'll fix it."
+#~ msgstr "ありがとうございます。この問題を修正します。"
+
+#~ msgid "Save Draft"
+#~ msgstr "下書きを保存"
+
+#~ msgid "Enable autosave."
+#~ msgstr "自動保存を有効化"
+
+#~ msgid "Draft"
+#~ msgstr "下書き"
+
+#~ msgid "saved"
+#~ msgstr "保存済み"
+
+#~ msgid "Autosave disabled."
+#~ msgstr "自動保存が無効化されました。"
+
+#~ msgid "Open implementation notes"
+#~ msgstr "実装メモを開く"
+
+#~ msgid "Open"
+#~ msgstr "開く"
+
+#~ msgid "Return to compatibility table."
+#~ msgstr "互換性の表へ戻る"
+
+#~ msgid "Close"
+#~ msgstr "閉じる"
+
+#~ msgid "New compatibility tables are in beta "
+#~ msgstr "新しい互換性の表はベータ版です "
+
+#~ msgid "More about the beta."
+#~ msgstr "ベータ版に関する詳細"
+
+#~ msgid "Take the survey"
+#~ msgstr "アンケートに答える"
+
+#~ msgid "Report an error."
+#~ msgstr "問題を報告"
+
+#~ msgid "Reported. Thanks!"
+#~ msgstr "報告が送信されました。ありがとうございます！"
+
+#~ msgid "Show old table."
+#~ msgstr "古い表を表示"
+
+#~ msgid "HTML Content"
+#~ msgstr "HTML コンテンツ"
+
+#~ msgid "CSS Content"
+#~ msgstr "CSS コンテンツ"
 
 #~ msgid "Demo Studio"
 #~ msgstr "Demo Studio"

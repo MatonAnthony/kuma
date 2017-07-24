@@ -2,27 +2,8 @@
 Development
 ===========
 
-Pick an Environment
-===================
-There are two development environments, and you need to install at
-least one of them first.
-
-* The :doc:`Docker containerized environment <installation>` is the
-  preferred development environment. The Docker images are already provisioned,
-  so setup is faster. It is a better model for the production environment, and
-  after the planned rehost will be almost exactly the same. It does not yet
-  have all of the features of the Vagrant environment, and it is currently
-  slower for many development tasks.
-* The :doc:`Vagrant-managed VM <installation-vagrant>` is the mature but
-  deprecated development environment. It can be tricky to provision. It is
-  often a poor model for the production environment, and can not be used to
-  test infrastructure changes.
-
-Docker and Vagrant can be used at the same time on the same "host machine" (your
-laptop or desktop computer).
-
-Basic Docker Usage
-------------------
+Basic Docker usage
+==================
 Edit files as usual on your host machine; the current directory is mounted
 via Docker host mounting at ``/app`` within the ``kuma_web_1`` and
 other containers. Useful docker sub-commands::
@@ -41,21 +22,7 @@ There are ``make`` shortcuts on the host for frequent commands, such as::
     make bash       # docker exec -it kuma_web_1 bash
     make shell_plus # docker exec -it kuma_web_1 ./manage.py shell_plus
 
-Run all commands in this doc in the ``kuma_web_1`` container after ``make bash``
-
-Basic Vagrant Usage
--------------------
-Edit files as usual on your host machine; the current directory is
-mounted via NFS at ``/home/vagrant/src`` within the VM. Updates should be
-reflected without any action on your part. Useful vagrant sub-commands::
-
-    vagrant ssh     # Connect to the VM via ssh
-    vagrant suspend # Sleep the VM, saving state
-    vagrant halt    # Shutdown the VM
-    vagrant up      # Boot up the VM
-    vagrant destroy # Destroy the VM
-
-Run all commands in this doc on the VM after ``vagrant ssh``.
+Run all commands in this doc in the ``kuma_web_1`` container after ``make bash``.
 
 Running Kuma
 ============
@@ -63,17 +30,7 @@ When the Docker container environment is started (``make up`` or similar), all
 of the services are also started. The development instance is available at
 http://localhost:8000.
 
-The Vagrant environment runs everything in a single VM. It runs MySQL,
-ElasticSearch, Apache, and other "backend" services whenever the VM is running.
-There are additional Kuma-specific services that are configured in
-``Procfile``, and are run with::
-
-    foreman start
-
-The Vagrant development instance is then available at
-https://developer-local.allizom.org.
-
-Running the Tests
+Running the tests
 =================
 One way to confirm that everything is working, or to pinpoint what is broken,
 is to run the test suite.
@@ -88,34 +45,64 @@ For more information, see the :doc:`test documentation <tests>`.
 
 Front-end tests
 ---------------
-To run the front-end (selenium) tests, see :doc:`Client-side Testing with
-Intern <tests-ui>`.
+To run the front-end (selenium) tests, see
+:doc:`Client-side Testing <tests-ui>`.
 
 Kumascript tests
 ----------------
 If you're changing Kumascript, be sure to run its tests too.
-See https://github.com/mozilla/kumascript
+See https://github.com/mozilla/kumascript.
 
-Compiling Stylus Files
-======================
-Stylus files need to be compiled for changes to take effect.
+Front-end Development and Compiling Sass files
+==============================================
+Sass files need to be compiled for changes to take effect, but don’t worry,
+with DEBUG=True (which is the default for local development), the compilation
+can be done automatically by Gulp.
 
-In the Vagrant environment, the ``foreman`` task ``stylus`` will automatically
-compile Stylus files when they change, placing the generated CSS files at
-``build/assets/css``.
+When doing front-end development on your local machine, run the following in its
+own shell from the root directory of your local Kuma repository::
 
-In either environment, compilation can be run manually::
+    gulp
 
-    scripts/compile-stylesheets
+This ``gulp`` command will do two things. First, it will watch *all* files
+under ``./kuma/static``, and any changed file that is *not* a Sass file
+(``.scss`` or ``.sass``) under ``./kuma/static/styles``, will be copied to
+``./static`` as is (no compilation will be done).
 
-To watch for changes to the files and recompile::
+Second, it will watch *all* files with a ``.scss`` extension under
+``./kuma/static/styles``, and any change will trigger a ``stylelint``
+of the changed file, as well as a recompile of *all* top-level ``.scss`` files.
+All of the resulting compiled files will then be copied to ``./static``, and
+immediately available to your local server.
 
-    scripts/compile-stylesheets -w
+.. note::
 
-Watching for file changes performs well in the Vagrant environment, but can be
-slow with the host-mounted files in the Docker container.
+  It is currently faster for local development to compile Sass using
+  ``gulp-sass`` instead of Django Pipeline. This may change in the future.
 
-Database Migrations
+If you'd like to manually run ``stylelint`` locally on all ``.scss`` files under
+``./kuma/static/styles``, do this::
+
+    gulp css:lint
+
+If you haven't already installed `Node.js`_  and `gulp`_ on
+your local machine, see :ref:`frontend-development`.
+
+By default ``DEBUG=True`` in ``docker-compose.yml``, and in that mode, as
+mentioned above, source files are compiled on-demand. If for some reason you
+want to run with ``DEBUG = False``, just remember that source files will no
+longer be compiled on-demand. Instead, after every change to one or more source
+files, you'll have to do the following::
+
+    docker-compose exec web ./manage.py collectstatic
+    docker-compose restart web
+
+in order for your changes to be visible.
+
+.. _gulp: http://gulpjs.com/
+.. _`Node.js`: https://nodejs.org/
+
+Database migrations
 ===================
 Apps are migrated using Django's migration system. To run the migrations::
 
@@ -126,7 +113,7 @@ the `migration workflow`_.
 
 .. _migration workflow: https://docs.djangoproject.com/en/1.8/topics/migrations/#workflow
 
-Coding Conventions
+Coding conventions
 ==================
 See CONTRIBUTING.md_ for details of the coding style on Kuma.
 
@@ -135,7 +122,7 @@ New code is expected to have test coverage.  See the
 
 .. _CONTRIBUTING.md: https://github.com/mozilla/kuma/blob/master/CONTRIBUTING.md
 
-Managing Dependencies
+Managing dependencies
 =====================
 
 Python dependencies
@@ -151,20 +138,20 @@ Front-end dependencies
 Front-end dependencies are managed by Bower_ and checked into the repository.
 Follow these steps to add or upgrade a dependency:
 
-#. On the host, update ``bower.json``
-#. (*Docker only*) In the container, install ``git`` (``apt-get install -y git``)
-#. (*Docker only*) In the container, install ``bower-installer`` (``npm install -g bower-installer``)
-#. In the VM or container, install the dependency (``bower-installer``)
-#. On the host, prepare the dependency to be committed (``git add path/to/dependency``)
+#. On the host, update ``bower.json``.
+#. (*Docker only*) In the container, install ``git`` (``apt-get install -y git``).
+#. (*Docker only*) In the container, install ``bower-installer`` (``npm install -g bower-installer``).
+#. In the VM or container, install the dependency (``bower-installer``).
+#. On the host, prepare the dependency to be committed (``git add path/to/dependency``).
 
 Front-end dependencies that are not already managed by Bower should begin using
 this approach the next time they're upgraded.
 
 .. _Bower: http://bower.io
 
-Advanced Configuration
-======================
-`Environment variables`_ are used to change the way different components works.
+Customizing with Environment Variables
+======================================
+`Environment variables`_ are used to change the way different components work.
 There are a few ways to change an environment variables:
 
 * Exporting in the shell, such as::
@@ -179,26 +166,34 @@ There are a few ways to change an environment variables:
 * Changing the ``environment`` list in ``docker-compose.yml``.
 * Creating a ``.env`` file in the repository root directory.
 
+One variable you may wish to alter for local development is ``DEBUG_TOOLBAR``,
+which, when set to ``True``, will enable the Django Debug Toolbar::
+
+    DEBUG_TOOLBAR=True
+
+Note that enabling the Debug Toolbar can severely impact response time, adding
+around 4 seconds to page load time.
+
 .. _Environment variables: http://12factor.net/config
 
 .. _advanced_config_docker:
 
-The Docker Environment
-----------------------
+Customizing the Docker Environment
+==================================
 Running docker-compose_ will create and run several containers, and each
 container's environment and settings are configured in ``docker-compose.yml``.
-The settings are "baked" into the containers created by ``docker-compose up``,
+The settings are "baked" into the containers created by ``docker-compose up``.
 
 To override a container's settings for development, use a local override file.
 For example, the ``web`` service runs in container ``kuma_web_1`` with the
-default command 
+default command
 "``gunicorn -w 4 --bind 0.0.0.0:8000 --timeout=120 kuma.wsgi:application``".
 A useful alternative for debugging is to run a single-threaded process that
 loads the Werkzeug debugger on exceptions (see docs for runserver_plus_), and
 that allows for stepping through the code with a debugger.
 To use this alternative, create an override file ``docker-compose.dev.yml``::
 
-    version: "2"
+    version: "2.1"
     services:
       web:
         command: ./manage.py runserver_plus 0.0.0.0:8000
@@ -229,57 +224,12 @@ documentation for more ideas on customizing the Docker environment.
 .. _pdb: https://docs.python.org/2/library/pdb.html
 .. _runserver_plus: http://django-extensions.readthedocs.io/en/latest/runserver_plus.html
 
-.. _vagrant-config:
-
-The Vagrant Environment
------------------------
-It is easiest to configure Vagrant with a ``.env`` file, so that overrides are used
-when ``vagrant up`` is called.  A sample ``.env`` could contain::
-
-    VAGRANT_MEMORY_SIZE=4096
-    VAGRANT_CPU_CORES=4
-    # Comments are OK, for documentation and to disable settings
-    # VAGRANT_ANSIBLE_VERBOSE=true
-
-Configuration variables that are available for Vagrant:
-
-- ``VAGRANT_NFS``
-
-  Default: ``true`` (Windows: ``false``)
-  Whether or not to use NFS for the synced folder.
-
-- ``VAGRANT_MEMORY_SIZE``
-
-  The size of the Virtualbox VM memory in MB. Default: ``2048``
-
-- ``VAGRANT_CPU_CORES``
-
-  The number of virtual CPU core the Virtualbox VM should have. Default: ``2``
-
-- ``VAGRANT_IP``
-
-  The static IP the Virtualbox VM should be assigned to. Default: ``192.168.10.55``
-
-- ``VAGRANT_GUI``
-
-  Whether the Virtualbox VM should boot with a GUI. Default: ``false``
-
-- ``VAGRANT_ANSIBLE_VERBOSE``
-
-  Whether the Ansible provisioner should print verbose output. Default: ``false``
-
-- ``VAGRANT_CACHIER``
-
-  Whether to use the ``vagrant-cachier`` plugin to cache system packages
-  between installs. Default: ``true``
-
-The Database
-------------
+Customizing The database
+========================
 The database connection is defined by the environment variable
-``DATABASE_URL``, with these defaults::
+``DATABASE_URL``, with this default::
 
-    DATABASE_URL=mysql://kuma:kuma@localhost:3306/kuma              # Vagrant
-    DATABASE_URL=mysql://root:kuma@mysql:3306/developer_mozilla_org # Docker
+    DATABASE_URL=mysql://root:kuma@mysql:3306/developer_mozilla_org
 
 The format is defined by the dj-database-url_ project::
 
@@ -296,28 +246,21 @@ To connect to the database specified in ``DATABASE_URL``, use::
 
 .. _dj-database-url: https://github.com/kennethreitz/dj-database-url
 
-Asset Generation
-----------------
-Kuma will automatically run in debug mode, with the ``DEBUG`` setting
-turned to ``True``. That will make it serve images and have the pages
-formatted with CSS automatically.
+Generating Production Assets
+============================
+Kuma will automatically run in debug mode, with the ``DEBUG`` setting turned to
+``True``. Setting ``DEBUG=False`` will put you in production mode and
+generate/use minified (compressed) and versioned (hashed) assets. To
+emulate production, and test compressed and hashed assets locally:
 
-Setting ``DEBUG=false`` file will put the installation in production mode and
-ask for minified assets.  This only works in the Vagrant environment, which
-uses Apache to serve the static files.  In Docker, static files will not be
-served and the site will be unstyled.
+#. Set the environment variable ``DEBUG=false``.
+#. Start (``docker-compose up -d``) or restart (``docker-compose restart``)
+   your Docker services.
+#. Run ``docker-compose exec web make build-static``.
+#. Restart the web process using ``docker-compose restart web``.
 
-Production assets
-*****************
-Assets are compressed on production. To emulate production and test compressed
-assets locally (*Vagrant only*):
-
-#. Set the environment variables ``DEBUG=false``
-#. Run ``make compilejsi18n collectstatic`` in the VM or container
-#. Restart the web process by restarting ``foreman``
-
-Secure Cookies
---------------
+Using Secure cookies
+====================
 To prevent error messages like "``Forbidden (CSRF cookie not set.):``", set the
 environment variable::
 
@@ -325,3 +268,132 @@ environment variable::
 
 This is the default in Docker, which does not support local development with
 HTTPS.
+
+
+Deis Workflow Demo instances
+============================
+You can deploy a hosted demo instance of Kuma by following these steps:
+
+#. Create a new branch, you cannot create a demo from the ``master`` branch.
+#. from the Kuma project root directory, run the following command::
+
+    make create-demo
+
+#. Your demo will be accessible within about 10 minutes at::
+
+    https://mdn-demo-<your_branch_name>.virginia.moz.works
+
+#. Mozilla SRE's will periodically remove old instances
+
+#. Connecting to the demo database instance
+
+If you have access to Kubernetes, you can run the following command to connect
+to the MySQL instance::
+
+    MY_GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+    DEMO_MYSQL_POD=$(kubectl -n "mdn-demo-${MY_GIT_BRANCH}" get pods | grep "^mysql" | awk '{ print $1 }')
+    kubectl -n "mdn-demo-${MY_GIT_BRANCH}" exec -it ${DEMO_MYSQL_POD} bash
+
+    mysql -p developer_mozilla_org
+
+**Note**: if you copy and paste the code above into a bash terminal and are
+wondering why the commands don't appear in your bash history, it's because there's
+whitespace at the beginning of the line.
+
+.. _maintenance-mode:
+
+Maintenance Mode
+================
+Maintenance mode is a special configuration for running Kuma in read-only mode,
+where all operations that would write to the database are blocked. As the name
+suggests, it's intended for those times when we'd like to continue to serve
+documents from a read-only copy of the database, while performing maintenance
+on the master database.
+
+For local Docker-based development in maintenance mode:
+
+#. If you haven't already, create a read-only user for your local MySQL
+   database::
+
+    docker-compose up -d
+    docker-compose exec web mysql -h mysql -u root -p
+    (when prompted for the password, enter "kuma")
+    mysql> source ./scripts/create_read_only_user.sql
+    mysql> quit
+
+#. Create a ``.env`` file in the repository root directory, and add these
+   settings::
+
+    MAINTENANCE_MODE=True
+    DATABASE_USER=kuma_ro
+
+   Using a read-only database user is not required in maintenance mode. You can run
+   in maintenance mode just fine with only this setting::
+
+    MAINTENANCE_MODE=True
+
+   and going with a database user that has write privileges. The read-only database
+   user simply provides a level of safety as well as notification (for example, an
+   exception will be raised if an attempt to write the database slips through).
+
+#. Update your local Docker instance::
+
+    docker-compose up -d
+
+#. You may need to recompile your static assets and then restart::
+
+    docker-compose exec web make build-static
+    docker-compose restart web
+
+You should be good to go!
+
+There is a set of integration tests for maintenance mode. If you'd like to run
+them against your local Docker instance, first do the following:
+
+#. Load the latest sample database (see :ref:`provision-the-database`).
+#. Ensure that the test document "en-US/docs/User:anonymous:uitest" has been
+   rendered (all of its macros have been executed). You can check this by
+   browsing to http://localhost:8000/en-US/docs/User:anonymous:uitest. If
+   there is no message about un-rendered content, you are good to go. If there
+   is a message about un-rendered content, you will have to put your local
+   Docker instance back into non-maintenance mode, and render the document:
+
+   * Configure your ``.env`` file for non-maintenance mode::
+
+       MAINTENANCE_MODE=False
+       DATABASE_USER=root
+
+   * ``docker-compose up -d``
+   * Using your browser, do a shift-reload on
+     http://localhost:8000/en-US/docs/User:anonymous:uitest
+
+   and then put your local Docker instance back in maintenance mode:
+
+   * Configure your ``.env`` file for maintenance mode::
+
+       MAINTENANCE_MODE=True
+       DATABASE_USER=kuma_ro
+
+   * ``docker-compose up -d``
+
+#. Configure your environment with DEBUG=False because the maintenance-mode
+   integration tests check for the non-debug version of the not-found page::
+
+       DEBUG=False
+       MAINTENANCE_MODE=True
+       DATABASE_USER=kuma_ro
+
+   This, in turn, will also require you to recompile your static assets::
+
+       docker-compose up -d
+       docker-compose exec web ./manage.py compilejsi18n
+       docker-compose exec web ./manage.py collectstatic
+       docker-compose restart web
+
+Now you should be ready for a successful test run::
+
+    py.test --maintenance-mode -m "not search" tests/functional --base-url http://localhost:8000 --driver Chrome --driver-path /path/to/chromedriver
+
+Note that the "search" tests are excluded. This is because the tests marked
+"search" are not currently designed to run against the sample database.
+

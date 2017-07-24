@@ -63,40 +63,6 @@
         minHeightFn();
     });
 
-    /*
-        Document search helper
-    */
-    (function() {
-        var searchUrl = $(doc.body).data('search-url');
-        if(searchUrl) {
-            $('.from-search-toc').mozSearchResults(searchUrl);
-        }
-    })();
-
-    /*
-        Set up the "from search" buttons if user came from search
-    */
-    var fromSearchNav = $('.from-search-navigate');
-    if(fromSearchNav.length) {
-        var fromSearchList = $('.from-search-toc');
-        fromSearchNav.mozMenu({
-            submenu: fromSearchList,
-            brickOnClick: true,
-            onOpen: function(){
-                mdn.analytics.trackEvent({
-                    category: 'Search doc navigator',
-                    action: 'Open on hover'
-                });
-            },
-            onClose: function() {
-                mdn.analytics.trackEvent({
-                    category: 'Search doc navigator',
-                    action: 'Close on blur'
-                });
-            }
-        });
-        fromSearchList.find('ol').mozKeyboardNav();
-    }
 
     /*
         Subscribe / unsubscribe to an article
@@ -159,6 +125,24 @@
     $('.external').each(function() {
         var $link = $(this);
         if(!$link.find('img').length) $link.addClass('external-icon');
+    });
+
+    /*
+        Add intelligent break points to long article titles
+    */
+    $('#wiki-document-head h1').each(function() {
+        var $title = $(this);
+        var text = $title.text();
+        // split on . - : ( or capital letter, only if followed by 2 letters
+        var split = text.split(/(?=[\.:\-\(A-Z][\.:\-\(A-Z]{0,}[a-zA-Z]{3})/g);
+        // empty h1
+        $title.empty();
+        // put array back into h1 seperated by <wbr> tags
+        $.each(split, function(key, value) {
+            $title.append('<wbr>');
+            // add text back, make sure it goes back as text, not code to run
+            $title.append(doc.createTextNode(value));
+        });
     });
 
     /*
@@ -292,44 +276,6 @@
 
 
     /*
-        Load and build compat tables if present in page
-    */
-    (function() {
-        // don't run if no compat table on page with min 1 row
-        var $compatFeatureRows = $('.bc-table tbody tr');
-        if(!$compatFeatureRows.length) return;
-
-        var compatCSS, compatJS;
-
-        // don't run if waffle not active
-        if(!win.waffle || !win.waffle.flag_is_active('compat_api')) return;
-
-        if(!win.mdn || !mdn.assets) return;
-        /*
-           This chaining logic will break in development if these assets are
-           split into multiple files.
-         */
-        compatCSS = mdn.assets.css['wiki-compat-tables'][0];
-        compatJS = mdn.assets.js['wiki-compat-tables'][0];
-        $('<link />').attr({
-                href: compatCSS,
-                type: 'text/css',
-                rel: 'stylesheet'
-            }).on('load', function() {
-
-                $.ajax({
-                    url: compatJS,
-                    dataType: 'script',
-                    cache: true
-                }).then(function() {
-                    $('.bc-table').mozCompatTable();
-                });
-
-            }).appendTo(doc.head);
-
-    })();
-
-    /*
         Track clicks on access menu items
     */
     $('#nav-access').on('click contextmenu', 'a', function(event) {
@@ -355,13 +301,13 @@
         var $thisLink = $(this);
         var url = $thisLink.attr('href');
 
-        var data = {
+        var linkData = {
             category: 'TOC Links',
             action: $thisLink.text(),
             label: $thisLink.attr('href')
         };
 
-        mdn.analytics.trackLink(event, url, data);
+        mdn.analytics.trackLink(event, url, linkData);
     });
 
     /*
@@ -394,92 +340,43 @@
 
 
     /*
-        Set up the scrolling TOC effect
+        Set up the TOC menu toggle
     */
     (function() {
         var $toc = $('#toc');
-        var tocOffset = $toc.offset();
         var $toggler = $toc.find('> .toggler');
-        var fixedClass = 'fixed';
-        var $wikiRight = $('#wiki-right');
-        var $pageButtons = $('.page-buttons');
-        var pageButtonsOffset = $pageButtons.offset();
 
-        var stickyFeatureEnabled = $pageButtons.attr('data-sticky') === 'true';
-
-        // Get button alignment according to text direction
-        var buttonDirection = ($('html').attr('dir') === 'rtl') ? 'left' : 'right';
-
-        var scrollFn = debounce(function(e) {
-            var scroll = $(doc).scrollTop();
-            var pageButtonsHeight = 0;
-            var $mainContent = $('.wiki-main-content');
-
-            var pointerEvents = $toggler.css('pointer-events');
-
+        function tocToggle(e) {
             if(!e || e.type === 'resize') {
-                // Calculate right and offset for page buttons on resize and page load
-                if(buttonDirection === 'right'){
-                    pageButtonsOffset.right = $(win).width() - $mainContent.offset().left - $mainContent.innerWidth();
-                }
                 // Should the TOC be one-column (auto-closed) or sidebar'd
-                if($toc.length){
-                    if(pointerEvents === 'auto' || $toggler.find('i').css('display') !== 'none') { /* icon check is for old IEs that don't support pointer-events */
-                        // Checking "data-clicked" to ensure we don't override closing/opening if user has done so explicitly
-                        if(!$toc.attr('data-closed') && !$toggler.attr('data-clicked')) {
-                            $toggler.trigger('mdn:click');
+                if($toc.length) {
+                    // look for toggle icon to see if toggleable
+                    if($toggler.find('i').css('display') !== 'none') {
+                        // TOC is toggleable
+                        if(!$toc.attr('data-closed')) {
+                            // TOC is open
+                            $toggler.trigger('mdn:click'); // close TOC
+                        }
+                    } else {
+                        // TOC not togglable
+                        if($toc.attr('data-closed') === 'true') {
+                            // TOC is closed
+                            $toggler.trigger('mdn:click'); // open TOC
                         }
                     }
-                    else if($toc.attr('data-closed')) { // Changes width, should be opened (i.e. mobile to desktop width)
-                        $toggler.trigger('mdn:click');
-                    }
                 }
             }
+        }
 
-            // Check if page buttons need to be sticky
-            if(stickyFeatureEnabled){
-                pageButtonsHeight = $pageButtons.innerHeight();
-                if(scroll > pageButtonsOffset.top) {
-                    $pageButtons.addClass(fixedClass);
-
-                    // Only do the fixed positioning if the stylesheet says to
-                    // i.e. don't fix buttons to top while scrolling if on smaller device
-                    if(($pageButtons.css('position') === 'fixed')) {
-                        $pageButtons.css('min-width', $pageButtons.css('width'));
-                        $pageButtons.css(buttonDirection, pageButtonsOffset[buttonDirection]);
-                    }
-                } else {
-                    $pageButtons.removeClass(fixedClass);
-                }
-            }
-
-            // If there is no ToC on the page
-            if(!$toc.length) return;
-
-            // Styling for sticky ToC
-            var maxHeight = win.innerHeight - parseInt($toc.css('padding-top'), 10) - parseInt($toc.css('padding-bottom'), 10) - pageButtonsHeight;
-            if((scroll + pageButtonsHeight > tocOffset.top) && pointerEvents === 'none') {
-                $toc.css({
-                    width: $toc.css('width'),
-                    top: pageButtonsHeight,
-                    maxHeight: maxHeight
-                });
-                $toc.addClass(fixedClass);
-            }
-            else {
-                $toc.css({
-                    width: 'auto',
-                    maxHeight: 'none'
-                });
-                $toc.removeClass(fixedClass);
-            }
-
-        }, 15);
+        // If there is no ToC on the page
+        if(!$toc.length) {
+            return;
+        }
 
         // Set it forth!
-        if($toc.length || stickyFeatureEnabled){
-            scrollFn();
-            $(win).on('scroll resize', scrollFn);
+        if($toc.length) {
+            tocToggle();
+            $(win).on('resize', tocToggle);
         }
     })();
 
@@ -529,7 +426,7 @@
             }
 
             $contextMenu.on('click', function(e) {
-                location.href = $(e.target).data('action') + '?src=context';
+                window.location.href = $(e.target).data('action') + '?src=context';
             });
     });
 
@@ -561,6 +458,15 @@
             // generic error recorded - no details if user not logged in
             mdn.analytics.trackError('Kumascript Error', 'generic error');
         }
+    }
+
+    /*
+        Track untranslated pages
+    */
+    // is there an translation banner?
+    var $docPending = $('#doc-pending-fallback');
+    if($docPending.length){
+        mdn.analytics.trackError('Translation Pending', 'displayed');
     }
 
     /*
@@ -941,10 +847,40 @@
         initDetailsTags();
     }
 
-    // clear out any drafts from localStorage, now that the document has been saved
-    if (typeof document_saved !== 'undefined' && document_saved) {
-      localStorage.removeItem('draft/edit' + location.pathname);
-      localStorage.removeItem('draft/edit' + location.pathname + '#save-time');
+
+    /**
+     * Generates a storage key based on pathname
+     * copied from wiki-edit-draft.js because: race conditions
+     * does not need to copy logic for dealing with new translations
+     */
+    function getDraftStorageKey() {
+        // start with path
+        var key = win.location.pathname;
+        // remove $vars
+        key = key.replace('$edit', '');
+        key = key.replace('$translate', '');
+        key = 'draft/edit' + key;
+        key = $.trim(key);
+        return key;
+    }
+
+    // check for rev_saved in query string
+    var revisionSaved = win.mdn.getUrlParameter('rev_saved');
+    var storageKey = getDraftStorageKey();
+    if(win.location.href.indexOf('rev_saved') > -1 && win.mdn.features.localStorage) {
+        var draftRevision = localStorage.getItem(storageKey + '#revision');
+        // check for drafts matching query string
+        if (draftRevision === revisionSaved) {
+            // delete matching draft, save-time, and revisionId
+            localStorage.removeItem(storageKey);
+            localStorage.removeItem(storageKey + '#save-time');
+            localStorage.removeItem(storageKey + '#revision');
+        }
+        // remove query string
+        var location = win.location;
+        if (win.history.replaceState) {
+            win.history.replaceState({}, '', location.pathname);
+        }
     }
 
 })(window, document, jQuery);

@@ -18,7 +18,6 @@ from kuma.core.urlresolvers import reverse
 from kuma.core.utils import urlparams
 
 from ..constants import DIFF_WRAP_COLUMN
-from ..jobs import DocumentZoneStackJob
 from ..utils import tidy_content
 
 
@@ -42,22 +41,26 @@ def bugize_text(content):
 
 
 @library.global_function
-def format_comment(rev, previous_revision=None):
+def format_comment(rev, previous_revision=None, load_previous=True):
     """
-    Massages revision comment content after the fact
+    Format comment for HTML display, with Bugzilla links and slug changes.
+
+    Keyword Arguments:
+    rev - The revision
+    previous_revision - The previous revision (default None)
+    load_previous - Try loading previous revision if None (default True)
     """
-    prev_rev = getattr(rev, 'previous_revision', previous_revision)
-    if prev_rev is None:
-        prev_rev = rev.previous
+    if previous_revision is None and load_previous:
+        previous_revision = rev.previous
     comment = bugize_text(rev.comment if rev.comment else "")
 
     # If a page move, say so
-    if prev_rev and prev_rev.slug != rev.slug:
+    if previous_revision and previous_revision.slug != rev.slug:
         comment += jinja2.Markup(
             '<span class="slug-change">'
             '<span>%s</span>'
             ' <i class="icon-long-arrow-right" aria-hidden="true"></i> '
-            '<span>%s</span></span>') % (prev_rev.slug, rev.slug)
+            '<span>%s</span></span>') % (previous_revision.slug, rev.slug)
 
     return comment
 
@@ -200,8 +203,7 @@ def tojson(value):
 @library.global_function
 def document_zone_management_links(user, document):
     links = {'add': None, 'change': None}
-    stack = DocumentZoneStackJob().get(document.pk)
-    zone = (len(stack) > 0) and stack[0] or None
+    zone = document.nearest_zone
 
     # Enable "add" link if there is no zone for this document, or if there's a
     # zone but the document is not itself the root (ie. to add sub-zones).
@@ -252,4 +254,12 @@ def wiki_url(path):
     Create a URL pointing to Kuma.
     Look for a wiki page in the current locale, or default to given path
     """
-    return reverse('wiki.document', args=[path])
+    if '#' in path:
+        slug, fragment = path.split('#', 1)
+    else:
+        slug = path
+        fragment = ''
+    new_path = reverse('wiki.document', args=[slug])
+    if fragment:
+        new_path += '#' + fragment
+    return new_path

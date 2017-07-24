@@ -60,7 +60,7 @@
     config.toolbarGroups = [
       { name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
       { name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
-      { name: 'editing', groups: [ 'find', 'selection', 'spellchecker'] },
+      { name: 'editing', groups: [ 'find', 'selection', 'spellchecker' ] },
       { name: 'forms' },
       { name: 'tools' },
       { name: 'others' },
@@ -90,6 +90,46 @@
     // Don't use HTML entities in the output except basic ones (config.basicEntities).
     config.entities = false;
 
+    // Enable the spell checker by default
+    // Disabled to avoid auto-loading JS and advertisements
+    // config.scayt_autoStartup = true;
+
+    // Ignore words in all caps, or in CamelCase
+    config.scayt_ignoreAllCapsWords = true;
+    config.scayt_ignoreWordsWithMixedCases = true;
+
+    // Multiple language support
+    config.scayt_multiLanguageMode = true;
+    config.scayt_disableOptionsStorage = 'all';
+    var lang = 'en-US';
+    var pathname = document.location.pathname;
+    if (pathname && pathname.split('/').length >= 2) {
+        lang = pathname.split('/')[1];
+    }
+
+    // SCAYT expects underscores rather than dashes
+    lang = lang.replace(/-/g, "_");
+
+    // Also, some of the names we use are different, so fix those too
+    var langTable = {
+      'nl': 'nl_NL',
+      'fi': 'fi_FI',
+      'fr': 'fr_FR',
+      'de': 'de_DE',
+      'el': 'el_GR',
+      'it': 'it_IT',
+      'es': 'es_ES'
+    };
+
+    if (lang in langTable) {
+      lang = langTable[lang];
+    }
+
+    config.scayt_sLang = lang;
+
+    // Adjust the spell checker's items in the context menu
+    config.scayt_contextCommands = "ignore|ignoreall|add|option|language";
+
     // Allows section editing to be used immediately and not lose focus on desired element
     // http://docs.ckeditor.com/#!/guide/dev_autogrow
     if(window.waffle && window.waffle.flag_is_active('section_edit')) {
@@ -97,7 +137,7 @@
     }
 
     config.startupFocus = true;
-    config.bodyClass = 'text-content redesign';
+    config.bodyClass = 'text-content';
     config.contentsCss = mdn.assets.css['editor-content'];
 
     config.dialog_backgroundCoverColor = 'black';
@@ -107,31 +147,19 @@
     if(!CKEDITOR.stylesSet.registered['default']) {
       CKEDITOR.stylesSet.add('default', [
         { name: 'None', element: 'p' },
-        { name: 'Note box', element: 'div', attributes: { 'class': 'note' }, type: 'wrap' },
-        { name: 'Warning box', element: 'div', attributes: { 'class': 'warning' }, type: 'wrap' },
-        { name: 'Two columns', element: 'div', attributes: { 'class': 'twocolumns' }, type: 'wrap' },
-        { name: 'Three columns', element: 'div', attributes: { 'class': 'threecolumns' }, type: 'wrap' },
+        { name: 'Note Box', element: 'div', attributes: { 'class': 'note' }, type: 'wrap' },
+        { name: 'Warning Box', element: 'div', attributes: { 'class': 'warning' }, type: 'wrap' },
+        { name: 'Two Columns', element: 'div', attributes: { 'class': 'twocolumns' }, type: 'wrap' },
+        { name: 'Three Columns', element: 'div', attributes: { 'class': 'threecolumns' }, type: 'wrap' },
         { name: 'Article Summary', element: 'p', attributes: { 'class': 'summary' } },
-        { name: 'Syntax Box', element: 'div', attributes: { 'class': 'syntaxbox' } },
-        { name: 'SEO Summary', element: 'span', attributes: { 'class': 'seoSummary' } }
+        { name: 'Syntax Box', element: 'pre', attributes: { 'class': 'syntaxbox' } },
+        { name: 'SEO Summary', element: 'span', attributes: { 'class': 'seoSummary' } },
+        { name: 'Hidden When Reading', element: 'div', attributes: { 'class': 'hidden' }, type: 'wrap' }
       ]);
     }
-
     config.keystrokes = [
       // CTRL+0
       [ CKEDITOR.CTRL + 48, 'removeFormat' ],
-      // CTRL+2
-      [ CKEDITOR.CTRL + 50, 'mdn-format-h2' ],
-      // CTRL+3
-      [ CKEDITOR.CTRL + 51, 'mdn-format-h3' ],
-      // CTRL+4
-      [ CKEDITOR.CTRL + 52, 'mdn-format-h4' ],
-      // CTRL+5
-      [ CKEDITOR.CTRL + 53, 'mdn-format-h5' ],
-      // CTRL+O
-      [ CKEDITOR.CTRL + 79, 'mdn-format-code' ],
-      // CTRL+P
-      [ CKEDITOR.CTRL + 80, 'mdn-format-pre' ],
       // CTRL+K
       [ CKEDITOR.CTRL + 75, 'link' ],
       // CTRL+SHIFT+K
