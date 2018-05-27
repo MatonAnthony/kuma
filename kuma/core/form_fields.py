@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 from babel import Locale, localedata
 from babel.support import Format
 from django import forms

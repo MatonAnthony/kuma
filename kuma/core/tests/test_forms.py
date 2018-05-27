@@ -2,6 +2,7 @@
 #       since there would probably be no further need to confirm Django's
 #       handling of the "required" and "type" attributes when rendering
 #       a field as a widget.
+from __future__ import absolute_import
 from django import forms
 from pyquery import PyQuery as pq
 import pytest
@@ -44,8 +45,8 @@ class ExampleForm(forms.Form):
     time = forms.TimeField()
 
 
-@pytest.mark.parametrize('field,attr,expected_val', FIELD_TESTS.values(),
-                         ids=FIELD_TESTS.keys())
+@pytest.mark.parametrize('field,attr,expected_val', list(FIELD_TESTS.values()),
+                         ids=list(FIELD_TESTS.keys()))
 def test_field(field, attr, expected_val):
     form = ExampleForm()
     rendered_field = str(form[field])

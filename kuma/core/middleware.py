@@ -1,5 +1,6 @@
+from __future__ import absolute_import
 import contextlib
-from urlparse import urljoin
+from six.moves.urllib.parse import urljoin
 
 from django.conf import settings
 from django.contrib.sessions.middleware import SessionMiddleware
@@ -22,6 +23,7 @@ from .i18n import (get_kuma_languages,
                    get_language_from_request)
 from .utils import is_untrusted, urlparams
 from .views import handler403
+import six
 
 
 class LangSelectorMiddleware(object):
@@ -52,7 +54,7 @@ class LangSelectorMiddleware(object):
 
         # Redirect to same path with requested language and without ?lang
         new_query = dict((smart_str(k), v) for
-                         k, v in request.GET.iteritems() if k != 'lang')
+                         k, v in six.iteritems(request.GET) if k != 'lang')
         if new_query:
             new_path = urlparams(new_path, **new_query)
         response = HttpResponseRedirect(new_path)

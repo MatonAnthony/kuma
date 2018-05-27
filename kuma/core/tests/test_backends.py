@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 import pytest
 from constance.backends.database import DatabaseBackend
 from django.db import models

@@ -1,4 +1,5 @@
 '''Check that settings are consistent.'''
+from __future__ import absolute_import
 import pytest
 from django.conf import settings
 
@@ -27,7 +28,7 @@ def test_rtl_languages(locale):
     assert locale in settings.ACCEPTED_LOCALES
 
 
-@pytest.mark.parametrize("alias,locale", settings.LOCALE_ALIASES.items())
+@pytest.mark.parametrize("alias,locale", list(settings.LOCALE_ALIASES.items()))
 def test_locale_aliases(alias, locale):
     """Check that each locale alias matches a supported locale."""
     assert alias not in settings.ACCEPTED_LOCALES

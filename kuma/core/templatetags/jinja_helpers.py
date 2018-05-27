@@ -1,5 +1,6 @@
+from __future__ import absolute_import
 import datetime
-import HTMLParser
+import six.moves.html_parser
 import json
 
 import jinja2
@@ -19,9 +20,10 @@ from urlobject import URLObject
 
 from ..urlresolvers import reverse, split_path
 from ..utils import format_date_time, language_to_locale, urlparams
+from six.moves import range
 
 
-htmlparser = HTMLParser.HTMLParser()
+htmlparser = six.moves.html_parser.HTMLParser()
 
 
 # Yanking filters from Django.
@@ -79,7 +81,7 @@ class Paginator(object):
             lower, upper = total - span * 2, total
         else:
             lower, upper = page - span, page + span - 1
-        return range(max(lower + 1, 1), min(total, upper) + 1)
+        return list(range(max(lower + 1, 1), min(total, upper) + 1))
 
     def render(self):
         c = {'pager': self.pager, 'num_pages': self.num_pages,

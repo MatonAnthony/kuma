@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 import pytest
 from django.core.management import call_command, CommandError
 from django.utils.six import StringIO

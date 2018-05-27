@@ -1,6 +1,9 @@
+from __future__ import absolute_import
 import datetime
+import six
+from six.moves import range
 try:
-    import urlparse
+    import six.moves.urllib.parse
 except ImportError:
     import urllib.parse as urlparse
 import functools
@@ -149,7 +152,7 @@ class MemcacheLock(object):
         return (((attempt + 1) * random.random()) + 2 ** attempt) / 2.5
 
     def acquire(self):
-        for attempt in xrange(0, self.attempts):
+        for attempt in range(0, self.attempts):
             stored = self.cache.add(self.key, 1, self.expires)
             if stored:
                 return True
@@ -240,17 +243,17 @@ def parse_tags(tagstring, sorted=True):
     i = iter(tagstring)
     try:
         while True:
-            c = i.next()
+            c = next(i)
             if c == u'"':
                 if buffer:
                     to_be_split.append(u''.join(buffer))
                     buffer = []
                 # Find the matching quote
                 open_quote = True
-                c = i.next()
+                c = next(i)
                 while c != u'"':
                     buffer.append(c)
-                    c = i.next()
+                    c = next(i)
                 if buffer:
                     word = u''.join(buffer).strip()
                     if word:
@@ -340,7 +343,7 @@ def get_unique(content_type, object_pk, name=None, request=None,
     # HACK: Build a hash of the fields that should be unique, let MySQL
     # chew on that for a unique index. Note that any changes to this algo
     # will create all new unique hashes that don't match any existing ones.
-    hash_text = "\n".join(unicode(x).encode('utf-8') for x in (
+    hash_text = "\n".join(six.text_type(x).encode('utf-8') for x in (
         content_type.pk, object_pk, name or '', ip, user_agent,
         (user and user.pk or 'None')
     ))
@@ -356,7 +359,7 @@ def urlparams(url_, fragment=None, query_dict=None, **query):
     New query params will be appended to exising parameters, except duplicate
     names, which will be replaced.
     """
-    url_ = urlparse.urlparse(url_)
+    url_ = six.moves.urllib.parse.urlparse(url_)
     fragment = fragment if fragment is not None else url_.fragment
 
     q = url_.query
@@ -377,7 +380,7 @@ def urlparams(url_, fragment=None, query_dict=None, **query):
 
     query_string = urlencode([(k, v) for k, l in new_query_dict.lists() for
                               v in l if v is not None])
-    new = urlparse.ParseResult(url_.scheme, url_.netloc, url_.path,
+    new = six.moves.urllib.parse.ParseResult(url_.scheme, url_.netloc, url_.path,
                                url_.params, query_string, fragment)
     return new.geturl()
 

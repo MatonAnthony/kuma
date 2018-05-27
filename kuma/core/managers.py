@@ -7,6 +7,7 @@ TODO:
 - Permissions for tag namespaces (eg. system:* is superuser-only)
 - Machine tag assists
 """
+from __future__ import absolute_import
 from datetime import date, timedelta
 
 from django.contrib.auth.models import AnonymousUser
@@ -147,7 +148,7 @@ def resolve_allowed_tags(model_obj, tags_curr, tags_new,
     ns_tags_new = parse_tag_namespaces(tags_new)
 
     # Produce a union of all namespaces, current and new tag set
-    all_ns = set(ns_tags_curr.keys() + ns_tags_new.keys())
+    all_ns = set(list(ns_tags_curr.keys()) + list(ns_tags_new.keys()))
 
     # Assemble accepted changed tag set according to permissions
     tags_out = []
