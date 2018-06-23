@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 import datetime
-import HTMLParser
+try:
+    import html.parser as HTMLParser
+except ImportError:
+    import HTMLParser
 import json
 
 import mock
