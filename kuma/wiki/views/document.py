@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
-try:
-    from cStringIO import cStringIO as StringIO
-except ImportError:
-    from StringIO import StringIO
+from io import StringIO
 import json
 
 import newrelic.agent
