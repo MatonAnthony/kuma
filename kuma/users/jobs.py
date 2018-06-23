@@ -1,5 +1,8 @@
 import hashlib
-import urllib
+try:
+    from urllib.parse import urlencode
+except:
+    from urllib import urlencode
 
 from django.conf import settings
 
@@ -17,7 +20,7 @@ class UserGravatarURLJob(KumaJob):
         base_url = (secure and 'https://secure.gravatar.com' or
                     'http://www.gravatar.com')
         email_hash = hashlib.md5(email.lower().encode('utf8'))
-        params = urllib.urlencode({'s': size, 'd': default, 'r': rating})
+        params = urlencode({'s': size, 'd': default, 'r': rating})
         return '%(base_url)s/avatar/%(hash)s?%(params)s' % {
             'base_url': base_url,
             'hash': email_hash.hexdigest(),

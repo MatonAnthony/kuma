@@ -1,5 +1,8 @@
 import json
-from urllib import urlencode
+try:
+    from urllib.parse import urlencode
+except:
+    from urllib import urlencode
 
 import pytest
 from waffle.testutils import override_switch

@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
-from urllib import urlencode
+try:
+    from urllib.parse import urlencode
+except ImportError:
+    from urllib import urlencode
 
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist

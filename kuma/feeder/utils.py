@@ -3,7 +3,10 @@ import socket
 from datetime import datetime
 from hashlib import md5
 from time import mktime
-from urllib2 import URLError
+try:
+    from urllib.error import URLError
+except ImportError:
+    from urllib2 import URLError
 
 import feedparser
 import jsonpickle

@@ -6,7 +6,10 @@ Legacy tests are in test_views.py.
 import base64
 import json
 from collections import namedtuple
-from urllib import quote
+try:
+    from urllib.parse import quote
+except ImportError:
+    from urllib import quote
 
 import mock
 import pytest

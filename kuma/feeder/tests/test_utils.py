@@ -2,7 +2,10 @@
 import socket
 from datetime import datetime
 from time import mktime, struct_time
-from urllib2 import URLError
+try:
+    from urllib.error import URLError
+except ImportError:
+    from urllib2 import URLError
 
 import jsonpickle
 import mock
