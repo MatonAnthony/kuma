@@ -1,8 +1,8 @@
 import datetime
 try:
-    import urlparse
-except ImportError:
     import urllib.parse as urlparse
+except ImportError:
+    from urlparse import urlparse
 import functools
 import hashlib
 import logging
@@ -18,7 +18,7 @@ from django.core.paginator import EmptyPage, InvalidPage, Paginator
 from django.http import QueryDict
 from django.shortcuts import _get_queryset
 from django.utils.cache import patch_cache_control
-from django.utils.encoding import force_unicode, smart_str
+from django.utils.encoding import force_text, smart_str
 from django.utils.http import urlencode
 from django.utils.translation import ugettext_lazy as _
 from polib import pofile
@@ -220,7 +220,7 @@ def parse_tags(tagstring, sorted=True):
     if not tagstring:
         return []
 
-    tagstring = force_unicode(tagstring)
+    tagstring = force_text(tagstring)
 
     # Special case - if there are no commas or double quotes in the
     # input, we don't *do* a recall... I mean, we know we only need to

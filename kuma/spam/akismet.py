@@ -1,5 +1,8 @@
 import sys
-import urlparse
+try:
+    import urllib.parse as urlparse
+except ImportError:
+    import urlparse
 
 import newrelic.agent
 from constance import config

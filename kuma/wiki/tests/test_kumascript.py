@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 import base64
 import json
-from urlparse import urljoin
+try:
+    from urllib.parse import urljoin
+except ImportError:
+    from urlparse import urljoin
 
 import mock
 import pytest

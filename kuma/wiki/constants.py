@@ -1,5 +1,8 @@
 import re
-from urlparse import urlparse, urlunparse
+try:
+    from urllib.parse import urlparse, urlunparse
+except ImportError:
+    from urlparse import urlparse, urlunparse
 
 import bleach
 from django.conf import settings

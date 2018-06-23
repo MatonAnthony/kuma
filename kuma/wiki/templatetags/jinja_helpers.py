@@ -2,7 +2,11 @@
 import difflib
 import json
 import re
-import urlparse
+
+try:
+    from urllib.parse import urlunparse, urlsplit
+except ImportError:
+    from urlparse import urlunparse, urlsplit
 
 import jinja2
 from constance import config
@@ -234,7 +238,7 @@ def absolutify(url, site=None):
     if not site:
         site = Site.objects.get_current()
 
-    parts = urlparse.urlsplit(url)
+    parts = urlsplit(url)
 
     scheme = 'https'
     netloc = site.domain
@@ -245,7 +249,7 @@ def absolutify(url, site=None):
     if path == '':
         path = '/'
 
-    return urlparse.urlunparse([scheme, netloc, path, None, query, fragment])
+    return urlunparse([scheme, netloc, path, None, query, fragment])
 
 
 @library.global_function

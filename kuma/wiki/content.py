@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 import re
-import urllib
+try:
+    from urllib.parse import urlparse, urlencode, unquote
+except ImportError:
+    from urllib import unquote
+    from urllib import urlencode
+    from urlparse import urlparse
+
 from collections import defaultdict
-from urllib import urlencode
-from urlparse import urlparse
 from xml.sax.saxutils import quoteattr
 
 import html5lib
@@ -442,7 +446,7 @@ class LinkAnnotationFilter(html5lib_Filter):
 
                 # Handle any URL-encoded UTF-8 characters in the path
                 href_path = href_path.encode('utf-8', 'ignore')
-                href_path = urllib.unquote(href_path)
+                href_path = unquote(href_path)
                 href_path = href_path.decode('utf-8', 'ignore')
 
                 # Try to sort out the locale and slug through some of our

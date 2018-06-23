@@ -1,4 +1,7 @@
-from urlparse import parse_qs, urlparse
+try:
+    from urllib.parse import parse_sq, urlparse
+except ImportError:
+    from urlparse import parse_qs, urlparse
 
 import pytest
 

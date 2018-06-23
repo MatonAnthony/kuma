@@ -5,8 +5,10 @@ import time
 import unicodedata
 from collections import defaultdict
 from functools import partial
-from urlparse import urljoin
-
+try:
+    from urllib.parse import urljoin
+except ImportError:
+    from urlparse import urljoin
 import requests
 from constance import config
 from django.conf import settings

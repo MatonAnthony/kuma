@@ -6,7 +6,11 @@ Kuma and other services like Kumascript.
 """
 import hashlib
 import logging
-import urlparse
+
+try:
+    from urllib.parse import urljoin
+except ImportError:
+    from urlparse import urljoin
 
 import requests
 
@@ -65,7 +69,7 @@ class Command(BaseCommand):
         pre_total, pre_cnt = len(to_prefetch), 0
         logging.info("Prefetching %s documents..." % (len(to_prefetch)))
         for url in to_prefetch:
-            full_url = urlparse.urljoin(options['baseurl'], url)
+            full_url = urljoin(options['baseurl'], url)
             try:
                 pre_cnt += 1
                 logging.info("\t(%s/%s) %s" % (pre_cnt, pre_total, full_url))

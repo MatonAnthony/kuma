@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 from base64 import b64encode
-from urlparse import urljoin
+try:
+    from urllib.parse import urljoin
+except ImportError:
+    from urlparse import urljoin
 
 import bleach
 import pytest
