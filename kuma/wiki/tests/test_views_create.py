@@ -130,7 +130,7 @@ def test_create_valid(add_doc_client):
 @pytest.mark.review_tags
 @pytest.mark.parametrize(
     'slug',
-    SLUG_SIMPLE_CASES.values() + SLUG_RESERVED_CASES.values(),
+    list(SLUG_SIMPLE_CASES.values()) + list(SLUG_RESERVED_CASES.values()),
     ids=SLUG_SIMPLE_CASES.keys() + SLUG_RESERVED_CASES.keys())
 def test_create_invalid(add_doc_client, slug):
     """Test creating a new document with valid and invalid slugs."""

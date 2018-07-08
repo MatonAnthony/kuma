@@ -26,7 +26,7 @@ class SerializerTests(ElasticTestCase):
         filter_serializer = FilterWithGroupSerializer(filter_)
         data = filter_serializer.data
         eq_(data['group'], {
-            'order': 1L,
+            'order': 1,
             'name': u'Group',
             'slug': u'group',
         })

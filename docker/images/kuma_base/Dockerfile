@@ -1,4 +1,4 @@
-FROM python:2.7-slim-stretch
+FROM python:3.6-slim-stretch
 
 # Set the environment variables
 ENV NODE_VERSION=6.14.2 \
@@ -99,7 +99,7 @@ RUN pip install --no-cache-dir -r requirements/dev.txt
 
 # Import issue with configparser 3.5.0
 # https://bitbucket.org/ambv/configparser/issues/20/importwarning-missing-__init__py
-RUN touch /usr/local/lib/python2.7/site-packages/backports/__init__.py
+# RUN touch /usr/local/lib/python2.7/site-packages/backports/__init__.py
 
 USER kuma
 
